@@ -11,5 +11,7 @@ namespace ServerFarming.Core.Services
     {
         Farm_Component AddFarmComponent(FarmingComponentDTO farmComponentDTO);
         Farm AddFarm(Farm farm);
+        List<Farm> GetFarmByUserID(long userID);
+        List<Farm_Component> GetFarmComponents(long userID);
     }
 }

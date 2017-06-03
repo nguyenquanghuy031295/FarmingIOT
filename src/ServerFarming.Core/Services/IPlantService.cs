@@ -10,5 +10,6 @@ namespace ServerFarming.Core.Services
     public interface IPlantService
     {
         PlantType AddPlant(FarmingComponentDTO farmingComponentDTO, long farmComponentId);
+        List<PlantDetail> GetPlantDetail(long farmComponentId);
     }
 }

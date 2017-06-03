@@ -11,16 +11,13 @@ namespace ServerFarming.Core.Services.Implement
 {
     public class FarmService : IFarmService
     {
-        private readonly FarmingDbContext farmingContext;
         private readonly IFarmRepository farmRepository;
         private readonly IPlantRepository plantRepository;
         public FarmService(IFarmRepository farmRepository, 
-            IPlantRepository plantRepository,
-            FarmingDbContext farmingContext)
+            IPlantRepository plantRepository)
         {
             this.farmRepository = farmRepository;
             this.plantRepository = plantRepository;
-            this.farmingContext = farmingContext;
         }
 
         public Farm AddFarm(Farm farm)
@@ -59,6 +56,16 @@ namespace ServerFarming.Core.Services.Implement
                 UserId = farm.UserId
             };
             return newFarm;
+        }
+
+        public List<Farm> GetFarmByUserID(long userID)
+        {
+            return farmRepository.GetFarmByUserID(userID);
+        }
+
+        public List<Farm_Component> GetFarmComponents(long farmID)
+        {
+            return farmRepository.GetFarmComponents(farmID);
         }
     }
 }

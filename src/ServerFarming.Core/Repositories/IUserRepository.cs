@@ -1,4 +1,5 @@
 ﻿using FarmingDatabase.Model;
+using ServerFarming.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,8 @@ namespace ServerFarming.Core.Repositories
 {
     public interface IUserRepository
     {
-        void AddNewUser(User user);
+        MessageRegister AddNewUser(User user);
+        Boolean CheckSignin(LoginData loginData);
+        long GetUserID(LoginData loginData);
     }
 }

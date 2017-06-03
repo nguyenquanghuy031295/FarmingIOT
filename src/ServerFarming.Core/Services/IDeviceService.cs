@@ -9,6 +9,6 @@ namespace ServerFarming.Core.Services
     public interface IDeviceService
     {
         Sensor_Record SendSensorData(Sensor_Record sensorData);
-        List<Sensor_Record> GetSensorData();
+        List<Sensor_Record> GetSensorData(long farmComponentID);
     }
 }

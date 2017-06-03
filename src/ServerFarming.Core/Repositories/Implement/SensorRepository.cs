@@ -19,9 +19,9 @@ namespace ServerFarming.Core.Repositories.Implement
             farmingContext.SensorRecords.Add(sensorData);
             farmingContext.SaveChanges();
         }
-        public List<Sensor_Record> GetSensorData()
+        public List<Sensor_Record> GetSensorData(long farmComponentID)
         {
-            return farmingContext.SensorRecords.Where(s=> true).ToList();
+            return farmingContext.SensorRecords.Where(s => s.Farm_ComponentId == farmComponentID).ToList();
         }
     }
 }

@@ -21,9 +21,9 @@ namespace ServerFarming.Core.Services.Implement
             return sensorData;
         }
 
-        public List<Sensor_Record> GetSensorData()
+        public List<Sensor_Record> GetSensorData(long farmComponentID)
         {
-            var listSensorData = sensorRepository.GetSensorData();
+            var listSensorData = sensorRepository.GetSensorData(farmComponentID);
             return listSensorData;
         }
         private Sensor_Record CopyFromSensorData(Sensor_Record data)
@@ -32,8 +32,8 @@ namespace ServerFarming.Core.Services.Implement
             {
                 pH = data.pH,
                 Air_Humidity = data.Air_Humidity,
-                Ground_Humidity = data.Ground_Humidity,
-                InsensityLight = data.InsensityLight,
+                Soil_Humidity = data.Soil_Humidity,
+                Luminosity = data.Luminosity,
                 Temperature = data.Temperature,
                 Timestamp = data.Timestamp,
                 Wind = data.Wind,

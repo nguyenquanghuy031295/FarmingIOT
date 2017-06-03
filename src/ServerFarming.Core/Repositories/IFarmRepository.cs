@@ -10,5 +10,7 @@ namespace ServerFarming.Core.Repositories
     {
         void AddNewFarm(Farm farm);
         void AddNewFarmComponent(Farm_Component farmComponent);
+        List<Farm> GetFarmByUserID(long userID);
+        List<Farm_Component> GetFarmComponents(long farmID);
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FarmingDatabase.Model;
 using ServerFarming.Core.Repositories;
+using ServerFarming.Core.Model;
 
 namespace ServerFarming.Core.Services.Implement
 {
@@ -14,17 +15,20 @@ namespace ServerFarming.Core.Services.Implement
         {
             this.userRepository = userRepository;
         }
-        bool IAuthenticationService.SignUp(User user)
+
+        public long GetUserID(LoginData loginData)
         {
-            try
-            {
-                userRepository.AddNewUser(user);
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
+            return userRepository.GetUserID(loginData);
+        }
+
+        public bool Signin(LoginData loginData)
+        {
+            return userRepository.CheckSignin(loginData);
+        }
+
+        MessageRegister IAuthenticationService.SignUp(User user)
+        {
+            return userRepository.AddNewUser(user);
         }
     }
 }

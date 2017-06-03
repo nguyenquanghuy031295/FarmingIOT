@@ -15,8 +15,6 @@ namespace ServerFarming.Core.Model
         public long FarmId { get; set; }
         public DateTime StartPlantDate { get; set; }
         public Nullable<DateTime> EndPlantDate { get; set; }
-        [StringLength(maximumLength: 20, ErrorMessage = "Name Max Length: 20 characters")]
-        public string Plant_Name { get; set; }
         public long PlantKBId { get; set; }
     }
 }

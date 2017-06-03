@@ -17,19 +17,26 @@ namespace ServerFarming.Core.Services.Implement
         }
         public PlantType AddPlant(FarmingComponentDTO farmingComponentDTO, long farmComponentId)
         {
-            var plant = CopyFrom(farmingComponentDTO);
-            plant.Farm_ComponentId = farmComponentId;///
+            var plant = CopyFrom(farmingComponentDTO, farmComponentId);
             plantRepository.AddNewPlant(plant);
             return plant;
         }
-        private PlantType CopyFrom(FarmingComponentDTO farmingComponentDTO)
+
+        public List<PlantDetail> GetPlantDetail(long farmComponentId)
+        {
+            return plantRepository.GetPlantDetail(farmComponentId);
+        }
+
+        private PlantType CopyFrom(FarmingComponentDTO farmingComponentDTO, long farmComponentId)
         {
             PlantType Plant = new PlantType()
             {
                 PlantKBId = farmingComponentDTO.PlantKBId,
-                Name = farmingComponentDTO.Plant_Name,
+                Farm_ComponentId = farmComponentId,
                 StartPlantDate = farmingComponentDTO.StartPlantDate,
-                EndPlantDate = farmingComponentDTO.EndPlantDate
+                EndPlantDate = farmingComponentDTO.EndPlantDate,
+                CurPeriod = 1,
+                StartDayCurPeriod = 0
             };
             return Plant;
         }

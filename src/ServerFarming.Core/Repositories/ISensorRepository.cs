@@ -9,6 +9,6 @@ namespace ServerFarming.Core.Repositories
     public interface ISensorRepository
     {
         void AddNewSensorData(Sensor_Record sensorData);
-        List<Sensor_Record> GetSensorData();
+        List<Sensor_Record> GetSensorData(long farmComponentID);
     }
 }

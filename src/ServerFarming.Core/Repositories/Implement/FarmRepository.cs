@@ -25,5 +25,15 @@ namespace ServerFarming.Core.Repositories.Implement
             _farmingContext.FarmComponents.Add(farmComponent);
             _farmingContext.SaveChanges();
         }
+
+        public List<Farm> GetFarmByUserID(long userID)
+        {
+            return _farmingContext.Farms.Where(farm => farm.UserId == userID).ToList();
+        }
+
+        public List<Farm_Component> GetFarmComponents(long farmID)
+        {
+            return _farmingContext.FarmComponents.Where(farmComponent => farmComponent.FarmId == farmID).ToList();
+        }
     }
 }
