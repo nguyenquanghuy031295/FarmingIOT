@@ -18,9 +18,9 @@ namespace FarmingDatabase.Model
         public Nullable<double> pH { get; set; }
         public Nullable<double> Wind { get; set; }
         public Nullable<double> Temperature { get; set; }
-        public Nullable<double> InsensityLight { get; set; }
+        public Nullable<double> Luminosity { get; set; }
         public Nullable<double> Air_Humidity { get; set; }
-        public Nullable<double> Ground_Humidity { get; set; }
+        public Nullable<double> Soil_Humidity { get; set; }
         public long Farm_ComponentId { get; set; }
         [ForeignKey("Farm_ComponentId")]
         public Farm_Component Farm_Component { get; set; }

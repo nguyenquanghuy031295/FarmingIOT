@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using FarmingDatabase.Model;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FarmingDatabase.DatabaseContext
 {
@@ -16,6 +17,15 @@ namespace FarmingDatabase.DatabaseContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Actuator_Record>().HasKey(e => new { e.StartTime, e.Type, e.Farm_ComponentId});
+            modelBuilder.Entity<PeriodKB>().HasKey(e => new { e.PlantKBId, e.Period});
+            modelBuilder.Entity<PlantType>().HasKey(k => new { k.StartPlantDate, k.Farm_ComponentId});
+            modelBuilder.Entity<PlantType>()
+                .HasOne(p => p.PeriodKB)
+                .WithMany(f => f.Plants)
+                .IsRequired()
+                .HasForeignKey(f => new { f.PlantKBId, f.CurPeriod })
+                .OnDelete(DeleteBehavior.Restrict);
+            
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Farm> Farms { get; set; }
@@ -26,6 +36,6 @@ namespace FarmingDatabase.DatabaseContext
         //
         public DbSet<PlantType> Plants { get; set; }
         public DbSet<PlantKB> PlantsKB { get; set; }
-        public DbSet<Period> Periods { get; set; }
+        public DbSet<PeriodKB> Periods { get; set; }
     }
 }

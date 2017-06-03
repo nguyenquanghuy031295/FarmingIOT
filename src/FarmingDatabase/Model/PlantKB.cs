@@ -14,7 +14,7 @@ namespace FarmingDatabase.Model
         public string Name { get; set; }
         public string Description { get; set; }
         public string Kind { get; set; }
-        public ICollection<Period> Period { get; set; }
+        public ICollection<PeriodKB> Period { get; set; }
         public virtual PlantType PlantDB { get; set; }
     }
 }
