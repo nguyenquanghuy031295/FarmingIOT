@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script>document.write('<base href="' + document.location + '" />');</script>
+    <link rel="shortcut icon" href="">
+    <title>Farming IOT</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">*@
+</head>
+<body>
+    @RenderBody()
+    <link rel="stylesheet" type="text/css" href="css/primeng/resources/primeng.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/primeng/resources/cupertino/theme.css" />
+    <link rel="stylesheet" href="css/font-awesome/css/font-awesome.css" />
+    <!-- 1. Load libraries -->
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/jquery-ui.min.js"></script> <!-- Get error "Uncaught TypeError: b.widget is not a function". However, browser still works -->
+    <script src="lib/bootstrap.min.js"></script>
+    <!-- Polyfills for older browsers -->
+    <script src="lib/es6-shim/es6-shim.min.js"></script>
+    <script src="lib/zone.js/dist/zone.js"></script>
+    <script src="lib/reflect-metadata/Reflect.js"></script>
+
+    <script src="lib/systemjs/dist/system.src.js"></script>
+
+    <script src="lib/rxjs/Rx.umd.min.js"></script>
+    <script src="js/systemjs.config.js"></script>
+    
+    <script src="~/js/farmingweb.js"></script>
+    <script src="https://maps.google.com/maps/api/js?v=3.26.10&key=AIzaSyB6EgsoKqzUqUrV3ldM88O33pXBfv-fav8&language=en"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<!--
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+-->

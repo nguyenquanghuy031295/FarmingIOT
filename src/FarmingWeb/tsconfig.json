@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "system",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": true,
+    "noImplicitAny": false,
+    "preserveConstEnums": true,
+    "declaration": true,
+
+    "project": "web-sale",
+    "rootDir": "scripts",
+    "outFile": "dist/farmingweb.js"
+  },
+  "baseUrl": ".",
+  "paths": {
+    "*": [
+      "*",
+      "scripts/*"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "wwwroot",
+    "dist"
+  ]
+}

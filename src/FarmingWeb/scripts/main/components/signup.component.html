@@ -1,0 +1,11 @@
+﻿<div class="register-page">
+    <div class="form">
+        <form [formGroup]="registerForm" class="register-form" (ngSubmit)="OnSignup()">
+            <input formControlName="UserName" [(ngModel)]="registerData.Name" type="text" placeholder="name" />
+            <input formControlName="Password" [(ngModel)]="registerData.Password" type="password" placeholder="password" />
+            <input formControlName="Email" [(ngModel)]="registerData.Email" type="text" placeholder="email address" />
+            <button [disabled]="!registerForm.valid">create</button>
+            <p class="message">Already registered? <a (click)="ChangeToSignIn()">Sign In</a></p>
+        </form>
+    </div>
+</div>
