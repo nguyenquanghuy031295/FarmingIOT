@@ -37,8 +37,22 @@ namespace ServerFarming.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var newFarmComponent = farmService.AddFarmComponent(farmComponentDTO);
-            var newPlant = plantService.AddPlant(farmComponentDTO, newFarmComponent.FarmId);
+            var newPlant = plantService.AddPlant(farmComponentDTO, newFarmComponent.Farm_ComponentId);
             return Ok(newFarmComponent);
+        }
+
+        [HttpGet("getUserFarms")]
+        public IActionResult GetFarmByUserID(long userID = 0)
+        {
+            var listFarms = farmService.GetFarmByUserID(userID);
+            return Ok(listFarms);
+        }
+
+        [HttpGet("getFarmComponents")]
+        public IActionResult GetFarmComponentsByFarmID(long farmID = 0)
+        {
+            var listFarmComponents = farmService.GetFarmComponents(farmID);
+            return Ok(listFarmComponents);
         }
     }
 }

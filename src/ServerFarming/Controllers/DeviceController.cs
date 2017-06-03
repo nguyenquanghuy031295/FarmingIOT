@@ -27,9 +27,9 @@ namespace ServerFarming.Controllers
             return Ok(sensorData);
         }
         [HttpGet("getDataSensor")]
-        public IActionResult getDataSensor()
+        public IActionResult getDataSensor(long farmComponentID = 0)
         {
-            var sensorData = deviceService.GetSensorData();
+            var sensorData = deviceService.GetSensorData(farmComponentID);
             return Ok(sensorData);
         }
     }

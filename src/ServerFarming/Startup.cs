@@ -39,6 +39,7 @@ namespace ServerFarming
                 {
                     options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
                 });
+            services.AddCors();
             var connection = @"Server=HNGUYEN;Database=FarmingDatabase;Trusted_Connection=True;";
             services.AddDbContext<FarmingDbContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("ServerFarming")));
             //Add Services
@@ -59,7 +60,12 @@ namespace ServerFarming
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:36539")
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
             app.UseMvc();
         }
     }

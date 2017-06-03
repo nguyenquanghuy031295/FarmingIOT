@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ServerFarming.Core.Services;
 using FarmingDatabase.Model;
+using ServerFarming.Core.Model;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,11 +24,23 @@ namespace ServerFarming.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            bool signal = authenticationService.SignUp(user);
-            if (signal)
+            var signal = authenticationService.SignUp(user);
+            if (signal.IsSuccess)
                 return Ok();
             else
-                return BadRequest();
+                return BadRequest(signal.Message);
+        }
+
+        [HttpPost("signin")]
+        public IActionResult Signin([FromBody]LoginData loginData)
+        {
+            bool isSuccess = authenticationService.Signin(loginData);
+            if (isSuccess)
+            {
+                long userID = authenticationService.GetUserID(loginData);
+                return Ok(new DataResult { ID = userID});
+            }
+            return Unauthorized();
         }
     }
 }
