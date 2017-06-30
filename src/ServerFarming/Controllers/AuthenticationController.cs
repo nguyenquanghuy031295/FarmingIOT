@@ -38,9 +38,36 @@ namespace ServerFarming.Controllers
             if (isSuccess)
             {
                 long userID = authenticationService.GetUserID(loginData);
-                return Ok(new DataResult { ID = userID});
+                return Ok(new DataId { ID = userID});
             }
             return Unauthorized();
+        }
+
+        [HttpPost("accountInfo")]
+        public IActionResult UpdateAccountInfo([FromBody]UserUpdateInfo userInfo)
+        {
+            try
+            {
+                var info = authenticationService.UpdateUserInfo(userInfo);
+                return Ok(info);
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpGet("accountInfo")]
+        public IActionResult GetAccountInfo(long userId)
+        {
+            try
+            {
+                var userInfo = authenticationService.GetUserInfo(userId);
+                return Ok(userInfo);
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
         }
     }
 }

@@ -23,8 +23,8 @@ namespace ServerFarming.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var sensorData = deviceService.SendSensorData(sensorRecord);
-            return Ok(sensorData);
+            var listAction = deviceService.SendSensorData(sensorRecord);
+            return Ok(listAction);
         }
         [HttpGet("getDataSensor")]
         public IActionResult getDataSensor(long farmComponentID = 0)

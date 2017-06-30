@@ -23,5 +23,11 @@ namespace ServerFarming.Controllers
             var listPlantDetail = plantService.GetPlantDetail(farmComponentId);
             return Ok(listPlantDetail);
         }
+        [HttpGet]
+        public IActionResult GetAllPlant()
+        {
+            var listPlant = plantService.GetAllPlant();
+            return Ok(listPlant);
+        }
     }
 }

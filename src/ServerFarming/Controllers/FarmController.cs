@@ -54,5 +54,19 @@ namespace ServerFarming.Controllers
             var listFarmComponents = farmService.GetFarmComponents(farmID);
             return Ok(listFarmComponents);
         }
+
+        [HttpGet("report/overallmonth/{farmComponentId}")]
+        public IActionResult GetOverallEnvironmentMonth(long farmComponentId)
+        {
+            var overallEnvInfo = farmService.GetOverallEnvironmentInfo(farmComponentId);
+            return Ok(overallEnvInfo);
+        }
+
+        [HttpGet("report/today/{farmComponentId}")]
+        public IActionResult GetEnvInfoToday(long farmComponentId)
+        {
+            var listEnvInfoToday = farmService.GetEnvInfoToday(farmComponentId);
+            return Ok(listEnvInfoToday);
+        }
     }
 }

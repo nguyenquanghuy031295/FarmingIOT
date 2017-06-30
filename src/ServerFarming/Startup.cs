@@ -13,6 +13,7 @@ using ServerFarming.Core.Services;
 using ServerFarming.Core.Services.Implement;
 using ServerFarming.Core.Repositories;
 using ServerFarming.Core.Repositories.Implement;
+using Hangfire;
 
 namespace ServerFarming
 {
@@ -38,10 +39,15 @@ namespace ServerFarming
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
             services.AddCors();
             var connection = @"Server=HNGUYEN;Database=FarmingDatabase;Trusted_Connection=True;";
             services.AddDbContext<FarmingDbContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("ServerFarming")));
+
+            //Add HangFire
+            services.AddHangfire(x => x.UseSqlServerStorage(connection));
+
             //Add Services
             services.AddTransient<IFarmService, FarmService>();
             services.AddTransient<IPlantService, PlantService>();
@@ -60,13 +66,17 @@ namespace ServerFarming
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            app.UseHangfireServer();
+
             app.UseCors(builder =>
             {
-                builder.WithOrigins("http://localhost:36539")
+                builder.WithOrigins("http://localhost:36539", "http://localhost:5050")
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             });
             app.UseMvc();
+
+            //RecurringJob.......
         }
     }
 }
