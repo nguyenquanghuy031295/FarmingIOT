@@ -11,7 +11,8 @@ namespace FarmingDatabase.Model
     public enum ActuatorType
     {
         Pump = 0,
-        Lamp = 1
+        Lamp = 1,
+        Fan = 2
     }
     public class Actuator_Record
     {
