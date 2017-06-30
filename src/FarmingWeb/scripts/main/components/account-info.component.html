@@ -1,0 +1,29 @@
+﻿<div class="container col-sm-6 col-sm-offset-3">
+    <h2>Chỉnh sửa thông tin</h2>
+    <form [formGroup]="accountForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input formControlName="Email" [ngModel]="userInfo.Email" type="email" class="form-control" id="email" name="email">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Tên:</label>
+            <input formControlName="Name" [(ngModel)]="userInfo.Name" type="text" class="form-control" id="name" placeholder="Nhập tên đầy đủ" name="pwd">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Ngày tháng năm sinh:</label>
+            <input formControlName="DOB" [ngModel]="locateDOB" (ngModelChange)="onChangeDOB($event)" type="date" class="form-control" id="dob" name="pwd">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Địa chỉ:</label>
+            <input formControlName="Address" [(ngModel)]="userInfo.Address" type="text" class="form-control" id="address" placeholder="Nhập địa chỉ thường trú" name="pwd">
+        </div>
+        <button 
+                type="submit" 
+                class="btn btn-default"
+                (click)="onChangeInfo()"
+                style="float:right"
+                [disabled]="isDisableSubmit || accountForm.pristine">
+        Chỉnh sửa
+        </button>
+    </form>
+</div>

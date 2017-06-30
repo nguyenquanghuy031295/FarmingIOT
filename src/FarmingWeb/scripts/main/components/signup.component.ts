@@ -1,7 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
-import { FormGroup, FormControl, Validators, FormBuilder } from "@angular/forms";
+import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 
 import { AppSetting } from './../../app/app.setting';
 import { RegisterModel } from './../models/register.model';

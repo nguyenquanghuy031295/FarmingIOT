@@ -2,6 +2,7 @@
 import { Http, Headers, RequestOptions, Response } from "@angular/http";
 
 import { PlantDetailModel } from './../../models/plant-detail.model';
+import { PlantModel } from './../../models/plant.model';
 
 import { IPlantService } from './../interface/plant-service.interface';
 
@@ -19,6 +20,20 @@ export class PlantService implements IPlantService {
             this.http.get(AppSetting.API_ENDPOINT + '/plants/detail' + filter).subscribe(
                 (data: Response) => {
                     let listPlantDetail = <PlantDetailModel[]>data.json();
+                    resolve(listPlantDetail);
+                },
+                (error: any) => {
+                    reject(error);
+                }
+            );
+        });
+    }
+
+    getAllPlant(): Promise<PlantModel[]> {
+        return new Promise<any>((resolve: any, reject: any) => {
+            this.http.get(AppSetting.API_ENDPOINT + '/plants/').subscribe(
+                (data: Response) => {
+                    let listPlantDetail = <PlantModel[]>data.json();
                     resolve(listPlantDetail);
                 },
                 (error: any) => {

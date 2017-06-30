@@ -10,6 +10,7 @@ var rimraf = require('rimraf');
 var paths = {
     npm: "./node_modules/",
     lib: "./wwwroot/lib/",
+    img: "./wwwroot/images",
     componentTemplates: "./wwwroot/templates/",
     compiledTS: "./dist/",
     appjs: "./wwwroot/js/",
@@ -105,16 +106,21 @@ gulp.task("libs", function () {
     gulp.src("./node_modules/primeui/themes/smoothness/**/*").pipe(gulp.dest('wwwroot/css/primeui/theme/'));
     gulp.src("./node_modules/primeui/primeui-ng-all.min.css").pipe(gulp.dest('wwwroot/css/primeui/'));
 
+    gulp.src("./css/*.css").pipe(gulp.dest('wwwroot/css/'));
 });
 
 gulp.task("appCopy", function () {
-    gulp.src("scripts/**/*").pipe(gulp.dest("wwwroot/Scripts/")); //add by Quan 22/6/2016
+    gulp.src("scripts/**/*").pipe(gulp.dest("wwwroot/Scripts/"));
 });
 
 gulp.task('templates', function () {
     gulp.src('./scripts/**/*.html').pipe(gulp.dest(paths.componentTemplates));
     gulp.src('./scripts/**/*.css').pipe(gulp.dest(paths.componentCss));
 
+});
+
+gulp.task('images', function () {
+    gulp.src('./images/**/*.png').pipe(gulp.dest(paths.img));
 });
 
 gulp.task('clean', function (callback) {
@@ -133,6 +139,6 @@ gulp.task('clean', function (callback) {
     rimraf(paths.componentTemplates, dummyFun);
 });
 
-gulp.task('default', ['build-RxJS-System', 'libs', 'templates', 'appCopy'], function () {
+gulp.task('default', ['build-RxJS-System', 'libs', 'templates', 'appCopy', 'images'], function () {
     // nothing
 });

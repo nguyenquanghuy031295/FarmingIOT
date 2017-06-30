@@ -11,6 +11,7 @@ import { IAuthenticateService } from './../services/interface/authenticate.-serv
 import { IPlantService } from './../services/interface/plant-service.interface';
 import { IDeviceService } from './../services/interface/device-service.interface';
 import { GoogleMapService } from './../services/impl/google-map.service';
+
 @Component({
     selector: 'main-page',
     templateUrl: './templates/main/components/main-page.component.html'
@@ -72,15 +73,8 @@ export class MainPageComponent implements OnInit {
         );
     }
 
-    onWatchDataSensor() {
-        this.deviceService.GetSensorData(this.selectedFarmComponent).then(
-            (data: EnvironmentInfoModel[]) => {
-                this.sensorData = data;
-            },
-            (error: any) => {
-
-            }
-        );
+    onWatchReport() {
+        this.router.navigate(['farmiot/farm/component', this.selectedFarmComponent]);
     }
 
     onWatchPlantDetail() {
@@ -118,5 +112,9 @@ export class MainPageComponent implements OnInit {
         farmComponents.forEach(farmComponent => {
             this.farmComponents.push({ label: farmComponent.Name, value: farmComponent.Farm_ComponentId });
         });
+    }
+
+    onCreateNewFarmCmp() {
+        this.router.navigate(['farmiot/farm/', this.selectedFarm.FarmId, 'newfarmcmp']);
     }
 }

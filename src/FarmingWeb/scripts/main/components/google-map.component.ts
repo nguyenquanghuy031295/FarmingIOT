@@ -42,7 +42,7 @@ export class GoogleMapComponent implements OnInit, AfterViewInit{
             var boundaryVal = regGex.exec(farm.Boundary);
             while (boundaryVal != null) {
                 let point: string[] = boundaryVal[0].split(';');
-                polygonPoints.push({ lat: +point[1], lng: +point[0] });
+                polygonPoints.push({ lat: +point[0], lng: +point[1] });
                 boundaryVal = regGex.exec(farm.Boundary);
             }
             //draw polygon

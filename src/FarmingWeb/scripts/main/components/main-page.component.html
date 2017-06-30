@@ -1,30 +1,32 @@
 ﻿<gmap></gmap>
 <p-dropdown [options]="farms" [(ngModel)]="selectedFarm" (onChange)="onChangeFarm($event)"></p-dropdown>
-<p-dropdown [options]="farmComponents" [(ngModel)]="selectedFarmComponent" (onChange)="onChangeFarmComponent($event)" *ngIf="farmComponents.length > 0"></p-dropdown>
-<button pButton type="button" (click)="onWatchPlantDetail()" label="Watch Plant Detail" *ngIf="selectedFarm.FarmId!=0 && selectedFarmComponent"></button>
-<button pButton type="button" (click)="onWatchDataSensor()" label="Watch Environment Info" *ngIf="selectedFarmComponent"></button>
-
+<div *ngIf="farmComponents.length > 0">
+    <p-dropdown [options]="farmComponents" [(ngModel)]="selectedFarmComponent" (onChange)="onChangeFarmComponent($event)"></p-dropdown>
+    <button pButton type="button" (click)="onCreateNewFarmCmp()" label="New Farm Component"></button>
+</div>
+<button pButton type="button" (click)="onWatchPlantDetail()" label="View Plant Detail" *ngIf="selectedFarm.FarmId!=0 && selectedFarmComponent"></button>
+<button pButton type="button" (click)="onWatchReport()" label="View Environment Info" *ngIf="selectedFarmComponent"></button>
+<control-sensor *ngIf="selectedFarmComponent" style="float:right"></control-sensor>
 <p-panel *ngIf="selectedFarm.FarmId != 0" [header]="selectedFarm.Name" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
     {{createFarmDetail(selectedFarm)}}
 </p-panel>
 
 <p-dataTable [value]="plantDetails" *ngIf="plantDetails.length > 0 && watchPlantDetail" [style]="{'margin-bottom':'20px'}">
-    <p-column field="StartPlantDate" header="Start Plant Date"></p-column>
-    <p-column field="EndPlantDate" header="End Plant Date"></p-column>
-    <p-column field="CurrentPerriodName" header="Period Name"></p-column>
-    <p-column field="CurrentPerriodDescription" header="Period Description"></p-column>
-    <p-column field="StartDayCurrentPeriod" header="Period Start Day"></p-column>
     <p-column field="PlantName" header="Plant Name"></p-column>
     <p-column field="PlantKind" header="Plant Kind"></p-column>
     <p-column field="PlantDescrition" header="Plant Description"></p-column>
-</p-dataTable>
-
-<p-dataTable [value]="sensorData" *ngIf="sensorData.length > 0">
-    <p-column field="Timestamp" header="Timestamp"></p-column>
-    <p-column field="pH" header="pH"></p-column>
-    <p-column field="Wind" header="Wind"></p-column>
-    <p-column field="Temperature" header="Temperature"></p-column>
-    <p-column field="Luminosity" header="Luminosity"></p-column>
-    <p-column field="Air_Humidity" header="Air_Humidity"></p-column>
-    <p-column field="Soil_Humidity" header="Soil_Humidity"></p-column>
+    <p-column field="CurrentPerriodName" header="Period Name"></p-column>
+    <p-column field="CurrentPerriodDescription" header="Period Description"></p-column>
+    <p-column field="StartDayCurrentPeriod" header="Period Start Day"></p-column>
+    <p-column field="StartPlantDate" header="Start Plant Date">
+        <template let-col let-row="rowData" pTemplate="type" type="body">
+            <p>{{row[col.field] | dateformat: 'DD-MM-YYYY'}}</p>
+        </template>
+    </p-column>
+    <p-column field="EndPlantDate" header="End Plant Date">
+        <template let-col let-row="rowData" pTemplate="type" type="body">
+            <p>{{row[col.field] | dateformat: 'DD-MM-YYYY'}}</p>
+        </template>
+    </p-column>
+   
 </p-dataTable>

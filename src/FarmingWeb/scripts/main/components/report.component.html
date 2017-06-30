@@ -1,0 +1,28 @@
+﻿<env-overall></env-overall>
+<env-chart></env-chart>
+<h3>Environment Data</h3>
+<p-dataTable #dt id="dt"
+             [value]="sensorData"
+             [rows]="5"
+             [paginator]="true"
+             [pageLinks]="3"
+             [rowsPerPageOptions]="[5,10]"
+             [exportFilename]="EnvironmentInfo"
+             *ngIf="sensorData.length > 0">
+    <p-header>
+        <div class="ui-helper-clearfix">
+            <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+        </div>
+    </p-header>
+    <p-column field="Timestamp" header="Timestamp">
+        <template let-col let-row="rowData" pTemplate="type" type="body">
+            <p>{{row[col.field] | dateformat}}</p>
+        </template>
+    </p-column>
+    <p-column field="Temperature" header="Temperature"></p-column>
+    <p-column field="Luminosity" header="Luminosity"></p-column>
+    <p-column field="Air_Humidity" header="Air_Humidity"></p-column>
+    <p-column field="Soil_Humidity" header="Soil_Humidity"></p-column>
+    <p-column field="pH" header="pH"></p-column>
+    <p-column field="Wind" header="Wind"></p-column>
+</p-dataTable>

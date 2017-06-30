@@ -1,0 +1,25 @@
+﻿<h3>Environment Overall in This Month</h3>
+<div class="row" *ngIf="envOverallInfo">
+    <div class="col-sm-4">
+        <env-card [title]="'Temperature'"
+                  [data]="envOverallInfo.Temperature"
+                  [symbol]="'&#8451;'"
+                  [srcImg]="imgTemp">
+        </env-card>
+    </div>
+    <div class="col-sm-4">
+        <env-card [title]="'Luminosity'"
+                  [data]="envOverallInfo.Luminosity"
+                  [symbol]="'lx'"
+                  [srcImg]="imgLum">
+        </env-card>
+    </div>
+    <div class="col-sm-4">
+        <env-card [title]="'Soil Humidity'"
+                  [data]="envOverallInfo.Soil_Humidity"
+                  [symbol]="'%'"
+                  [srcImg]="imgSoil">
+        </env-card>
+    </div>
+</div>
+<hr />

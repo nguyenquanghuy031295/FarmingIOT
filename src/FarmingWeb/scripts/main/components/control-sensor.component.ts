@@ -1,14 +1,12 @@
 ﻿import { Component, OnDestroy } from '@angular/core';
 import * as mqtt from 'mqtt';
 @Component({
-    selector: 'testMQTT',
-    template: `
-    <p>test MQTT</p>
-    <button (click)="onPublish()">Publish</button>
-`
+    selector: 'control-sensor',
+    templateUrl: './templates/main/components/control-sensor.component.html'
 })
-export class TestMQTTComponent implements OnDestroy {
+export class ControlSensorComponent implements OnDestroy {
     private client: mqtt.Client;
+    private topic: string = "kwf/demo/led";
     constructor() {
         const options: mqtt.IClientOptions = {
             host: "broker.hivemq.com",
@@ -16,23 +14,21 @@ export class TestMQTTComponent implements OnDestroy {
             keepalive: 60,
             reconnectPeriod: 10000,
             clientId: "clientId-Farming-" + Math.floor(Math.random() * 65535),
-            username: "huy",
-            password: "huy",
             path: "/mqtt"
         };
         this.client = mqtt.connect(options);
     }
 
-    onPublish() {
+    onPublish(message: string) {
         if (this.client.connected) {
-            this.client.publish("kwf/demo/led", "led1off");
-            console.log("Connected");
-        }
-        else
+            this.client.publish(this.topic, message);
+        } else {
             console.log("Not Connect!");
+        }
     }
 
     ngOnDestroy() {
-        this.client.end(true);
+        if (this.client)
+            this.client.end(true);
     }
 }
