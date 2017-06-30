@@ -21,9 +21,19 @@ namespace ServerFarming.Core.Services.Implement
             return userRepository.GetUserID(loginData);
         }
 
+        public UserInfo GetUserInfo(long userId)
+        {
+            return userRepository.GetUserInfo(userId);
+        }
+
         public bool Signin(LoginData loginData)
         {
             return userRepository.CheckSignin(loginData);
+        }
+
+        public UserUpdateInfo UpdateUserInfo(UserUpdateInfo userInfo)
+        {
+            return userRepository.UpdateUserInfo(userInfo);
         }
 
         MessageRegister IAuthenticationService.SignUp(User user)

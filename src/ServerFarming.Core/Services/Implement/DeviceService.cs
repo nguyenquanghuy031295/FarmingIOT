@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FarmingDatabase.Model;
 using ServerFarming.Core.Repositories;
+using ServerFarming.Core.Model;
 
 namespace ServerFarming.Core.Services.Implement
 {
@@ -14,11 +15,11 @@ namespace ServerFarming.Core.Services.Implement
         {
             this.sensorRepository = sensorRepository;
         }
-        public Sensor_Record SendSensorData(Sensor_Record data)
+        public List<Actuator_Action> SendSensorData(Sensor_Record data)
         {
             var sensorData = CopyFromSensorData(data);
-            sensorRepository.AddNewSensorData(sensorData);
-            return sensorData;
+            var listAction = sensorRepository.AddNewSensorData(sensorData);
+            return listAction;
         }
 
         public List<Sensor_Record> GetSensorData(long farmComponentID)

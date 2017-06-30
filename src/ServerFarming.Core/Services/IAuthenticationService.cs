@@ -11,7 +11,8 @@ namespace ServerFarming.Core.Services
     {
         MessageRegister SignUp(User user);
         Boolean Signin(LoginData loginData);
-
         long GetUserID(LoginData loginData);
+        UserUpdateInfo UpdateUserInfo(UserUpdateInfo userInfo);
+        UserInfo GetUserInfo(long userId);
     }
 }

@@ -31,6 +31,44 @@ namespace ServerFarming.Core.Repositories.Implement
             return user.UserId;
         }
 
+        public UserInfo GetUserInfo(long userId)
+        {
+            var user = _context.Users.Where(data => data.UserId == userId).SingleOrDefault();
+            if(user != null)
+            {
+                return new UserInfo
+                {
+                    Name = user.Name,
+                    Address = user.Address,
+                    DOB = user.DOB,
+                    Email = user.Email
+                };
+            }
+            throw new Exception();
+        }
+
+        public UserUpdateInfo UpdateUserInfo(UserUpdateInfo userInfo)
+        {
+            var user = this._context.Users.Where(data => data.UserId == userInfo.UserId).SingleOrDefault();
+            if (user != null)
+            {
+                user.Name = userInfo.Name;
+                user.Address = userInfo.Address;
+                user.DOB = userInfo.DOB;
+
+                _context.Entry(user).State = EntityState.Modified;
+                _context.SaveChanges();
+                return new UserUpdateInfo
+                {
+                    UserId = user.UserId,
+                    Name = user.Name,
+                    Address = user.Address,
+                    DOB = user.DOB
+                };
+            }
+            throw new Exception();
+        }
+
         MessageRegister IUserRepository.AddNewUser(User user)
         {
             var a = _context.Users.FirstOrDefault(userDB => userDB.Email == user.Email);

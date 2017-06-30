@@ -11,5 +11,6 @@ namespace ServerFarming.Core.Repositories
     {
         void AddNewPlant(PlantType plant);
         List<PlantDetail> GetPlantDetail(long farmComponentId);
+        List<PlantKB> GetAllPlant();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FarmingDatabase.Model;
+using ServerFarming.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace ServerFarming.Core.Services
 {
     public interface IDeviceService
     {
-        Sensor_Record SendSensorData(Sensor_Record sensorData);
+        List<Actuator_Action> SendSensorData(Sensor_Record sensorData);
         List<Sensor_Record> GetSensorData(long farmComponentID);
     }
 }

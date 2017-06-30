@@ -12,5 +12,7 @@ namespace ServerFarming.Core.Repositories
         MessageRegister AddNewUser(User user);
         Boolean CheckSignin(LoginData loginData);
         long GetUserID(LoginData loginData);
+        UserUpdateInfo UpdateUserInfo(UserUpdateInfo userInfo);
+        UserInfo GetUserInfo(long userId);
     }
 }

@@ -21,6 +21,13 @@ namespace ServerFarming.Core.Repositories.Implement
             _farmingContext.SaveChanges();
         }
 
+        public List<PlantKB> GetAllPlant()
+        {
+            List<PlantKB> result;
+            result = _farmingContext.PlantsKB.ToList();
+            return result;
+        }
+
         public List<PlantDetail> GetPlantDetail(long farmComponentId)
         {
             List<PlantDetail> result = new List<PlantDetail>();

@@ -13,5 +13,7 @@ namespace ServerFarming.Core.Services
         Farm AddFarm(Farm farm);
         List<Farm> GetFarmByUserID(long userID);
         List<Farm_Component> GetFarmComponents(long userID);
+        OverallMonthEnvironment GetOverallEnvironmentInfo(long farmComponentId);
+        List<Sensor_Record> GetEnvInfoToday(long farmComponentId);
     }
 }

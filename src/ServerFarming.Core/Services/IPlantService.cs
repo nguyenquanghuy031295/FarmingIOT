@@ -11,5 +11,6 @@ namespace ServerFarming.Core.Services
     {
         PlantType AddPlant(FarmingComponentDTO farmingComponentDTO, long farmComponentId);
         List<PlantDetail> GetPlantDetail(long farmComponentId);
+        List<PlantKB> GetAllPlant();
     }
 }

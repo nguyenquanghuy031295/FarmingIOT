@@ -37,7 +37,7 @@ namespace ServerFarming.Core.Services.Implement
         {
             Farm_Component newFarmComponent = new Farm_Component()
             {
-                Name = farmComponentDTO.FarmComponentName,
+                Name = farmComponentDTO.Name,
                 Position_Lat = farmComponentDTO.Position_Lat,
                 Position_Lng = farmComponentDTO.Position_Lng,
                 FarmId = farmComponentDTO.FarmId
@@ -66,6 +66,16 @@ namespace ServerFarming.Core.Services.Implement
         public List<Farm_Component> GetFarmComponents(long farmID)
         {
             return farmRepository.GetFarmComponents(farmID);
+        }
+
+        public OverallMonthEnvironment GetOverallEnvironmentInfo(long farmComponentId)
+        {
+            return farmRepository.GetOverallEnvironmentInfo(farmComponentId);
+        }
+
+        public List<Sensor_Record> GetEnvInfoToday(long farmComponentId)
+        {
+            return farmRepository.GetEnvInfoToday(farmComponentId);
         }
     }
 }

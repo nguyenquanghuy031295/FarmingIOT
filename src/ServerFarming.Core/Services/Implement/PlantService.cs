@@ -22,6 +22,11 @@ namespace ServerFarming.Core.Services.Implement
             return plant;
         }
 
+        public List<PlantKB> GetAllPlant()
+        {
+            return plantRepository.GetAllPlant();
+        }
+
         public List<PlantDetail> GetPlantDetail(long farmComponentId)
         {
             return plantRepository.GetPlantDetail(farmComponentId);
