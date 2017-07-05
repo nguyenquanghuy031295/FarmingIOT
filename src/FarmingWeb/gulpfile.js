@@ -7,6 +7,9 @@ var gulp = require('gulp');
 var Builder = require("systemjs-builder");
 var rimraf = require('rimraf');
 
+var tsc = require('gulp-typescript');
+var sourcemaps = require('gulp-sourcemaps');
+
 var paths = {
     npm: "./node_modules/",
     lib: "./wwwroot/lib/",
@@ -137,6 +140,38 @@ gulp.task('clean', function (callback) {
 
     rimraf(paths.lib, dummyFun);
     rimraf(paths.componentTemplates, dummyFun);
+});
+
+gulp.task('compile-css', function (callback) {
+        gulp.src('./scripts/**/*.html').pipe(gulp.dest(paths.componentTemplates));
+    gulp.src('./scripts/**/*.css').pipe(gulp.dest(paths.componentCss));
+});
+
+gulp.task('compile-html', function (callback) {
+    gulp.src('./scripts/**/*.html').pipe(gulp.dest(paths.componentTemplates));
+});
+
+gulp.task('compile-ts', function (callback) {
+    var tsProject = tsc.createProject('tsconfig.json');
+    var tsResult = gulp.src('scripts/**/*.ts')
+        .pipe(sourcemaps.init())
+        .pipe(tsProject());
+
+    gulp.src('scripts/**/*.ts').pipe(gulp.dest(paths.scripts));
+
+    tsResult.js
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(paths.scripts));
+
+});
+
+gulp.task('watch', function (callback) {
+    gulp.watch('scripts/**/*.ts', ['compile-ts']);
+	gulp.watch('scripts/**/*.html', ['compile-html']);
+	gulp.watch(['scripts/**/*.css'], ['compile-css']);
+	gulp.watch('responsive-sass/**/*.scss', function() {
+        gulp.src("./scripts/systemjs.config.js").pipe(gulp.dest('wwwroot/js/'));
+    });
 });
 
 gulp.task('default', ['build-RxJS-System', 'libs', 'templates', 'appCopy', 'images'], function () {
