@@ -14,6 +14,9 @@ using ServerFarming.Core.Services.Implement;
 using ServerFarming.Core.Repositories;
 using ServerFarming.Core.Repositories.Implement;
 using Hangfire;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ServerFarming
 {
@@ -34,6 +37,7 @@ namespace ServerFarming
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = Configuration.GetConnectionString("FarmingDatabase");
             // Add framework services.
             services.AddMvc()
                 .AddJsonOptions(options =>
@@ -41,12 +45,50 @@ namespace ServerFarming
                     options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
+            // Add Cross-Origin Requests
             services.AddCors();
-            var connection = Configuration.GetConnectionString("FarmingDatabase");
+
             services.AddDbContext<FarmingDbContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("ServerFarming")));
 
-            //Add HangFire
-            services.AddHangfire(x => x.UseSqlServerStorage(connection));
+            // Add HangFire
+            // services.AddHangfire(x => x.UseSqlServerStorage(connection));
+
+            // Add Identity
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddIdentity<IdentityUser<long>, IdentityRole<long>>()
+                .AddEntityFrameworkStores<FarmingDbContext, long>();
+
+            //configure identity options
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Lockout settings: disable lock out
+                //options.Lockout.MaxFailedAccessAttempts = int.MaxValue;
+
+                // Cookie settings
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+                options.Cookies.ApplicationCookie.LoginPath = "";
+                options.Cookies.ApplicationCookie.LogoutPath = "/Logout";
+                options.Cookies.ApplicationCookie.CookieHttpOnly = true;
+
+                options.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents()
+                {
+                    OnRedirectToLogin = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.FromResult(0);
+                    }
+                };
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
+
+                options.SignIn.RequireConfirmedEmail = false;
+
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredLength = 6;
+            });
 
             //Add Services
             services.AddTransient<IFarmService, FarmService>();
@@ -66,7 +108,11 @@ namespace ServerFarming
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            app.UseHangfireServer();
+            // Use HangFire
+            // app.UseHangfireServer();
+
+            // User ASP Identity
+            app.UseIdentity();
 
             app.UseCors(builder =>
             {
