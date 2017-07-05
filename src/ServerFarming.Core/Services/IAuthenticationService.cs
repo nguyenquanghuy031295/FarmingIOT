@@ -1,4 +1,5 @@
 ﻿using FarmingDatabase.Model;
+using ServerFarming.Core.Command;
 using ServerFarming.Core.Model;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace ServerFarming.Core.Services
 {
     public interface IAuthenticationService
     {
-        MessageRegister SignUp(User user);
+        Task SignUp(RegisterCommand regCommand);
         Boolean Signin(LoginData loginData);
         long GetUserID(LoginData loginData);
         UserUpdateInfo UpdateUserInfo(UserUpdateInfo userInfo);

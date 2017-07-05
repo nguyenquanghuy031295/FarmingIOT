@@ -6,6 +6,7 @@ using FarmingDatabase.Model;
 using Microsoft.EntityFrameworkCore;
 using FarmingDatabase.DatabaseContext;
 using ServerFarming.Core.Model;
+using ServerFarming.Core.Command;
 
 namespace ServerFarming.Core.Repositories.Implement
 {
@@ -69,24 +70,17 @@ namespace ServerFarming.Core.Repositories.Implement
             throw new Exception();
         }
 
-        MessageRegister IUserRepository.AddNewUser(User user)
+        async Task<User> IUserRepository.AddNewUser(long userId, RegisterCommand regCommand)
         {
-            var a = _context.Users.FirstOrDefault(userDB => userDB.Email == user.Email);
-            if(a != null)
+            var newUser = new User
             {
-                return new MessageRegister()
-                {
-                    IsSuccess = false,
-                    Message = "Email is existed"
-                };
-            }
-            _context.Users.Add(user);
-            _context.SaveChanges();
-            return new MessageRegister()
-            {
-                IsSuccess = true,
-                Message = "Register Successfully"
+                UserId  = userId,
+                Email = regCommand.Email,
+                Name = regCommand.Name
             };
+            _context.Users.Add(newUser);
+            await _context.SaveChangesAsync();
+            return newUser;
         }
     }
 }

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using ServerFarming.Core.Services;
 using FarmingDatabase.Model;
 using ServerFarming.Core.Model;
+using ServerFarming.Core.Command;
+using ServerFarming.Core.Exceptions;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,15 +22,19 @@ namespace ServerFarming.Controllers
             this.authenticationService = authenticationService;
         }
         [HttpPost("signup")]
-        public IActionResult SignUp([FromBody]User user)
+        public async Task<IActionResult> SignUp([FromBody]RegisterCommand regCommand)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var signal = authenticationService.SignUp(user);
-            if (signal.IsSuccess)
+            try
+            {
+                await authenticationService.SignUp(regCommand);
                 return Ok();
-            else
-                return BadRequest(signal.Message);
+            }
+            catch (RegisterException e)
+            {
+                return BadRequest(e.ErrorMessages);
+            }
         }
 
         [HttpPost("signin")]
@@ -53,7 +59,7 @@ namespace ServerFarming.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
         [HttpGet("accountInfo")]
@@ -66,7 +72,7 @@ namespace ServerFarming.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
     }
