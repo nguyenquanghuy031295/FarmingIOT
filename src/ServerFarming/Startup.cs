@@ -42,7 +42,7 @@ namespace ServerFarming
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
             services.AddCors();
-            var connection = @"Server=HNGUYEN;Database=FarmingDatabase;Trusted_Connection=True;";
+            var connection = Configuration.GetConnectionString("FarmingDatabase");
             services.AddDbContext<FarmingDbContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("ServerFarming")));
 
             //Add HangFire
