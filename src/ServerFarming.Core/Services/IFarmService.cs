@@ -11,7 +11,7 @@ namespace ServerFarming.Core.Services
     {
         Farm_Component AddFarmComponent(FarmingComponentDTO farmComponentDTO);
         Farm AddFarm(Farm farm);
-        List<Farm> GetFarmByUserID(long userID);
+        Task<List<Farm>> GetUserFarms();
         List<Farm_Component> GetFarmComponents(long userID);
         OverallMonthEnvironment GetOverallEnvironmentInfo(long farmComponentId);
         List<Sensor_Record> GetEnvInfoToday(long farmComponentId);

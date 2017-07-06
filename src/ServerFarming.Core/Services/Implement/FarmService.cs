@@ -13,11 +13,14 @@ namespace ServerFarming.Core.Services.Implement
     {
         private readonly IFarmRepository farmRepository;
         private readonly IPlantRepository plantRepository;
+        private readonly IAuthenticationService authenticationService;
         public FarmService(IFarmRepository farmRepository, 
-            IPlantRepository plantRepository)
+            IPlantRepository plantRepository,
+            IAuthenticationService authenticationService)
         {
             this.farmRepository = farmRepository;
             this.plantRepository = plantRepository;
+            this.authenticationService = authenticationService;
         }
 
         public Farm AddFarm(Farm farm)
@@ -58,9 +61,10 @@ namespace ServerFarming.Core.Services.Implement
             return newFarm;
         }
 
-        public List<Farm> GetFarmByUserID(long userID)
+        async Task<List<Farm>> IFarmService.GetUserFarms()
         {
-            return farmRepository.GetFarmByUserID(userID);
+            long userId = authenticationService.GetUserId();
+            return await farmRepository.GetFarmByUserID(userId);
         }
 
         public List<Farm_Component> GetFarmComponents(long farmID)

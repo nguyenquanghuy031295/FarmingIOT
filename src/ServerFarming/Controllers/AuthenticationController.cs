@@ -8,12 +8,14 @@ using FarmingDatabase.Model;
 using ServerFarming.Core.Model;
 using ServerFarming.Core.Command;
 using ServerFarming.Core.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ServerFarming.Controllers
 {
     [Route("api/authentication")]
+    [Authorize]
     public class AuthenticationController : Controller
     {
         private readonly IAuthenticationService authenticationService;
@@ -22,6 +24,7 @@ namespace ServerFarming.Controllers
             this.authenticationService = authenticationService;
         }
         [HttpPost("signup")]
+        [AllowAnonymous]
         public async Task<IActionResult> SignUp([FromBody]RegisterCommand regCommand)
         {
             if (!ModelState.IsValid)
@@ -38,6 +41,7 @@ namespace ServerFarming.Controllers
         }
 
         [HttpPost("signin")]
+        [AllowAnonymous]
         public async Task<IActionResult> Signin([FromBody]LoginData loginData)
         {
             if (!ModelState.IsValid)
@@ -53,11 +57,11 @@ namespace ServerFarming.Controllers
         }
 
         [HttpPost("accountInfo")]
-        public IActionResult UpdateAccountInfo([FromBody]UserUpdateInfo userInfo)
+        public async Task<IActionResult> UpdateAccountInfo([FromBody]UserUpdateInfo userInfo)
         {
             try
             {
-                var info = authenticationService.UpdateUserInfo(userInfo);
+                var info = await authenticationService.UpdateUserInfo(userInfo);
                 return Ok(info);
             }
             catch (Exception e)
@@ -66,17 +70,24 @@ namespace ServerFarming.Controllers
             }
         }
         [HttpGet("accountInfo")]
-        public IActionResult GetAccountInfo(long userId)
+        public IActionResult GetAccountInfo()
         {
             try
             {
-                var userInfo = authenticationService.GetUserInfo(userId);
+                var userInfo = authenticationService.GetUserInfo();
                 return Ok(userInfo);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        [HttpPost("signout")]
+        public async Task<IActionResult> SignOut()
+        {
+            await authenticationService.SignOut();
+            return Ok();
         }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using ServerFarming.Core.Command;
 using ServerFarming.Core.Exceptions;
+using System.Security.Claims;
 
 namespace ServerFarming.Core.Services.Implement
 {
@@ -30,14 +31,9 @@ namespace ServerFarming.Core.Services.Implement
             this.signInManager = signInManager;
         }
 
-        public long GetUserID(LoginData loginData)
+        public UserInfo GetUserInfo()
         {
-            return userRepository.GetUserID(loginData);
-        }
-
-        public UserInfo GetUserInfo(long userId)
-        {
-            var user = httpContextAccessor.HttpContext.User;
+            long userId = GetUserId();
             return userRepository.GetUserInfo(userId);
         }
 
@@ -53,9 +49,10 @@ namespace ServerFarming.Core.Services.Implement
             }
         }
 
-        public UserUpdateInfo UpdateUserInfo(UserUpdateInfo userInfo)
+        async Task<UserUpdateInfo> IAuthenticationService.UpdateUserInfo(UserUpdateInfo userInfo)
         {
-            return userRepository.UpdateUserInfo(userInfo);
+            long userId = GetUserId();
+            return await userRepository.UpdateUserInfo(userId, userInfo);
         }
 
         async Task IAuthenticationService.SignUp(RegisterCommand regCommand)
@@ -78,6 +75,23 @@ namespace ServerFarming.Core.Services.Implement
             {
                 await userRepository.AddNewUser(user.Id, regCommand);
             }
+        }
+
+        Task IAuthenticationService.SignOut()
+        {
+            return signInManager.SignOutAsync();
+        }
+
+        public long GetUserId()
+        {
+            var user = httpContextAccessor.HttpContext.User;
+            var userIdString = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            long userId = 0;
+            if (!string.IsNullOrEmpty(userIdString))
+            {
+                long.TryParse(userIdString, out userId);
+            }
+            return userId;
         }
     }
 }

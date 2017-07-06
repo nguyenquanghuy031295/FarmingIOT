@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using FarmingDatabase.Model;
 using ServerFarming.Core.Services;
 using ServerFarming.Core.Model;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ServerFarming.Controllers
 {
     [Route("api/farms")]
+    [Authorize]
     public class FarmController : Controller
     {
         private readonly IFarmService farmService;
@@ -42,9 +44,9 @@ namespace ServerFarming.Controllers
         }
 
         [HttpGet("getUserFarms")]
-        public IActionResult GetFarmByUserID(long userID = 0)
+        public async Task<IActionResult> GetUserFarms()
         {
-            var listFarms = farmService.GetFarmByUserID(userID);
+            var listFarms = await farmService.GetUserFarms();
             return Ok(listFarms);
         }
 

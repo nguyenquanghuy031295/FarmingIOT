@@ -39,9 +39,9 @@ namespace ServerFarming.Core.Repositories.Implement
             return result;
         }
 
-        public List<Farm> GetFarmByUserID(long userID)
+        async Task<List<Farm>> IFarmRepository.GetFarmByUserID(long userID)
         {
-            return _farmingContext.Farms.Where(farm => farm.UserId == userID).ToList();
+            return await _farmingContext.Farms.Where(farm => farm.UserId == userID).ToListAsync();
         }
 
         public List<Farm_Component> GetFarmComponents(long farmID)
