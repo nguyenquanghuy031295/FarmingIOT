@@ -38,15 +38,18 @@ namespace ServerFarming.Controllers
         }
 
         [HttpPost("signin")]
-        public IActionResult Signin([FromBody]LoginData loginData)
+        public async Task<IActionResult> Signin([FromBody]LoginData loginData)
         {
-            bool isSuccess = authenticationService.Signin(loginData);
-            if (isSuccess)
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
             {
-                long userID = authenticationService.GetUserID(loginData);
-                return Ok(new DataId { ID = userID});
+                await authenticationService.Signin(loginData);
+                return Ok();
+            }catch (LoginException e)
+            {
+                return Unauthorized();
             }
-            return Unauthorized();
         }
 
         [HttpPost("accountInfo")]

@@ -14,14 +14,12 @@ namespace FarmingDatabase.Model
         {
         }
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long UserId { get; set; }
         [StringLength(maximumLength: 20, MinimumLength = 6, ErrorMessage = "Name Length: 6-20 characters")]
         public string Name { get; set; }
         [EmailAddress]
         public string Email { get; set; }
-        [MinLength(8,ErrorMessage = "Password must have at least 8 characters")]
-        public string Password { get; set; }
         [DataType(DataType.Date)]
         public Nullable<DateTime> DOB { get; set; }
         public string Address { get; set; }

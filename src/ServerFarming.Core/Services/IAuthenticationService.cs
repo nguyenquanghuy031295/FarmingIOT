@@ -11,7 +11,7 @@ namespace ServerFarming.Core.Services
     public interface IAuthenticationService
     {
         Task SignUp(RegisterCommand regCommand);
-        Boolean Signin(LoginData loginData);
+        Task Signin(LoginData loginData);
         long GetUserID(LoginData loginData);
         UserUpdateInfo UpdateUserInfo(UserUpdateInfo userInfo);
         UserInfo GetUserInfo(long userId);

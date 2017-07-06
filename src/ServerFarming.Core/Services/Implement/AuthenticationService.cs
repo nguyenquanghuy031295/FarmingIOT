@@ -37,12 +37,20 @@ namespace ServerFarming.Core.Services.Implement
 
         public UserInfo GetUserInfo(long userId)
         {
+            var user = httpContextAccessor.HttpContext.User;
             return userRepository.GetUserInfo(userId);
         }
 
-        public bool Signin(LoginData loginData)
+        async Task IAuthenticationService.Signin(LoginData loginData)
         {
-            return userRepository.CheckSignin(loginData);
+            var signInResult = await signInManager.PasswordSignInAsync(loginData.Email, loginData.Password,
+                isPersistent: true,
+                lockoutOnFailure: false);
+
+            if (!signInResult.Succeeded)
+            {
+                throw new LoginException("Wrong email/password");
+            }
         }
 
         public UserUpdateInfo UpdateUserInfo(UserUpdateInfo userInfo)
@@ -55,7 +63,7 @@ namespace ServerFarming.Core.Services.Implement
             var user = new IdentityUser<long>()
             {
                 Email = regCommand.Email,
-                UserName = regCommand.Name,
+                UserName = regCommand.Email,
                 EmailConfirmed = true
             };
 

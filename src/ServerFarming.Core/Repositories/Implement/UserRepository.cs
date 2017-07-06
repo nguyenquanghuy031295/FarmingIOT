@@ -20,22 +20,22 @@ namespace ServerFarming.Core.Repositories.Implement
 
         public bool CheckSignin(LoginData loginData)
         {
-            var flag = _context.Users.SingleOrDefault(userDB => (userDB.Email == loginData.Email) && (userDB.Password == loginData.Password));
-            if (flag != null)
-                return true;
+            //var flag = _context.Users.SingleOrDefault(userDB => (userDB.Email == loginData.Email) && (userDB.Password == loginData.Password));
+            //if (flag != null)
+            //    return true;
             return false;
         }
 
         public long GetUserID(LoginData loginData)
         {
-            var user = _context.Users.SingleOrDefault(userDB => (userDB.Email == loginData.Email) && (userDB.Password == loginData.Password));
+            var user = _context.Users.SingleOrDefault(userDB => (userDB.Email == loginData.Email));
             return user.UserId;
         }
 
         public UserInfo GetUserInfo(long userId)
         {
             var user = _context.Users.Where(data => data.UserId == userId).SingleOrDefault();
-            if(user != null)
+            if (user != null)
             {
                 return new UserInfo
                 {
@@ -74,12 +74,13 @@ namespace ServerFarming.Core.Repositories.Implement
         {
             var newUser = new User
             {
-                UserId  = userId,
+                UserId = userId,
                 Email = regCommand.Email,
                 Name = regCommand.Name
             };
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
+
             return newUser;
         }
     }
