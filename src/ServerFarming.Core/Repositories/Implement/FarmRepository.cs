@@ -17,10 +17,10 @@ namespace ServerFarming.Core.Repositories.Implement
         {
             this._farmingContext = farmingContext;
         }
-        public void AddNewFarm(Farm farm)
+        async Task IFarmRepository.AddNewFarm(Farm farm)
         {
             _farmingContext.Farms.Add(farm);
-            _farmingContext.SaveChanges();
+            await _farmingContext.SaveChangesAsync();
         }
 
         public void AddNewFarmComponent(Farm_Component farmComponent)

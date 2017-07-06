@@ -18,19 +18,22 @@ namespace ServerFarming.Controllers
     {
         private readonly IFarmService farmService;
         private readonly IPlantService plantService;
+        private readonly IAuthenticationService authenticationService;
         public FarmController(IFarmService farmService,
-            IPlantService plantService)
+            IPlantService plantService,
+            IAuthenticationService authenticationService)
         {
             this.farmService = farmService;
             this.plantService = plantService;
+            this.authenticationService = authenticationService;
         }
         [HttpPost("newFarm")]
-        public IActionResult AddNewFarm([FromBody]Farm farm)
+        public async Task<IActionResult> AddNewFarm([FromBody]FarmCommand farmCommand)
         {
-            //var list = _context.Farms.Include(f => f.User).ToList();
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var newFarm = farmService.AddFarm(farm);
+            long userId = authenticationService.GetUserId();
+            var newFarm = await farmService.AddFarm(userId, farmCommand);
             return Ok(newFarm);
         }
         [HttpPost("newFarmComponent")]
@@ -46,7 +49,8 @@ namespace ServerFarming.Controllers
         [HttpGet("getUserFarms")]
         public async Task<IActionResult> GetUserFarms()
         {
-            var listFarms = await farmService.GetUserFarms();
+            long userId = authenticationService.GetUserId();
+            var listFarms = await farmService.GetUserFarms(userId);
             return Ok(listFarms);
         }
 

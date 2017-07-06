@@ -13,20 +13,18 @@ namespace ServerFarming.Core.Services.Implement
     {
         private readonly IFarmRepository farmRepository;
         private readonly IPlantRepository plantRepository;
-        private readonly IAuthenticationService authenticationService;
         public FarmService(IFarmRepository farmRepository, 
-            IPlantRepository plantRepository,
-            IAuthenticationService authenticationService)
+            IPlantRepository plantRepository)
         {
             this.farmRepository = farmRepository;
             this.plantRepository = plantRepository;
-            this.authenticationService = authenticationService;
+            
         }
 
-        public Farm AddFarm(Farm farm)
+        async Task<Farm> IFarmService.AddFarm(long userId, FarmCommand farmCommand)
         {
-            var newFarm = CopyFromFarm(farm);
-            farmRepository.AddNewFarm(newFarm);
+            var newFarm = CopyFromFarm(userId, farmCommand);
+            await farmRepository.AddNewFarm(newFarm);
             return newFarm;
         }
 
@@ -47,23 +45,22 @@ namespace ServerFarming.Core.Services.Implement
             };
             return newFarmComponent;
         }
-        private Farm CopyFromFarm(Farm farm)
+        private Farm CopyFromFarm(long userId, FarmCommand farmCommand)
         {
             Farm newFarm = new Farm()
             {
-                Name = farm.Name,
-                Address = farm.Address,
-                Boundary = farm.Boundary,
-                Position_Lat = farm.Position_Lat,
-                Position_Lng = farm.Position_Lng,
-                UserId = farm.UserId
+                Name = farmCommand.Name,
+                Address = farmCommand.Address,
+                Boundary = farmCommand.Boundary,
+                Position_Lat = farmCommand.Position_Lat,
+                Position_Lng = farmCommand.Position_Lng,
+                UserId = userId
             };
             return newFarm;
         }
 
-        async Task<List<Farm>> IFarmService.GetUserFarms()
+        async Task<List<Farm>> IFarmService.GetUserFarms(long userId)
         {
-            long userId = authenticationService.GetUserId();
             return await farmRepository.GetFarmByUserID(userId);
         }
 

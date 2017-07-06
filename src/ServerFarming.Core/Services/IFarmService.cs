@@ -10,8 +10,8 @@ namespace ServerFarming.Core.Services
     public interface IFarmService
     {
         Farm_Component AddFarmComponent(FarmingComponentDTO farmComponentDTO);
-        Farm AddFarm(Farm farm);
-        Task<List<Farm>> GetUserFarms();
+        Task<Farm> AddFarm(long userId, FarmCommand farmCommand);
+        Task<List<Farm>> GetUserFarms(long userId);
         List<Farm_Component> GetFarmComponents(long userID);
         OverallMonthEnvironment GetOverallEnvironmentInfo(long farmComponentId);
         List<Sensor_Record> GetEnvInfoToday(long farmComponentId);

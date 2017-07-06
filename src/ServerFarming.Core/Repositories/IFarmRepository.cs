@@ -9,7 +9,7 @@ namespace ServerFarming.Core.Repositories
 {
     public interface IFarmRepository
     {
-        void AddNewFarm(Farm farm);
+        Task AddNewFarm(Farm farm);
         void AddNewFarmComponent(Farm_Component farmComponent);
         Task<List<Farm>> GetFarmByUserID(long userID);
         List<Farm_Component> GetFarmComponents(long farmID);
