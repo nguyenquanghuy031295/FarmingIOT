@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace FarmingDatabase.Model
 {
@@ -26,5 +27,7 @@ namespace FarmingDatabase.Model
         public string Role { get; set; }
 
         public ICollection<Farm> Farms { get; set; }
+        [ForeignKey("UserId")]
+        public virtual IdentityUser<long> IdentityUser { get; set; }
     }
 }
