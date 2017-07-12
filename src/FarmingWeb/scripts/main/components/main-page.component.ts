@@ -82,7 +82,7 @@ export class MainPageComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.farmService.getFarms(this.authenticateService.userID).then(
+        this.farmService.getFarms().then(
             (data: FarmModel[]) => {
                 data.forEach(farm => {
                     this.farms.push({

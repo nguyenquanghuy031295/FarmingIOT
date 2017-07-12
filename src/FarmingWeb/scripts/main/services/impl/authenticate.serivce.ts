@@ -5,6 +5,7 @@ import { Injectable } from "@angular/core";
 import { LoginData } from "./../../models/login.model";
 import { RegisterModel } from "./../../models/register.model";
 import { AccountInfoModel } from './../../models/account-info.model';
+import { UserModel } from './../../models/user.model';
 
 import { IAuthenticateService } from './../interface/authenticate.-service.interface';
 
@@ -14,7 +15,7 @@ const options: RequestOptions = new RequestOptions({ headers: headers });
 
 @Injectable()
 export class AuthenticateService implements IAuthenticateService {
-    public userID: number = 0;
+    public user: UserModel = null;
     constructor(protected http: Http
     ) { }
 
@@ -22,7 +23,7 @@ export class AuthenticateService implements IAuthenticateService {
         return new Promise<any>((resolve: any, reject: any) => {
             this.http.post(AppSetting.API_ENDPOINT + '/authentication/signin', user, options).subscribe(
                 (res: Response) => {
-                    resolve(res.json());
+                    resolve();
                 },
                 (error: any) => {
                     reject(error);
@@ -44,8 +45,7 @@ export class AuthenticateService implements IAuthenticateService {
 
     getAccontInfo(): Promise<AccountInfoModel> {
         return new Promise<AccountInfoModel>((resolve: any, reject: any) => {
-            let filter = '?userId=' + this.userID;
-            this.http.get(AppSetting.API_ENDPOINT + '/authentication/accountInfo' + filter).subscribe(
+            this.http.get(AppSetting.API_ENDPOINT + '/authentication/accountInfo').subscribe(
                 (data: Response) => {
                     let accountInfo = <AccountInfoModel>data.json();
                     resolve(accountInfo);
@@ -60,7 +60,6 @@ export class AuthenticateService implements IAuthenticateService {
     editAccountInfo(userInfo: AccountInfoModel): Promise<any> {
         return new Promise<void>((resolve: any, reject: any) => {
             let userInfoCommand = {
-                UserId: this.userID,
                 Name: userInfo.Name,
                 DOB: userInfo.DOB,
                 Address: userInfo.Address

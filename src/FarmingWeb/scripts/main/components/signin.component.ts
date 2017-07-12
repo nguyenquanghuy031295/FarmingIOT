@@ -37,7 +37,6 @@ export class SignInComponent {
             (data: any) => {
                 this.notificationService.emitter.emit({ severity: 'success', summary: 'Login', detail: 'Login Successfully' });
                 this.router.navigate(['/farmiot/main']);
-                this.authenticateService.userID = data.ID;
             },
             (error: any) => {
                 this.notificationService.emitter.emit({ severity: 'error', summary: 'Login', detail: 'Login Failed' });

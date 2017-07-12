@@ -42,7 +42,7 @@ export class CreateFarmComponent implements OnInit, AfterViewInit{
     }
 
     ngOnInit() {
-        this.farm.UserId = this.authenticateService.userID;
+
     }
 
     ngAfterViewInit() {

@@ -20,10 +20,9 @@ export class FarmService implements IFarmService {
         protected http: Http
     ) { }
 
-    getFarms(userID: number): Promise<FarmModel[]> {
+    getFarms(): Promise<FarmModel[]> {
         return new Promise<any>((resolve: any, reject: any) => {
-            let filter = '?userID=' + userID;
-            this.http.get(AppSetting.API_ENDPOINT + '/farms/getUserFarms' + filter).subscribe(
+            this.http.get(AppSetting.API_ENDPOINT + '/farms/getUserFarms').subscribe(
                 (data: Response) => {
                     let listFarms = <FarmModel[]>data.json();
                     resolve(listFarms);

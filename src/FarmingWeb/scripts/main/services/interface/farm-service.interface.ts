@@ -8,7 +8,7 @@ import { EnvironmentInfoModel } from './../../models/environment-information.mod
 
 @Injectable()
 export abstract class IFarmService {
-    abstract getFarms(userID: number): Promise<FarmModel[]>;
+    abstract getFarms(): Promise<FarmModel[]>;
     abstract getFarmComponent(farmId: number): Promise<FarmComponentModel[]>;
     abstract getEnvOverallMonth(farmComponentId: number): Promise<EnvOverallInfoModel>;
     abstract getEnvInfoToday(farmComponentId: number): Promise<EnvironmentInfoModel[]>;
