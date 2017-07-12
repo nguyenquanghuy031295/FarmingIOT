@@ -12,7 +12,7 @@ namespace ServerFarming.Core.Services
     {
         Task SignUp(RegisterCommand regCommand);
         Task Signin(LoginData loginData);
-        Task<UserUpdateInfo> UpdateUserInfo(UserUpdateInfo userInfo);
+        Task<UserInfo> UpdateUserInfo(UserUpdateInfo userInfo);
         UserInfo GetUserInfo();
         Task SignOut();
         long GetUserId();

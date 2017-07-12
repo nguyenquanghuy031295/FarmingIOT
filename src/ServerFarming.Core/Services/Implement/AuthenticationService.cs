@@ -49,7 +49,7 @@ namespace ServerFarming.Core.Services.Implement
             }
         }
 
-        async Task<UserUpdateInfo> IAuthenticationService.UpdateUserInfo(UserUpdateInfo userInfo)
+        async Task<UserInfo> IAuthenticationService.UpdateUserInfo(UserUpdateInfo userInfo)
         {
             long userId = GetUserId();
             return await userRepository.UpdateUserInfo(userId, userInfo);

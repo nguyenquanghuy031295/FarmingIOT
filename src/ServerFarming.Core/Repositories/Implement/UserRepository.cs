@@ -48,7 +48,7 @@ namespace ServerFarming.Core.Repositories.Implement
             throw new Exception();
         }
 
-        public async Task<UserUpdateInfo> UpdateUserInfo(long userId, UserUpdateInfo userInfo)
+        public async Task<UserInfo> UpdateUserInfo(long userId, UserUpdateInfo userInfo)
         {
             var user = this._context.Users.Where(data => data.UserId == userId).SingleOrDefault();
             if (user != null)
@@ -59,11 +59,12 @@ namespace ServerFarming.Core.Repositories.Implement
 
                 _context.Entry(user).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
-                return new UserUpdateInfo
+                return new UserInfo
                 {
                     Name = user.Name,
                     Address = user.Address,
-                    DOB = user.DOB
+                    DOB = user.DOB,
+                    Email = user.Email
                 };
             }
             throw new Exception();

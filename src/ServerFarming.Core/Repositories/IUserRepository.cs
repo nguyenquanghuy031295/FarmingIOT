@@ -13,7 +13,7 @@ namespace ServerFarming.Core.Repositories
         Task<User> AddNewUser(long userId, RegisterCommand regCommand);
         Boolean CheckSignin(LoginData loginData);
         long GetUserID(LoginData loginData);
-        Task<UserUpdateInfo> UpdateUserInfo(long userId, UserUpdateInfo userInfo);
+        Task<UserInfo> UpdateUserInfo(long userId, UserUpdateInfo userInfo);
         UserInfo GetUserInfo(long userId);
     }
 }
