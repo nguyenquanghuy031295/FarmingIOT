@@ -17,7 +17,7 @@ namespace ServerFarming.Controllers
         {
             this.plantService = plantService;
         }
-        [HttpGet("detail")]
+        [HttpGet("detail/{farmComponentId}")]
         public IActionResult GetPlantDetail(long farmComponentId = 0)
         {
             var listPlantDetail = plantService.GetPlantDetail(farmComponentId);

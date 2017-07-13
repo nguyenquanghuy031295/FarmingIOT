@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace ServerFarming.Controllers
 {
     [Route("api/farms")]
-    [Authorize]
     public class FarmController : Controller
     {
         private readonly IFarmService farmService;
@@ -37,12 +36,12 @@ namespace ServerFarming.Controllers
             return Ok(newFarm);
         }
         [HttpPost("newFarmComponent")]
-        public IActionResult AddNewFarmComponent([FromBody]FarmingComponentDTO farmComponentDTO)
+        public async Task<IActionResult> AddNewFarmComponent([FromBody]FarmingComponentDTO farmComponentDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var newFarmComponent = farmService.AddFarmComponent(farmComponentDTO);
-            var newPlant = plantService.AddPlant(farmComponentDTO, newFarmComponent.Farm_ComponentId);
+            var newFarmComponent = await farmService.AddFarmComponent(farmComponentDTO);
+            var newPlant = await plantService.AddPlant(farmComponentDTO, newFarmComponent.Farm_ComponentId);
             return Ok(newFarmComponent);
         }
 
@@ -54,10 +53,10 @@ namespace ServerFarming.Controllers
             return Ok(listFarms);
         }
 
-        [HttpGet("getFarmComponents")]
-        public IActionResult GetFarmComponentsByFarmID(long farmID = 0)
+        [HttpGet("getFarmComponents/{farmId}")]
+        public async Task<IActionResult> GetFarmComponentsByFarmID(long farmId = 0)
         {
-            var listFarmComponents = farmService.GetFarmComponents(farmID);
+            var listFarmComponents = await farmService.GetFarmComponents(farmId);
             return Ok(listFarmComponents);
         }
 
@@ -69,10 +68,17 @@ namespace ServerFarming.Controllers
         }
 
         [HttpGet("report/today/{farmComponentId}")]
-        public IActionResult GetEnvInfoToday(long farmComponentId)
+        public async Task<IActionResult> GetEnvInfoToday(long farmComponentId)
         {
-            var listEnvInfoToday = farmService.GetEnvInfoToday(farmComponentId);
+            var listEnvInfoToday = await farmService.GetEnvInfoToday(farmComponentId);
             return Ok(listEnvInfoToday);
+        }
+
+        [HttpGet("report/lastest/{farmComponentId}")]
+        public async Task<IActionResult> GetEnvInfoLastest(long farmComponentId)
+        {
+            var result = await farmService.GetEnvInfoLastest(farmComponentId);
+            return Ok(result);
         }
     }
 }

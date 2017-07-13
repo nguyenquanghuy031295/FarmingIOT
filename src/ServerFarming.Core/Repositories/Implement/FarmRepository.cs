@@ -23,30 +23,30 @@ namespace ServerFarming.Core.Repositories.Implement
             await _farmingContext.SaveChangesAsync();
         }
 
-        public void AddNewFarmComponent(Farm_Component farmComponent)
+        async Task IFarmRepository.AddNewFarmComponent(Farm_Component farmComponent)
         {
             _farmingContext.FarmComponents.Add(farmComponent);
-            _farmingContext.SaveChanges();
+            await _farmingContext.SaveChangesAsync();
         }
 
-        public List<Sensor_Record> GetEnvInfoToday(long farmComponentId)
+        async Task<List<Sensor_Record>> IFarmRepository.GetEnvInfoToday(long farmComponentId)
         {
             string dateFormat = "yyyy-MM-dd";
-            var result = _farmingContext.SensorRecords.Where(sensorData => 
+            var result = await _farmingContext.SensorRecords.Where(sensorData => 
                 sensorData.Timestamp.ToString(dateFormat) == DateTime.Now.ToString(dateFormat)
                 && sensorData.Farm_ComponentId == farmComponentId
-                ).ToList();
+                ).ToListAsync();
             return result;
         }
 
-        async Task<List<Farm>> IFarmRepository.GetFarmByUserID(long userID)
+        public Task<List<Farm>> GetFarmByUserID(long userID)
         {
-            return await _farmingContext.Farms.Where(farm => farm.UserId == userID).ToListAsync();
+            return _farmingContext.Farms.Where(farm => farm.UserId == userID).ToListAsync();
         }
 
-        public List<Farm_Component> GetFarmComponents(long farmID)
+        public Task<List<Farm_Component>> GetFarmComponents(long farmID)
         {
-            return _farmingContext.FarmComponents.Where(farmComponent => farmComponent.FarmId == farmID).ToList();
+            return _farmingContext.FarmComponents.Where(farmComponent => farmComponent.FarmId == farmID).ToListAsync();
         }
 
         public OverallMonthEnvironment GetOverallEnvironmentInfo(long farmComponentId)
@@ -92,6 +92,11 @@ where
                 }
             }
             return result;
+        }
+
+        public Task<Sensor_Record> GetEnvInfoLastest(long farmComponentId)
+        {
+            return _farmingContext.SensorRecords.OrderByDescending(x => x.Timestamp).FirstAsync();
         }
     }
 }

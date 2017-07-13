@@ -24,9 +24,9 @@ export class SignupComponent {
         private notificationService: NotificationService
     ) {
         this.registerForm = this.fb.group({
-            Email: ["", [Validators.required, Validators.maxLength(20)]],
-            Password: ["", [Validators.required, Validators.minLength(8)]],
-            UserName: ["", [Validators.required, Validators.maxLength(20)]]
+            Email: ["", Validators.required],
+            Password: ["", Validators.required],
+            UserName: [""]
         });
     }
 

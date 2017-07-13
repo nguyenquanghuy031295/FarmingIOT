@@ -9,7 +9,7 @@ namespace ServerFarming.Core.Services
 {
     public interface IPlantService
     {
-        PlantType AddPlant(FarmingComponentDTO farmingComponentDTO, long farmComponentId);
+        Task<PlantType> AddPlant(FarmingComponentDTO farmingComponentDTO, long farmComponentId);
         List<PlantDetail> GetPlantDetail(long farmComponentId);
         List<PlantKB> GetAllPlant();
     }

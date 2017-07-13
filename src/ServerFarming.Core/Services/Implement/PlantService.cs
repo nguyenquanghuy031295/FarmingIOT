@@ -15,10 +15,10 @@ namespace ServerFarming.Core.Services.Implement
         {
             this.plantRepository = plantRepository;
         }
-        public PlantType AddPlant(FarmingComponentDTO farmingComponentDTO, long farmComponentId)
+        async Task<PlantType> IPlantService.AddPlant(FarmingComponentDTO farmingComponentDTO, long farmComponentId)
         {
             var plant = CopyFrom(farmingComponentDTO, farmComponentId);
-            plantRepository.AddNewPlant(plant);
+            await plantRepository.AddNewPlant(plant);
             return plant;
         }
 

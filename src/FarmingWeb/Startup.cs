@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using FarmingWeb.Middlewares;
+using Microsoft.AspNetCore.Http;
 
 namespace FarmingWeb
 {
@@ -35,6 +37,7 @@ namespace FarmingWeb
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<RESTProxyOptions>(Configuration.GetSection("RESTProxy"));
             services
               .AddMvc()
               .AddJsonOptions(options => options.SerializerSettings.ContractResolver =
@@ -46,18 +49,33 @@ namespace FarmingWeb
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            app.UseCors(
-                builder => builder.AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials())
-            .UseStaticFiles();
+            var section = Configuration.GetSection("RESTProxy");
+            var restProxyOptions = new RESTProxyOptions();
+            section.Bind(restProxyOptions);
+
+            app.Map("/api",
+                appBuilder =>
+                {
+                    appBuilder.UseBackendProxyMiddleware(restProxyOptions);
+                });
+
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == StatusCodes.Status404NotFound)
+                {
+                    context.Request.Path = "/index.html";
+                    await next();
+                }
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseStaticFiles();
         }
     }
 }

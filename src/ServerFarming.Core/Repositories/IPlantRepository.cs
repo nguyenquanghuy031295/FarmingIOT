@@ -9,7 +9,7 @@ namespace ServerFarming.Core.Repositories
 {
     public interface IPlantRepository
     {
-        void AddNewPlant(PlantType plant);
+        Task AddNewPlant(PlantType plant);
         List<PlantDetail> GetPlantDetail(long farmComponentId);
         List<PlantKB> GetAllPlant();
     }

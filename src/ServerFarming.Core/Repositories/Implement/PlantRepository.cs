@@ -15,16 +15,15 @@ namespace ServerFarming.Core.Repositories.Implement
         {
             this._farmingContext = farmingContext;
         }
-        public void AddNewPlant(PlantType plant)
+        async Task IPlantRepository.AddNewPlant(PlantType plant)
         {
             _farmingContext.Plants.Add(plant);
-            _farmingContext.SaveChanges();
+            await _farmingContext.SaveChangesAsync();
         }
 
         public List<PlantKB> GetAllPlant()
         {
-            List<PlantKB> result;
-            result = _farmingContext.PlantsKB.ToList();
+            var result = _farmingContext.PlantsKB.ToList();
             return result;
         }
 

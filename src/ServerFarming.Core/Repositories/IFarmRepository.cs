@@ -10,10 +10,11 @@ namespace ServerFarming.Core.Repositories
     public interface IFarmRepository
     {
         Task AddNewFarm(Farm farm);
-        void AddNewFarmComponent(Farm_Component farmComponent);
+        Task AddNewFarmComponent(Farm_Component farmComponent);
         Task<List<Farm>> GetFarmByUserID(long userID);
-        List<Farm_Component> GetFarmComponents(long farmID);
+        Task<List<Farm_Component>> GetFarmComponents(long farmID);
         OverallMonthEnvironment GetOverallEnvironmentInfo(long farmComponentId);
-        List<Sensor_Record> GetEnvInfoToday(long farmComponentId);
+        Task<List<Sensor_Record>> GetEnvInfoToday(long farmComponentId);
+        Task<Sensor_Record> GetEnvInfoLastest(long farmComponentId);
     }
 }

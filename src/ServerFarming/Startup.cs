@@ -17,6 +17,7 @@ using Hangfire;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace ServerFarming
 {
@@ -46,7 +47,7 @@ namespace ServerFarming
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
             // Add Cross-Origin Requests
-            services.AddCors();
+            //services.AddCors();
 
             services.AddDbContext<FarmingDbContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("ServerFarming")));
 
@@ -65,7 +66,7 @@ namespace ServerFarming
                 //options.Lockout.MaxFailedAccessAttempts = int.MaxValue;
 
                 // Cookie settings
-                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 options.Cookies.ApplicationCookie.LoginPath = "";
                 options.Cookies.ApplicationCookie.LogoutPath = "/Logout";
                 options.Cookies.ApplicationCookie.CookieHttpOnly = true;
@@ -101,6 +102,8 @@ namespace ServerFarming
             services.AddTransient<IFarmRepository, FarmRepository>();
             services.AddTransient<IPlantRepository, PlantRepository>();
             services.AddTransient<ISensorRepository, SensorRepository>();
+            //Add Cors polucy Service
+            services.AddTransient<ICorsPolicyProvider, DefaultCorsPolicyProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -114,12 +117,13 @@ namespace ServerFarming
             // User ASP Identity
             app.UseIdentity();
 
-            app.UseCors(builder =>
-            {
-                builder.WithOrigins("http://localhost:36539", "http://localhost:5050")
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-            });
+            //app.UseCors(builder =>
+            //{
+            //    builder.WithOrigins("http://localhost:36539", "http://localhost:5050")
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader()
+            //    .AllowCredentials();
+            //});
             app.UseMvc();
 
             //RecurringJob.......

@@ -28,10 +28,10 @@ namespace ServerFarming.Core.Services.Implement
             return newFarm;
         }
 
-        public Farm_Component AddFarmComponent(FarmingComponentDTO farmComponentDTO)
+        async Task<Farm_Component> IFarmService.AddFarmComponent(FarmingComponentDTO farmComponentDTO)
         {
             var newFarmComponent = CopyFromFarmComponent(farmComponentDTO);
-            farmRepository.AddNewFarmComponent(newFarmComponent);
+            await farmRepository.AddNewFarmComponent(newFarmComponent);
             return newFarmComponent;
         }
         private Farm_Component CopyFromFarmComponent(FarmingComponentDTO farmComponentDTO)
@@ -64,9 +64,9 @@ namespace ServerFarming.Core.Services.Implement
             return await farmRepository.GetFarmByUserID(userId);
         }
 
-        public List<Farm_Component> GetFarmComponents(long farmID)
+        async Task<List<Farm_Component>> IFarmService.GetFarmComponents(long farmID)
         {
-            return farmRepository.GetFarmComponents(farmID);
+            return await farmRepository.GetFarmComponents(farmID);
         }
 
         public OverallMonthEnvironment GetOverallEnvironmentInfo(long farmComponentId)
@@ -74,9 +74,14 @@ namespace ServerFarming.Core.Services.Implement
             return farmRepository.GetOverallEnvironmentInfo(farmComponentId);
         }
 
-        public List<Sensor_Record> GetEnvInfoToday(long farmComponentId)
+        async Task<List<Sensor_Record>> IFarmService.GetEnvInfoToday(long farmComponentId)
         {
-            return farmRepository.GetEnvInfoToday(farmComponentId);
+            return await farmRepository.GetEnvInfoToday(farmComponentId);
+        }
+
+        public Task<Sensor_Record> GetEnvInfoLastest(long farmComponentId)
+        {
+            return farmRepository.GetEnvInfoLastest(farmComponentId);
         }
     }
 }
