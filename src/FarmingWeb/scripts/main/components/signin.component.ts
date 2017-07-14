@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from "@angular/http";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
@@ -10,13 +10,13 @@ import { NotificationService } from './../services/impl/notification.service';
 
 const headers: Headers = new Headers({ "Content-Type": "application/json" });
 const options: RequestOptions = new RequestOptions({ headers: headers });
-
+declare var jQuery: any;
 @Component({
     selector: 'login',
     templateUrl: './templates/main/components/signin.component.html',
     styleUrls: ['./css/main/components/signin.component.css']
 })
-export class SignInComponent {
+export class SignInComponent implements AfterViewInit{
     public loginForm: FormGroup;
     public user: LoginData = new LoginData();
     constructor(
@@ -30,6 +30,11 @@ export class SignInComponent {
             Email: ["", [Validators.required, Validators.maxLength(20)]],
             Password: ["", [Validators.required, Validators.minLength(8)]],
         });
+    }
+
+    ngAfterViewInit() {
+        //jQuery('#loader').removeClass('sk-circle');
+        //jQuery('#body').removeClass('body-colour');
     }
 
     OnLogin() {

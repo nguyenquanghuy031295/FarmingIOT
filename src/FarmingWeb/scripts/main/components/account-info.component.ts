@@ -34,7 +34,8 @@ export class AccountInfoComponent implements OnInit {
         this.authenticateService.getAccontInfo().then(
             (userInfo: AccountInfoModel) => {
                 this.userInfo = userInfo;
-                this.locateDOB = userInfo.DOB.toLocaleString().slice(0, 10);
+                if (userInfo.DOB)
+                    this.locateDOB = userInfo.DOB.toLocaleString().slice(0, 10);
             },
             (error: any) => {
 

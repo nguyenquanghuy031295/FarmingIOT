@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ServerFarming.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ServerFarming.Controllers
 {
     [Route("api/plants")]
+    [Authorize]
     public class PlantController : Controller
     {
         private readonly IPlantService plantService;

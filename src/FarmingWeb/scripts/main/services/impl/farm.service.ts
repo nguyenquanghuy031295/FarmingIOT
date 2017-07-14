@@ -36,8 +36,8 @@ export class FarmService implements IFarmService {
 
     getFarmComponent(farmId: number): Promise<FarmComponentModel[]> {
         return new Promise<any>((resolve: any, reject: any) => {
-            let filter = '?farmID=' + farmId;
-            return this.http.get(AppSetting.API_ENDPOINT + '/farms/getFarmComponents' + filter).subscribe(
+
+            return this.http.get(AppSetting.API_ENDPOINT + '/farms/getFarmComponents/' + farmId).subscribe(
                 (data: Response) => {
                     let listFarmComponents = <FarmComponentModel[]>data.json();
                     resolve(listFarmComponents);

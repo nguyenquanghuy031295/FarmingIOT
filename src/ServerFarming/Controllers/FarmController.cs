@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace ServerFarming.Controllers
 {
     [Route("api/farms")]
+    [Authorize]
     public class FarmController : Controller
     {
         private readonly IFarmService farmService;

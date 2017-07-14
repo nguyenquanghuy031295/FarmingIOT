@@ -16,8 +16,7 @@ export class PlantService implements IPlantService {
 
     getPlantDetail(farmComponentId: number): Promise<PlantDetailModel[]> {
         return new Promise<any>((resolve: any, reject: any) => {
-            let filter = '?farmComponentId=' + farmComponentId;
-            this.http.get(AppSetting.API_ENDPOINT + '/plants/detail' + filter).subscribe(
+            this.http.get(AppSetting.API_ENDPOINT + '/plants/detail/' + farmComponentId).subscribe(
                 (data: Response) => {
                     let listPlantDetail = <PlantDetailModel[]>data.json();
                     resolve(listPlantDetail);

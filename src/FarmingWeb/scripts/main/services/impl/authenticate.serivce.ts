@@ -23,7 +23,6 @@ export class AuthenticateService implements IAuthenticateService {
         return new Promise<any>((resolve: any, reject: any) => {
             this.http.post(AppSetting.API_ENDPOINT + '/authentication/signin', user, options).subscribe(
                 (res: Response) => {
-                    console.log(res);
                     resolve();
                 },
                 (error: any) => {

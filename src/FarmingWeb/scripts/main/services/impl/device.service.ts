@@ -14,8 +14,7 @@ export class DeviceService implements IDeviceService {
 
     GetSensorData(farmComponentId: number): Promise<EnvironmentInfoModel[]> {
         return new Promise<any>((resolve: any, reject: any) => {
-            let filter: string = '?farmComponentID=' + farmComponentId;
-            this.http.get(AppSetting.API_ENDPOINT + '/devices/getDataSensor' + filter).subscribe(
+            this.http.get(AppSetting.API_ENDPOINT + '/devices/getDataSensor/' + farmComponentId).subscribe(
                 (data: Response) => {
                     let listEnvironmentInfo = <EnvironmentInfoModel>data.json();
                     resolve(listEnvironmentInfo);
