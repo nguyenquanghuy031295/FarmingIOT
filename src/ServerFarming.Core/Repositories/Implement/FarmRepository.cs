@@ -32,10 +32,14 @@ namespace ServerFarming.Core.Repositories.Implement
         async Task<List<Sensor_Record>> IFarmRepository.GetEnvInfoToday(long farmComponentId)
         {
             string dateFormat = "yyyy-MM-dd";
-            var result = await _farmingContext.SensorRecords.Where(sensorData => 
-                sensorData.Timestamp.ToString(dateFormat) == DateTime.Now.ToString(dateFormat)
-                && sensorData.Farm_ComponentId == farmComponentId
-                ).ToListAsync();
+            var result = await _farmingContext.SensorRecords
+                    .Where(sensorData => 
+                        sensorData.Timestamp.ToString(dateFormat) == DateTime.Now.ToString(dateFormat)
+                        && sensorData.Farm_ComponentId == farmComponentId)
+                    .OrderByDescending(x => x.Timestamp)
+                    .Take(10)
+                    .OrderBy(x => x.Timestamp)
+                    .ToListAsync();
             return result;
         }
 
@@ -97,6 +101,19 @@ where
         public Task<Sensor_Record> GetEnvInfoLatest(long farmComponentId)
         {
             return _farmingContext.SensorRecords.OrderByDescending(x => x.Timestamp).FirstAsync();
+        }
+
+        async Task<List<Sensor_Record>> IFarmRepository.GetEnvInfoWithDate(int day, int month, int year)
+        {
+            var listEnvInfo =
+                 _farmingContext
+                    .SensorRecords
+                    .Where(x => ( x.Timestamp.Day == day && x.Timestamp.Month == month && x.Timestamp.Year == year))
+                    .OrderByDescending(x => x.Timestamp)
+                    .Take(10)
+                    .OrderBy(x => x.Timestamp)
+                    .ToListAsync();
+            return await listEnvInfo;
         }
     }
 }
