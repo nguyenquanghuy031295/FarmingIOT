@@ -83,5 +83,10 @@ namespace ServerFarming.Core.Services.Implement
         {
             return farmRepository.GetEnvInfoLastest(farmComponentId);
         }
+
+        public async Task<List<Sensor_Record>> GetEnvInfoWithDate(int day, int month, int year)
+        {
+            return await farmRepository.GetEnvInfoWithDate(day, month, year);
+        }
     }
 }
