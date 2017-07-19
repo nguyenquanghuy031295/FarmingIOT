@@ -89,5 +89,24 @@ namespace ServerFarming.Controllers
             await authenticationService.SignOut();
             return Ok();
         }
+
+        [HttpPost("changePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordCommand command)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
+            {
+                await authenticationService.ChangePassword(
+                    command.OldPassword,
+                    command.NewPassword);
+            }
+            catch (ChangePasswordException ex)
+            {
+                return BadRequest(ex.ErrorMessages);
+            }
+
+            return Ok();
+        }
     }
 }

@@ -16,5 +16,6 @@ namespace ServerFarming.Core.Services
         UserInfo GetUserInfo();
         Task SignOut();
         long GetUserId();
+        Task ChangePassword(string oldPassword, string newPassword);
     }
 }

@@ -1,15 +1,24 @@
 ﻿<h3>Environment Chart</h3>
+
+<p-calendar 
+            [ngModel]="choosenDate" 
+            (ngModelChange)="OnChangeDate($event)"
+            [showIcon]="true"
+            [dateFormat]="dateFormat">
+</p-calendar> 
+<span style="margin-left:35px"></span>
+
 <div class="row" *ngIf="envData">
     <div class="col-sm-5" *ngIf="dataTemp">
-        <p-chart type="line" [data]="dataTemp" ></p-chart>
+        <p-chart #chart type="line" [(data)]="dataTemp" ></p-chart>
     </div>
     <div class="col-sm-5 col-sm-offset-1" *ngIf="dataLum">
-        <p-chart type="line" [data]="dataLum"></p-chart>
+        <p-chart #chart type="line" [(data)]="dataLum"></p-chart>
     </div>
 </div>
 <div class="row" *ngIf="envData">
     <div class="col-sm-5" *ngIf="dataSoilHum">
-        <p-chart type="line" [data]="dataSoilHum"></p-chart>
+        <p-chart #chart type="line" [(data)]="dataSoilHum"></p-chart>
     </div>
     <div class="col-sm-5 col-sm-offset-1">
         <!-- Do Something -->

@@ -13,6 +13,7 @@ export abstract class IFarmService {
     abstract getEnvOverallMonth(farmComponentId: number): Promise<EnvOverallInfoModel>;
     abstract getEnvInfoToday(farmComponentId: number): Promise<EnvironmentInfoModel[]>;
     abstract getEnvLatest(farmComponentId: number): Promise<EnvironmentInfoModel>;
+    abstract getEnvInfoWithDate(farmComponentId: number, day: number, month: number, year: number): Promise<EnvironmentInfoModel[]>;
     abstract createFarm(farm: FarmModel): Promise<any>;
     abstract createFarmComponent(farmComponent: FarmComponentWithPlantModel): Promise<any>;
     

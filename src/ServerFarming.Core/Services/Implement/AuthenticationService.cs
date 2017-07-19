@@ -63,7 +63,7 @@ namespace ServerFarming.Core.Services.Implement
                 UserName = regCommand.Email,
                 EmailConfirmed = true
             };
-
+            
             var createUserResult = await userManager.CreateAsync(user, regCommand.Password);
 
             if (!createUserResult.Succeeded)
@@ -92,6 +92,18 @@ namespace ServerFarming.Core.Services.Implement
                 long.TryParse(userIdString, out userId);
             }
             return userId;
+        }
+
+        async Task IAuthenticationService.ChangePassword(string oldPassword, string newPassword)
+        {
+            var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext.User);
+
+            var result = await userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+            if (!result.Succeeded)
+            {
+                var errors = result.Errors.Select(e => e.Description);
+                throw new ChangePasswordException(errors);
+            }
         }
     }
 }

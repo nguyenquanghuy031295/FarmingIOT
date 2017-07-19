@@ -103,12 +103,15 @@ where
             return _farmingContext.SensorRecords.OrderByDescending(x => x.Timestamp).FirstAsync();
         }
 
-        async Task<List<Sensor_Record>> IFarmRepository.GetEnvInfoWithDate(int day, int month, int year)
+        async Task<List<Sensor_Record>> IFarmRepository.GetEnvInfoWithDate(long farmComponentId, int day, int month, int year)
         {
             var listEnvInfo =
                  _farmingContext
                     .SensorRecords
-                    .Where(x => ( x.Timestamp.Day == day && x.Timestamp.Month == month && x.Timestamp.Year == year))
+                    .Where(x => ( x.Timestamp.Day == day 
+                        && x.Timestamp.Month == month 
+                        && x.Timestamp.Year == year 
+                        && x.Farm_ComponentId == farmComponentId))
                     .OrderByDescending(x => x.Timestamp)
                     .Take(10)
                     .OrderBy(x => x.Timestamp)

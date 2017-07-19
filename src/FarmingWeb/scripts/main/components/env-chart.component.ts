@@ -1,5 +1,6 @@
-﻿import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, QueryList } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UIChart } from 'primeng/primeng'
 
 import { EnvironmentInfoModel } from './../models/environment-information.model';
 
@@ -10,15 +11,16 @@ import { IFarmService } from './../services/interface/farm-service.interface';
     templateUrl: './templates/main/components/env-chart.component.html'
 })
 export class EnvChartComponent implements OnInit, OnDestroy, AfterViewInit {
-    private data: any;
     private sub: any;
     private farmComponentId: number = 0;
     private envData: EnvironmentInfoModel[] = null;
-
+    private choosenDate: Date = new Date();
+    private dateFormat: string = "dd/mm/yy"
     private labels: string[] = [];
     private dataTemp: any;
     private dataLum: any;
     private dataSoilHum: any;
+    @ViewChildren("chart") charts: UIChart[];
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -28,31 +30,13 @@ export class EnvChartComponent implements OnInit, OnDestroy, AfterViewInit {
         this.sub = this.activatedRoute.params.subscribe(params => {
             this.farmComponentId = +params['id'];
         });
-
-        this.data = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    borderColor: '#4bc0c0'
-                },
-                {
-                    label: 'Second Dataset',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                    fill: false,
-                    borderColor: '#565656'
-                }
-            ]
-        }
     }
 
     ngOnInit() {
         this.farmService.getEnvInfoToday(this.farmComponentId).then(
             (data: EnvironmentInfoModel[]) => {
                 this.envData = data;
-                this.processData();
+                this.processData(this.envData);
             },
             (error: any) => {
 
@@ -68,21 +52,21 @@ export class EnvChartComponent implements OnInit, OnDestroy, AfterViewInit {
     ngAfterViewInit() {
     }
 
-    processData() {
-        this.getLabelsX();
-        this.processDataForTempChart();
-        this.processDataForLumChart();
-        this.processDataForSoilChart();
+    processData(envData: EnvironmentInfoModel[]) {
+        this.getLabelsX(envData);
+        this.processDataForTempChart(envData);
+        this.processDataForLumChart(envData);
+        this.processDataForSoilChart(envData);
     }
 
-    getLabelsX() {
-        this.labels = this.envData.map((envInfo: EnvironmentInfoModel) => {
+    getLabelsX(envData: EnvironmentInfoModel[]) {
+        this.labels = envData.map((envInfo: EnvironmentInfoModel) => {
             return envInfo.Timestamp.toLocaleString().slice(11);
         });
     }
 
-    processDataForTempChart() {
-        let data: number[] = this.envData.map((envInfo: EnvironmentInfoModel) => {
+    processDataForTempChart(envData: EnvironmentInfoModel[]) {
+        let data: number[] = envData.map((envInfo: EnvironmentInfoModel) => {
             return envInfo.Temperature;
         });
         this.dataTemp = {
@@ -98,8 +82,8 @@ export class EnvChartComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    processDataForLumChart() {
-        let data: number[] = this.envData.map((envInfo: EnvironmentInfoModel) => {
+    processDataForLumChart(envData: EnvironmentInfoModel[]) {
+        let data: number[] = envData.map((envInfo: EnvironmentInfoModel) => {
             return envInfo.Luminosity;
         });
         this.dataLum = {
@@ -115,8 +99,8 @@ export class EnvChartComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    processDataForSoilChart() {
-        let data: number[] = this.envData.map((envInfo: EnvironmentInfoModel) => {
+    processDataForSoilChart(envData: EnvironmentInfoModel[]) {
+        let data: number[] = envData.map((envInfo: EnvironmentInfoModel) => {
             return envInfo.Soil_Humidity;
         });
         this.dataSoilHum = {
@@ -130,5 +114,27 @@ export class EnvChartComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
             ]
         }
+    }
+
+    OnSetDataForCharts() {
+        //this.charts[0].data = this.dataTemp; //reset data for Temperature Chart
+        //this.charts[1].data = this.dataLum; //reset data for Luminosity Chart
+        //this.charts[2].data = this.dataSoilHum; //reset data for Soil Humidity Chart
+    }
+
+    OnChangeDate(event: Date) {
+        let day = event.getUTCDate() + 1;
+        let month = event.getUTCMonth() + 1;
+        let year = event.getUTCFullYear();
+        this.farmService.getEnvInfoWithDate(this.farmComponentId, day, month, year).then(
+            (data: EnvironmentInfoModel[]) => {
+                this.processData(data);
+                //this.OnSetDataForCharts();
+                this.charts.forEach(chart => setTimeout(()=> chart.reinit(),100));
+            },
+            (error: any) => {
+
+            }
+        );
     }
 }

@@ -117,4 +117,18 @@ export class FarmService implements IFarmService {
             );
         });
     }
+
+    getEnvInfoWithDate(farmComponentId: number, day: number, month: number, year: number): Promise<EnvironmentInfoModel[]> {
+        return new Promise<EnvironmentInfoModel[]>((resolve: any, reject: any) => {
+            let filter = "?day=" + day + "&month=" + month + "&year=" + year;
+            return this.http.get(AppSetting.API_ENDPOINT + '/farms/report/' + farmComponentId + '/date' + filter).subscribe(
+                (data: Response) => {
+                    let listEnvInfo = <EnvironmentInfoModel[]>data.json();
+                    resolve(listEnvInfo);
+                }, (error: any) => {
+                    reject(error);
+                }
+            );
+        });
+    }
 }

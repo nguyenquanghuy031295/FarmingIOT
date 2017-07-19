@@ -82,8 +82,8 @@ namespace ServerFarming.Controllers
             return Ok(result);
         }
 
-        [HttpGet("report/date")]
-        public async Task<IActionResult> GetEnvInfoWithDate(int day, int month, int year)
+        [HttpGet("report/{farmComponentId}/date")]
+        public async Task<IActionResult> GetEnvInfoWithDate(long farmComponentId, int day, int month, int year)
         {
             if(day< 0 || day > 31)
             {
@@ -97,7 +97,7 @@ namespace ServerFarming.Controllers
             {
                 return BadRequest();
             }
-            var listEnvInfo = await farmService.GetEnvInfoWithDate(day, month, year);
+            var listEnvInfo = await farmService.GetEnvInfoWithDate(farmComponentId, day, month, year);
             return Ok(listEnvInfo);
         }
     }

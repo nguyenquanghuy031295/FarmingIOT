@@ -12,7 +12,8 @@ import {
     DataTableModule,
     ChartModule,
     FieldsetModule,
-    SharedModule
+    SharedModule,
+    CalendarModule
 } from 'primeng/primeng';
 
 import { MainRoutesModule } from './../routes/main-routes.module';
@@ -65,6 +66,7 @@ import { GoogleMapService } from './../services/impl/google-map.service';
         DataTableModule,
         ChartModule,
         FieldsetModule,
+        CalendarModule,
         SharedModule,
         CommonModule
     ],
