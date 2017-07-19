@@ -79,9 +79,9 @@ namespace ServerFarming.Core.Services.Implement
             return await farmRepository.GetEnvInfoToday(farmComponentId);
         }
 
-        public Task<Sensor_Record> GetEnvInfoLastest(long farmComponentId)
+        public Task<Sensor_Record> GetEnvInfoLatest(long farmComponentId)
         {
-            return farmRepository.GetEnvInfoLastest(farmComponentId);
+            return farmRepository.GetEnvInfoLatest(farmComponentId);
         }
     }
 }

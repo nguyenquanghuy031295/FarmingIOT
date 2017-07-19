@@ -31,7 +31,7 @@ import { CreateFarmComponent } from './../components/farm-create.component';
 import { CreateFarmCmpComponent } from './../components/farm-component-create.component';
 import { ReportComponent } from './../components/report.component';
 import { EnvCardComponent } from './../components/env-card.component';
-import { EnvironmentOverallComponent } from './../components/environment-overall.component';
+import { EnvironmentLatestComponent } from './../components/environment-latest.component';
 import { EnvChartComponent } from './../components/env-chart.component';
 
 import { DateFormatPipe } from './../pipes/date-format.pipe';
@@ -80,7 +80,7 @@ import { GoogleMapService } from './../services/impl/google-map.service';
         EnvCardComponent,
         DateFormatPipe,
         EnvChartComponent,
-        EnvironmentOverallComponent, //fix
+        EnvironmentLatestComponent, //fix
         ReportComponent, //fix
         AppMenuComponent, //fix
         AccountInfoComponent, //fix

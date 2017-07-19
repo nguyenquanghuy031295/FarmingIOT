@@ -75,10 +75,10 @@ namespace ServerFarming.Controllers
             return Ok(listEnvInfoToday);
         }
 
-        [HttpGet("report/lastest/{farmComponentId}")]
-        public async Task<IActionResult> GetEnvInfoLastest(long farmComponentId)
+        [HttpGet("report/latest/{farmComponentId}")]
+        public async Task<IActionResult> GetEnvInfoLatest(long farmComponentId)
         {
-            var result = await farmService.GetEnvInfoLastest(farmComponentId);
+            var result = await farmService.GetEnvInfoLatest(farmComponentId);
             return Ok(result);
         }
     }

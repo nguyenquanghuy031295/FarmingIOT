@@ -16,7 +16,9 @@ const options: RequestOptions = new RequestOptions({ headers: headers });
 @Injectable()
 export class AuthenticateService implements IAuthenticateService {
     public user: UserModel = null;
-    constructor(protected http: Http
+    constructor(
+        protected http: Http,
+        private router: Router
     ) { }
 
     login(user: LoginData): Promise<any> {
@@ -65,6 +67,46 @@ export class AuthenticateService implements IAuthenticateService {
                 Address: userInfo.Address
             };
             this.http.post(AppSetting.API_ENDPOINT + '/authentication/accountInfo', userInfoCommand, options).subscribe(
+                (res: Response) => {
+                    resolve();
+                },
+                (error: any) => {
+                    reject(error);
+                });
+        });
+    }
+
+    canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
+        let url: string = route.url.join('/');
+        if (url.startsWith("signin")) {
+            return this.getAccontInfo().then(
+                () => {
+                    this.router.navigate(['farmiot/main']);
+                    return false;
+                }, () => {
+                    return true;
+                }
+            );
+        } else if (url.startsWith("farmiot")) {
+            if (this.user) {
+                return Promise.resolve(true);
+            }
+            return this.getAccontInfo().then(
+                () => {
+                    return true;
+                }, () => {
+                    return false;
+                }
+            );
+        }
+        else {
+            Promise.resolve(true);
+        }
+    }
+
+    logout(): Promise<void> {
+        return new Promise<void>((resolve: any, reject: any) => {
+            this.http.post(AppSetting.API_ENDPOINT + '/authentication/signout', null , options).subscribe(
                 (res: Response) => {
                     resolve();
                 },

@@ -1,22 +1,22 @@
-﻿<h3>Environment Overall in This Month</h3>
-<div class="row" *ngIf="envOverallInfo">
+﻿<h3>Environment Latest</h3>
+<div class="row" *ngIf="envLatestInfo">
     <div class="col-sm-4">
         <env-card [title]="'Temperature'"
-                  [data]="envOverallInfo.Temperature"
+                  [data]="envLatestInfo.Temperature"
                   [symbol]="'&#8451;'"
                   [srcImg]="imgTemp">
         </env-card>
     </div>
     <div class="col-sm-4">
         <env-card [title]="'Luminosity'"
-                  [data]="envOverallInfo.Luminosity"
+                  [data]="envLatestInfo.Luminosity"
                   [symbol]="'lx'"
                   [srcImg]="imgLum">
         </env-card>
     </div>
     <div class="col-sm-4">
         <env-card [title]="'Soil Humidity'"
-                  [data]="envOverallInfo.Soil_Humidity"
+                  [data]="envLatestInfo.Soil_Humidity"
                   [symbol]="'%'"
                   [srcImg]="imgSoil">
         </env-card>

@@ -15,6 +15,6 @@ namespace ServerFarming.Core.Services
         Task<List<Farm_Component>> GetFarmComponents(long userID);
         OverallMonthEnvironment GetOverallEnvironmentInfo(long farmComponentId);
         Task<List<Sensor_Record>> GetEnvInfoToday(long farmComponentId);
-        Task<Sensor_Record> GetEnvInfoLastest(long farmComponentId);
+        Task<Sensor_Record> GetEnvInfoLatest(long farmComponentId);
     }
 }

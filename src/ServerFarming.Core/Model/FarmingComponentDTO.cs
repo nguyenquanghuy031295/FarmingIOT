@@ -8,7 +8,6 @@ namespace ServerFarming.Core.Model
 {
     public class FarmingComponentDTO
     {
-        [StringLength(maximumLength: 20, MinimumLength = 6, ErrorMessage = "Name Length: 6-20 characters")]
         public string Name { get; set; }
         public Nullable<double> Position_Lat { get; set; }
         public Nullable<double> Position_Lng { get; set; }

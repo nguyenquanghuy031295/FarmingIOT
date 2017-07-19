@@ -94,7 +94,7 @@ where
             return result;
         }
 
-        public Task<Sensor_Record> GetEnvInfoLastest(long farmComponentId)
+        public Task<Sensor_Record> GetEnvInfoLatest(long farmComponentId)
         {
             return _farmingContext.SensorRecords.OrderByDescending(x => x.Timestamp).FirstAsync();
         }

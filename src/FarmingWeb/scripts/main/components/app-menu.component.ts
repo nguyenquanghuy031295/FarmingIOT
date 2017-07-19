@@ -1,5 +1,8 @@
 ﻿import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { IAuthenticateService } from './../services/interface/authenticate.-service.interface';
+
 @Component({
     selector: 'app-menu',
     templateUrl: './templates/main/components/app-menu.component.html',
@@ -7,7 +10,8 @@ import { Router } from '@angular/router';
 })
 export class AppMenuComponent {
     constructor(
-        private router: Router
+        private router: Router,
+        private authenticateService: IAuthenticateService
     ) { }
 
     navigateToProfile() {
@@ -20,5 +24,15 @@ export class AppMenuComponent {
 
     navigateToMain() {
         this.router.navigate(['farmiot/main']);
+    }
+
+    OnSignOut() {
+        this.authenticateService.logout().then(
+            () => {
+                this.router.navigate(['signin']);
+            }, () => {
+
+            }
+        );
     }
 }

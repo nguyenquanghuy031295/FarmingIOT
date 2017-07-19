@@ -1,16 +1,16 @@
 ﻿import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { EnvOverallInfoModel } from './../models/env-overall-info.model';
+import { EnvironmentInfoModel } from './../models/environment-information.model';
 
 import { IFarmService } from './../services/interface/farm-service.interface';
 
 @Component({
-    selector: 'env-overall',
-    templateUrl: './templates/main/components/environment-overall.component.html'
+    selector: 'env-latest',
+    templateUrl: './templates/main/components/environment-latest.component.html'
 })
-export class EnvironmentOverallComponent implements OnInit, OnDestroy, AfterViewInit {
-    public envOverallInfo: EnvOverallInfoModel = null;
+export class EnvironmentLatestComponent implements OnInit, OnDestroy, AfterViewInit {
+    public envLatestInfo: EnvironmentInfoModel = null;
 
     private imgTemp: string = "../../../images/temperature.png";
     private imgLum: string = "../../../images/lamp.png";
@@ -28,9 +28,9 @@ export class EnvironmentOverallComponent implements OnInit, OnDestroy, AfterView
         });
     }
     ngOnInit() {
-        this.farmService.getEnvOverallMonth(this.farmComponentId).then(
-            (data: EnvOverallInfoModel) => {
-                this.envOverallInfo = data;
+        this.farmService.getEnvLatest(this.farmComponentId).then(
+            (data: EnvironmentInfoModel) => {
+                this.envLatestInfo = data;
             },
             (error: any) => {
 

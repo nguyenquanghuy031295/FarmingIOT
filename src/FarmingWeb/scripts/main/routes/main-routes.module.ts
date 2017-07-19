@@ -11,12 +11,14 @@ import { CreateFarmComponent } from './../components/farm-create.component';
 import { CreateFarmCmpComponent } from './../components/farm-component-create.component';
 import { ReportComponent } from './../components/report.component';
 
+import { IAuthenticateService } from './../services/interface/authenticate.-service.interface';
+
 const routes: Routes = [
     { path: '', component: NullComponent },
-    { path: 'signin', component: SignInComponent },
+    { path: 'signin', canActivate: [IAuthenticateService], component: SignInComponent },
     { path: 'signup', component: SignupComponent },
     {
-        path: 'farmiot', component: MainComponent, children:[
+        path: 'farmiot', canActivate: [IAuthenticateService], component: MainComponent, children:[
             { path: "", redirectTo: "main", pathMatch: "prefix" },
             { path: "main", component: MainPageComponent },
             { path: "profile", component: AccountInfoComponent },

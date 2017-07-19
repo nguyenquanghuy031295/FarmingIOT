@@ -75,6 +75,7 @@ export class FarmService implements IFarmService {
         });
     }
 
+    // obsolete
     getEnvOverallMonth(farmComponentId: number): Promise<EnvOverallInfoModel> {
         return new Promise<any>((resolve: any, reject: any) => {
             return this.http.get(AppSetting.API_ENDPOINT + '/farms/report/overallmonth/' + farmComponentId).subscribe(
@@ -95,6 +96,20 @@ export class FarmService implements IFarmService {
                 (data: Response) => {
                     let listEnvInfoToday = <EnvironmentInfoModel[]>data.json();
                     resolve(listEnvInfoToday);
+                },
+                (error: any) => {
+                    reject(error);
+                }
+            );
+        });
+    }
+
+    getEnvLatest(farmComponentId: number): Promise<EnvironmentInfoModel> {
+        return new Promise<any>((resolve: any, reject: any) => {
+            return this.http.get(AppSetting.API_ENDPOINT + '/farms/report/latest/' + farmComponentId).subscribe(
+                (data: Response) => {
+                    let envLatestInfo = <EnvironmentInfoModel>data.json();
+                    resolve(envLatestInfo);
                 },
                 (error: any) => {
                     reject(error);
