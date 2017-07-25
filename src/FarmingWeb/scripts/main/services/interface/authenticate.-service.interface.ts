@@ -10,6 +10,7 @@ export abstract class IAuthenticateService implements CanActivate {
     abstract user: UserModel;
     abstract login(user: LoginData): Promise<any>;
     abstract register(user: RegisterModel): Promise<void>;
+    abstract changePassword(currentPassword: string, newPassword: string): Promise<void>;
     abstract getAccontInfo(): Promise<AccountInfoModel>;
     abstract editAccountInfo(userInfo: AccountInfoModel): Promise<any>;
     abstract canActivate(route: ActivatedRouteSnapshot): Promise<boolean>;

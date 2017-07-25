@@ -115,4 +115,21 @@ export class AuthenticateService implements IAuthenticateService {
                 });
         });
     }
+
+    changePassword(currentPassword: string, newPassword: string): Promise<void> {
+        let changePasswordCommand: any = {
+            OldPassword: currentPassword,
+            NewPassword: newPassword
+        };
+        return new Promise<void>((resolve: any, reject: any) => {
+            this.http.post(AppSetting.API_ENDPOINT + '/authentication/changePassword', changePasswordCommand, options).subscribe(
+                (res: Response) => {
+                    resolve();
+                },
+                (error: any) => {
+                    reject(error);
+                }
+            );
+        });
+    }
 }
