@@ -13,7 +13,10 @@
 
     "project": "web-sale",
     "rootDir": "scripts",
-    "outFile": "dist/farmingweb.js"
+    "outFile": "dist/farmingweb.js",
+    "types": [
+      "node"
+    ]
   },
   "baseUrl": ".",
   "paths": {
