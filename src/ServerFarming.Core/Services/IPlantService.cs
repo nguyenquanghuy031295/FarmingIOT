@@ -1,4 +1,5 @@
 ﻿using FarmingDatabase.Model;
+using ServerFarming.Core.Command;
 using ServerFarming.Core.Model;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace ServerFarming.Core.Services
         Task<PlantType> AddPlant(FarmingComponentDTO farmingComponentDTO, long farmComponentId);
         List<PlantDetail> GetPlantDetail(long farmComponentId);
         List<PlantKB> GetAllPlant();
+        ChangePeriodSignal AskChangePeriod(long farmComponentId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FarmingDatabase.Model;
+using ServerFarming.Core.Command;
 using ServerFarming.Core.Model;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace ServerFarming.Core.Repositories
         Task AddNewPlant(PlantType plant);
         List<PlantDetail> GetPlantDetail(long farmComponentId);
         List<PlantKB> GetAllPlant();
+        ChangePeriodSignal IsLastPeriod(long farmComponentId);
     }
 }

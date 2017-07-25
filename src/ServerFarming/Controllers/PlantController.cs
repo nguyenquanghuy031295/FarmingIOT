@@ -31,5 +31,11 @@ namespace ServerFarming.Controllers
             var listPlant = plantService.GetAllPlant();
             return Ok(listPlant);
         }
+        [HttpGet("changePeriod/{farmComponentId}")]
+        public IActionResult AskChangePeriod(long farmComponentId)
+        {
+            var signal = plantService.AskChangePeriod(farmComponentId);
+            return Ok(signal);
+        }
     }
 }

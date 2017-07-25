@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FarmingDatabase.Model;
 using FarmingDatabase.DatabaseContext;
 using ServerFarming.Core.Model;
+using ServerFarming.Core.Command;
 
 namespace ServerFarming.Core.Repositories.Implement
 {
@@ -48,6 +49,31 @@ namespace ServerFarming.Core.Repositories.Implement
                 });
             }
             return result;
+        }
+
+        public ChangePeriodSignal IsLastPeriod(long farmComponentId)
+        {
+            var plant = _farmingContext.Plants.Where(x => x.Farm_ComponentId == farmComponentId).FirstOrDefault();
+            var curPeriod = plant.CurPeriod;
+            var plantId = plant.PlantKBId;
+            var lastPeriod = _farmingContext.Periods
+                .Where(x => x.PlantKBId == plantId)
+                .OrderByDescending(x => x.Period)
+                .First();
+            if(curPeriod == lastPeriod.Period)
+            {
+                return new ChangePeriodSignal
+                {
+                    Signal = false
+                };
+            }
+            else
+            {
+                return new ChangePeriodSignal
+                {
+                    Signal = true
+                };
+            }
         }
     }
 }

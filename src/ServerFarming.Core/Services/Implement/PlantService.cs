@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FarmingDatabase.Model;
+using ServerFarming.Core.Command;
 using ServerFarming.Core.Model;
 using ServerFarming.Core.Repositories;
 
@@ -44,6 +45,11 @@ namespace ServerFarming.Core.Services.Implement
                 StartDayCurPeriod = 0
             };
             return Plant;
+        }
+
+        public ChangePeriodSignal AskChangePeriod(long farmComponentId)
+        {
+            return plantRepository.IsLastPeriod(farmComponentId);
         }
     }
 }
