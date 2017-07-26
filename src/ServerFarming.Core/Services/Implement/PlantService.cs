@@ -6,15 +6,19 @@ using FarmingDatabase.Model;
 using ServerFarming.Core.Command;
 using ServerFarming.Core.Model;
 using ServerFarming.Core.Repositories;
+using ServerFarming.Core.Exceptions;
 
 namespace ServerFarming.Core.Services.Implement
 {
     public class PlantService : IPlantService
     {
         private readonly IPlantRepository plantRepository;
-        public PlantService(IPlantRepository plantRepository)
+        private readonly IAuthenticationService authenticationService;
+        public PlantService(IPlantRepository plantRepository,
+            IAuthenticationService authenticationService)
         {
             this.plantRepository = plantRepository;
+            this.authenticationService = authenticationService;
         }
         async Task<PlantType> IPlantService.AddPlant(FarmingComponentDTO farmingComponentDTO, long farmComponentId)
         {
@@ -49,7 +53,55 @@ namespace ServerFarming.Core.Services.Implement
 
         public ChangePeriodSignal AskChangePeriod(long farmComponentId)
         {
-            return plantRepository.IsLastPeriod(farmComponentId);
+            try
+            {
+                var isLastPeriod = plantRepository.IsLastPeriod(farmComponentId);
+                if (isLastPeriod)
+                {
+                    return new ChangePeriodSignal
+                    {
+                        Signal = SignalPeriod.IsLastPeroid
+                    };
+                }
+                var isEnoughDay = plantRepository.IsEnoughDayToChangePeriod(farmComponentId);
+                if (isEnoughDay)
+                {
+                    return new ChangePeriodSignal
+                    {
+                        Signal = SignalPeriod.IsAvailable
+                    };
+                }
+                else
+                {
+                    return new ChangePeriodSignal
+                    {
+                        Signal = SignalPeriod.IsNotEnoughDay
+                    };
+                }
+            }
+            catch(ChangePeriodException e)
+            {
+                return new ChangePeriodSignal
+                {
+                    Signal = SignalPeriod.IsNotAvailable
+                };
+            }
+        }
+
+        public PeriodDetail GetNextPeriodDetail(long farmComponentId)
+        {
+            return plantRepository.GetNextPeriod(farmComponentId);
+        }
+
+        async Task IPlantService.ChangeNextPeriod(long farmComponentId)
+        {
+            await plantRepository.ChangeNextPeriod(farmComponentId);
+        }
+
+        public bool CheckUserHaveFarmComponent(long farmComponentId)
+        {
+            var userId = authenticationService.GetUserId();
+            return plantRepository.CheckFarmComponentWithUserId(userId,farmComponentId);
         }
     }
 }

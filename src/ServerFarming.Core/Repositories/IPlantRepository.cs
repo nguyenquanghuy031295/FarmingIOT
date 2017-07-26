@@ -13,6 +13,10 @@ namespace ServerFarming.Core.Repositories
         Task AddNewPlant(PlantType plant);
         List<PlantDetail> GetPlantDetail(long farmComponentId);
         List<PlantKB> GetAllPlant();
-        ChangePeriodSignal IsLastPeriod(long farmComponentId);
+        Boolean IsLastPeriod(long farmComponentId);
+        PeriodDetail GetNextPeriod(long farmComponentId);
+        Boolean IsEnoughDayToChangePeriod(long farmComponentId);
+        Task ChangeNextPeriod(long farmComponentId);
+        Boolean CheckFarmComponentWithUserId(long userId,long farmComponentId);
     }
 }

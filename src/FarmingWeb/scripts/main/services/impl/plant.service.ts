@@ -3,6 +3,7 @@ import { Http, Headers, RequestOptions, Response } from "@angular/http";
 
 import { PlantDetailModel } from './../../models/plant-detail.model';
 import { PlantModel } from './../../models/plant.model';
+import { ChangePeriodSignal } from './../../models/change-period-signal.model';
 
 import { IPlantService } from './../interface/plant-service.interface';
 
@@ -34,6 +35,20 @@ export class PlantService implements IPlantService {
                 (data: Response) => {
                     let listPlantDetail = <PlantModel[]>data.json();
                     resolve(listPlantDetail);
+                },
+                (error: any) => {
+                    reject(error);
+                }
+            );
+        });
+    }
+
+    askChangePeriod(farmComponentId: number): Promise<ChangePeriodSignal> {
+        return new Promise<ChangePeriodSignal>((resolve: any, reject: any) => {
+            this.http.get(AppSetting.API_ENDPOINT + '/plants/changePeriod/' + farmComponentId).subscribe(
+                (data: Response) => {
+                    let signal = <ChangePeriodSignal>data.json();
+                    resolve(signal);
                 },
                 (error: any) => {
                     reject(error);

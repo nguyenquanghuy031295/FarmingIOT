@@ -14,5 +14,8 @@ namespace ServerFarming.Core.Services
         List<PlantDetail> GetPlantDetail(long farmComponentId);
         List<PlantKB> GetAllPlant();
         ChangePeriodSignal AskChangePeriod(long farmComponentId);
+        PeriodDetail GetNextPeriodDetail(long farmComponentId);
+        Task ChangeNextPeriod(long farmComponentId);
+        Boolean CheckUserHaveFarmComponent(long farmComponentId);
     }
 }

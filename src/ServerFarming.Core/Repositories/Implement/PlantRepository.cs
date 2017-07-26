@@ -6,6 +6,7 @@ using FarmingDatabase.Model;
 using FarmingDatabase.DatabaseContext;
 using ServerFarming.Core.Model;
 using ServerFarming.Core.Command;
+using ServerFarming.Core.Exceptions;
 
 namespace ServerFarming.Core.Repositories.Implement
 {
@@ -51,9 +52,11 @@ namespace ServerFarming.Core.Repositories.Implement
             return result;
         }
 
-        public ChangePeriodSignal IsLastPeriod(long farmComponentId)
+        public Boolean IsLastPeriod(long farmComponentId)
         {
             var plant = _farmingContext.Plants.Where(x => x.Farm_ComponentId == farmComponentId).FirstOrDefault();
+            if (plant == null)
+                throw new ChangePeriodException("No Plant in This Farm Component");
             var curPeriod = plant.CurPeriod;
             var plantId = plant.PlantKBId;
             var lastPeriod = _farmingContext.Periods
@@ -62,18 +65,65 @@ namespace ServerFarming.Core.Repositories.Implement
                 .First();
             if(curPeriod == lastPeriod.Period)
             {
-                return new ChangePeriodSignal
-                {
-                    Signal = false
-                };
+                return true;
             }
             else
             {
-                return new ChangePeriodSignal
-                {
-                    Signal = true
-                };
+                return false;
             }
+        }
+
+        public PeriodDetail GetNextPeriod(long farmComponentId)
+        {
+            var plant = _farmingContext.Plants.Where(x => x.Farm_ComponentId == farmComponentId).FirstOrDefault();
+            if (plant == null)
+                throw new ChangePeriodException("No Plant in This Farm Component");
+            var curPeriod = plant.CurPeriod;
+            var plantId = plant.PlantKBId;
+            var nextPeriod = _farmingContext.Periods
+                .Where(x => x.PlantKBId == plantId && x.Period == curPeriod + 1)
+                .First();
+            var periodDetail = (PeriodDetail)nextPeriod;
+            return periodDetail;
+        }
+
+        public bool IsEnoughDayToChangePeriod(long farmComponentId)
+        {
+            var plant = _farmingContext.Plants.Where(x => x.Farm_ComponentId == farmComponentId).FirstOrDefault();
+            if (plant == null)
+                throw new ChangePeriodException("No Plant in This Farm Component");
+            var today = DateTime.Now;
+            var dayPassedInPeriod = (int)(today - plant.StartPlantDate).TotalDays - plant.StartDayCurPeriod;
+            var curPeriod = _farmingContext.Periods
+                .Where(x => x.Period == plant.CurPeriod)
+                .First();
+            if (dayPassedInPeriod < curPeriod.Duration_Min)
+                return false;
+            return true;
+        }
+
+        async Task IPlantRepository.ChangeNextPeriod(long farmComponentId)
+        {
+            var today = DateTime.Now;
+            var plant = _farmingContext.Plants
+                .Where(x => x.Farm_ComponentId == farmComponentId)
+                .OrderByDescending(x => x.StartPlantDate)
+                .First();
+            var dayPassedInPeriod = (int)(today - plant.StartPlantDate).TotalDays - plant.StartDayCurPeriod;
+            plant.CurPeriod += 1;
+            plant.StartDayCurPeriod += dayPassedInPeriod;
+            _farmingContext.Entry(plant).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            await _farmingContext.SaveChangesAsync();
+        }
+
+        public bool CheckFarmComponentWithUserId(long userId, long farmComponentId)
+        {
+            var farms = _farmingContext.Farms.Where(x => x.UserId == userId);
+            var farmComponent = _farmingContext.FarmComponents.Where(x => x.Farm_ComponentId == farmComponentId);
+            if (farmComponent.Count() > 0)
+                return farms.Where(x => x.FarmId == farmComponent.First().FarmId).Count() > 0;
+            else
+                return false;
         }
     }
 }

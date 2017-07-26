@@ -6,6 +6,8 @@ import { FarmModel } from './../models/farm.model';
 import { FarmComponentModel } from './../models/farm-component.model';
 import { PlantDetailModel } from './../models/plant-detail.model';
 import { EnvironmentInfoModel } from './../models/environment-information.model';
+import { ChangePeriodSignal, SignalPeriod } from './../models/change-period-signal.model';
+
 import { IFarmService } from './../services/interface/farm-service.interface';
 import { IAuthenticateService } from './../services/interface/authenticate.-service.interface';
 import { IPlantService } from './../services/interface/plant-service.interface';
@@ -27,6 +29,9 @@ export class MainPageComponent implements OnInit {
     public watchPlantDetail: boolean = false;
     public plantDetails: PlantDetailModel[] = [];
     public sensorData: EnvironmentInfoModel[] = [];
+    public hasNextPeriod: boolean = false;
+    public signalPeriod: SignalPeriod;
+    public showDialogNextPeriod: boolean = false;
 
     constructor(
         private router: Router,
@@ -69,6 +74,20 @@ export class MainPageComponent implements OnInit {
             },
             (error: any) => {
 
+            }
+        );
+        this.plantService.askChangePeriod(this.selectedFarmComponent).then(
+            (data: ChangePeriodSignal) => {
+                this.signalPeriod = data.Signal;
+                if (data.Signal == SignalPeriod.IsAvailable || data.Signal == SignalPeriod.IsNotEnoughDay) {
+                    this.hasNextPeriod = true;
+                }
+                else {
+                    this.hasNextPeriod = false;
+                }
+            },
+            (error: any) => {
+                this.hasNextPeriod = false;
             }
         );
     }
@@ -116,5 +135,10 @@ export class MainPageComponent implements OnInit {
 
     onCreateNewFarmCmp() {
         this.router.navigate(['farmiot/farm/', this.selectedFarm.FarmId, 'newfarmcmp']);
+    }
+
+    onWatchNextPeriod() {
+        this.showDialogNextPeriod = true;
+
     }
 }

@@ -6,6 +6,7 @@
 </div>
 <button pButton type="button" (click)="onWatchPlantDetail()" label="View Plant Detail" *ngIf="selectedFarm.FarmId!=0 && selectedFarmComponent"></button>
 <button pButton type="button" (click)="onWatchReport()" label="View Environment Info" *ngIf="selectedFarmComponent"></button>
+<button pButton type="button" (click)="onWatchNextPeriod()" label="View Next Period Info" *ngIf="hasNextPeriod && selectedFarmComponent"></button>
 <control-sensor *ngIf="selectedFarmComponent" style="float:right"></control-sensor>
 <p-panel *ngIf="selectedFarm.FarmId != 0" [header]="selectedFarm.Name" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
     {{createFarmDetail(selectedFarm)}}
@@ -30,3 +31,6 @@
     </p-column>
    
 </p-dataTable>
+<!--<p-dialog header="Next Period Info" [(visible)]="showDialogNextPeriod" modal="modal" width="300" [responsive]="true">
+
+</p-dialog>-->
