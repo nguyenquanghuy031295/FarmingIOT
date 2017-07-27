@@ -46,7 +46,11 @@ namespace ServerFarming.Controllers
                 var nextPeriod = plantService.GetNextPeriodDetail(farmComponentId);
                 return Ok(nextPeriod);
             }
-            catch (ChangePeriodException e)
+            catch (ChangePeriodException ex)
+            {
+                return BadRequest();
+            }
+            catch(UnAuthorizedException ex)
             {
                 return BadRequest();
             }

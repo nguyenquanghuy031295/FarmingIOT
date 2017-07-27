@@ -3,6 +3,9 @@
         <h4>{{title}}</h4>
         <hr>
         <img src="{{srcImg}}" alt="Avatar" style="width:60px;margin-bottom:20px">
-        <h3 style="float:right">{{data | number:'2.1-2'}} {{symbol}}</h3><br>
+        <h3 style="float:right" *ngIf="isNumber(data)">{{data | number:'2.1-2'}} {{symbol}}</h3>
+        <br *ngIf="isNumber(data)">
+        <h3 style="float:right" *ngIf="isString(data)">{{data}} {{symbol}}</h3>
+        <br *ngIf="isString(data)">
     </div>
 </div>

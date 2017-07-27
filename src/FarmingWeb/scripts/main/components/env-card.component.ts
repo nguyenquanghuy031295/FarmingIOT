@@ -9,11 +9,19 @@ import { Router } from '@angular/router';
 })
 export class EnvCardComponent {
     @Input() title: string = "";
-    @Input() data: number = 0.0;
+    @Input() data: number | string;
     @Input() symbol: string = "";
     @Input() srcImg: string = "../../../images/default.png";
     constructor(
         private router: Router
     ) {
+    }
+
+    isNumber(val: any) {
+        return typeof val === 'number';
+    }
+
+    isString(val: any) {
+        return typeof val === 'string';
     }
 }

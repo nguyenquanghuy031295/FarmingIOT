@@ -10,6 +10,8 @@ import { AccountInfoComponent } from './../components/account-info.component';
 import { CreateFarmComponent } from './../components/farm-create.component';
 import { CreateFarmCmpComponent } from './../components/farm-component-create.component';
 import { ReportComponent } from './../components/report.component';
+import { PageNotFoundComponent } from './../components/page-not-found.component';
+import { NextPeriodDetailComponent } from './../components/next-period-detail.component';
 
 import { IAuthenticateService } from './../services/interface/authenticate.-service.interface';
 
@@ -24,9 +26,11 @@ const routes: Routes = [
             { path: "profile", component: AccountInfoComponent },
             { path: "newfarm", component: CreateFarmComponent },
             { path: "farm/:id/newfarmcmp", component: CreateFarmCmpComponent },
-            { path: "farm/component/:id", component: ReportComponent }
+            { path: "farm/component/:id", component: ReportComponent },
+            { path: "farm/component/nextperiod/:id", component: NextPeriodDetailComponent}
         ]
     },
+    { path: "**", component: PageNotFoundComponent }
 ];
 
 @NgModule({

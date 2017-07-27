@@ -7,6 +7,7 @@ using FarmingDatabase.Model;
 using ServerFarming.Core.Services;
 using ServerFarming.Core.Model;
 using Microsoft.AspNetCore.Authorization;
+using ServerFarming.Core.Exceptions;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -78,8 +79,14 @@ namespace ServerFarming.Controllers
         [HttpGet("report/latest/{farmComponentId}")]
         public async Task<IActionResult> GetEnvInfoLatest(long farmComponentId)
         {
-            var result = await farmService.GetEnvInfoLatest(farmComponentId);
-            return Ok(result);
+            try
+            {
+                var result = await farmService.GetEnvInfoLatest(farmComponentId);
+                return Ok(result);
+            }
+            catch(NoDataException ex) {
+                return BadRequest();
+            }
         }
 
         [HttpGet("report/{farmComponentId}/date")]

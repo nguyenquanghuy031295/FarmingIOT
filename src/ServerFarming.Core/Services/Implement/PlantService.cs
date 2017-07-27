@@ -90,7 +90,16 @@ namespace ServerFarming.Core.Services.Implement
 
         public PeriodDetail GetNextPeriodDetail(long farmComponentId)
         {
-            return plantRepository.GetNextPeriod(farmComponentId);
+            var userId = authenticationService.GetUserId();
+            var isOwned = plantRepository.CheckFarmComponentWithUserId(userId, farmComponentId);
+            if (isOwned)
+            {
+                return plantRepository.GetNextPeriod(farmComponentId);
+            }
+            else
+            {
+                throw new UnAuthorizedException("This Farm Component is not yours!");
+            }
         }
 
         async Task IPlantService.ChangeNextPeriod(long farmComponentId)

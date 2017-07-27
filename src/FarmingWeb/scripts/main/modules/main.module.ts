@@ -14,6 +14,7 @@ import {
     FieldsetModule,
     SharedModule,
     CalendarModule,
+    ConfirmDialogModule,
     DialogModule
 } from 'primeng/primeng';
 
@@ -35,6 +36,8 @@ import { ReportComponent } from './../components/report.component';
 import { EnvCardComponent } from './../components/env-card.component';
 import { EnvironmentLatestComponent } from './../components/environment-latest.component';
 import { EnvChartComponent } from './../components/env-chart.component';
+import { NextPeriodDetailComponent } from './../components/next-period-detail.component';
+import { PageNotFoundComponent } from './../components/page-not-found.component';
 
 import { DateFormatPipe } from './../pipes/date-format.pipe';
 
@@ -69,6 +72,7 @@ import { GoogleMapService } from './../services/impl/google-map.service';
         FieldsetModule,
         CalendarModule,
         DialogModule,
+        ConfirmDialogModule,
         SharedModule,
         CommonModule
     ],
@@ -84,6 +88,8 @@ import { GoogleMapService } from './../services/impl/google-map.service';
         EnvCardComponent,
         DateFormatPipe,
         EnvChartComponent,
+        PageNotFoundComponent,
+        NextPeriodDetailComponent, //fix
         EnvironmentLatestComponent, //fix
         ReportComponent, //fix
         AppMenuComponent, //fix

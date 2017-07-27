@@ -7,6 +7,7 @@ using FarmingDatabase.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using ServerFarming.Core.Model;
 using System.Data.Common;
+using ServerFarming.Core.Exceptions;
 
 namespace ServerFarming.Core.Repositories.Implement
 {
@@ -100,7 +101,11 @@ where
 
         public Task<Sensor_Record> GetEnvInfoLatest(long farmComponentId)
         {
-            return _farmingContext.SensorRecords.OrderByDescending(x => x.Timestamp).FirstAsync();
+            var sensorDatas = _farmingContext.SensorRecords.OrderByDescending(x => x.Timestamp);
+            if (sensorDatas.Count() == 0)
+                throw new NoDataException("No Sensor Data in Database");
+            else
+                return sensorDatas.FirstAsync();
         }
 
         async Task<List<Sensor_Record>> IFarmRepository.GetEnvInfoWithDate(long farmComponentId, int day, int month, int year)

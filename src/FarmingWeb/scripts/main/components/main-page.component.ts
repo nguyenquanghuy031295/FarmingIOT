@@ -138,7 +138,6 @@ export class MainPageComponent implements OnInit {
     }
 
     onWatchNextPeriod() {
-        this.showDialogNextPeriod = true;
-
+        this.router.navigate(['farmiot/farm/component/nextperiod', this.selectedFarmComponent]);
     }
 }
