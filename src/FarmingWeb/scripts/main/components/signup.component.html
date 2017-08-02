@@ -1,11 +1,11 @@
 ﻿<div class="register-page">
     <div class="form">
         <form [formGroup]="registerForm" class="register-form" (ngSubmit)="OnSignup()">
-            <input formControlName="Email" [(ngModel)]="registerData.Email" type="text" placeholder="email address" />
-            <input formControlName="Password" [(ngModel)]="registerData.Password" type="password" placeholder="password" />
-            <input formControlName="UserName" [(ngModel)]="registerData.Name" type="text" placeholder="name" />
-            <button [disabled]="!registerForm.valid">create</button>
-            <p class="message">Already registered? <a (click)="ChangeToSignIn()">Sign In</a></p>
+            <input formControlName="Email" [(ngModel)]="registerData.Email" type="text" placeholder="Email" />
+            <input formControlName="Password" [(ngModel)]="registerData.Password" type="password" placeholder="Mật khẩu" />
+            <input formControlName="UserName" [(ngModel)]="registerData.Name" type="text" placeholder="Tên người dùng" />
+            <button [disabled]="!registerForm.valid">Tạo tài khoản</button>
+            <p class="message">Bạn đã có tài khoản rồi??? <a (click)="ChangeToSignIn()">Đăng nhập</a></p>
         </form>
     </div>
 </div>

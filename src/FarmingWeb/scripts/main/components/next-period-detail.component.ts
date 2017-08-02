@@ -82,8 +82,8 @@ export class NextPeriodDetailComponent implements OnInit {
 
     onConfirm() {
         this.confirmService.confirm({
-            message: 'Are you sure that you want to change Period?',
-            header: 'Confirmation',
+            message: 'Bạn có chắc là muốn đổi chu kỳ cho cây?',
+            header: 'Xác nhận',
             icon: 'fa fa-question-circle',
             accept: () => {
                 this.onChangePeriod();

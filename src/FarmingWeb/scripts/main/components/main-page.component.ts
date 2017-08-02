@@ -42,7 +42,7 @@ export class MainPageComponent implements OnInit {
         private googleMapService: GoogleMapService
     ) {
         this.farms.push({
-            label: 'Select Farm',
+            label: 'Chọn nông trại',
             value: new FarmModel()
         });
     }
@@ -118,16 +118,16 @@ export class MainPageComponent implements OnInit {
 
     createFarmDetail(farm: FarmModel): string {
         let farmDetail: string = `
-            Address: ${farm.Address};
-            Lat: ${farm.Position_Lat};
-            Lng: ${farm.Position_Lng}
+            Địa chỉ: ${farm.Address};
+            Vĩ độ: ${farm.Position_Lat};
+            Kinh độ: ${farm.Position_Lng}
         `;
         return farmDetail;
     }
 
     initialFarmComponentDropdown(farmComponents: FarmComponentModel[]) {
         this.farmComponents = [];
-        this.farmComponents.push({ label: 'Select Farm Component', value: 0 });
+        this.farmComponents.push({ label: 'Chọn vườn', value: 0 });
         farmComponents.forEach(farmComponent => {
             this.farmComponents.push({ label: farmComponent.Name, value: farmComponent.Farm_ComponentId });
         });

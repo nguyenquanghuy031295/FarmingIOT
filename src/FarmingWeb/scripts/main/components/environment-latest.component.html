@@ -1,21 +1,21 @@
-﻿<h3>Environment Latest</h3>
+﻿<h3>Dữ liệu môi trường gần đây</h3>
 <div class="row" *ngIf="envLatestInfo">
     <div class="col-sm-4">
-        <env-card [title]="'Temperature'"
+        <env-card [title]="'Nhiệt độ'"
                   [data]="envLatestInfo.Temperature"
                   [symbol]="'&#8451;'"
                   [srcImg]="imgTemp">
         </env-card>
     </div>
     <div class="col-sm-4">
-        <env-card [title]="'Luminosity'"
+        <env-card [title]="'Ánh sáng'"
                   [data]="envLatestInfo.Luminosity"
                   [symbol]="'lx'"
                   [srcImg]="imgLum">
         </env-card>
     </div>
     <div class="col-sm-4">
-        <env-card [title]="'Soil Humidity'"
+        <env-card [title]="'Độ ẩm đất'"
                   [data]="envLatestInfo.Soil_Humidity"
                   [symbol]="'%'"
                   [srcImg]="imgSoil">
