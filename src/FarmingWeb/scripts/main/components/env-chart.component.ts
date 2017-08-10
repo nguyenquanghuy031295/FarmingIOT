@@ -15,6 +15,7 @@ export class EnvChartComponent implements OnInit, OnDestroy, AfterViewInit {
     private farmComponentId: number = 0;
     private envData: EnvironmentInfoModel[] = null;
     private choosenDate: Date = new Date();
+    private maxDate: Date = new Date();
     private dateFormat: string = "dd/mm/yy"
     private labels: string[] = [];
     private dataTemp: any;
@@ -73,7 +74,7 @@ export class EnvChartComponent implements OnInit, OnDestroy, AfterViewInit {
             labels: this.labels,
             datasets: [
                 {
-                    label: 'Temperature',
+                    label: 'Nhiệt độ',
                     data: data,
                     fill: false,
                     borderColor: '#f42a04'
@@ -90,7 +91,7 @@ export class EnvChartComponent implements OnInit, OnDestroy, AfterViewInit {
             labels: this.labels,
             datasets: [
                 {
-                    label: 'Luminosity',
+                    label: 'Ánh sáng',
                     data: data,
                     fill: false,
                     borderColor: '#565656'
@@ -107,7 +108,7 @@ export class EnvChartComponent implements OnInit, OnDestroy, AfterViewInit {
             labels: this.labels,
             datasets: [
                 {
-                    label: 'Soil Humidity',
+                    label: 'Độ ẩm đất',
                     data: data,
                     fill: false,
                     borderColor: '#4bc0c0'

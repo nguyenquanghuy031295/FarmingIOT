@@ -1,6 +1,6 @@
 ﻿<env-latest></env-latest>
 <env-chart></env-chart>
-<h3>Environment Data</h3>
+<h3>Dữ liệu môi trường</h3>
 <p-dataTable #dt id="dt"
              [value]="sensorData"
              [rows]="5"
@@ -14,15 +14,15 @@
             <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
         </div>
     </p-header>
-    <p-column field="Timestamp" header="Timestamp">
+    <p-column field="Timestamp" header="Mốc thời gian">
         <template let-col let-row="rowData" pTemplate="type" type="body">
             <p>{{row[col.field] | dateformat}}</p>
         </template>
     </p-column>
-    <p-column field="Temperature" header="Temperature"></p-column>
-    <p-column field="Luminosity" header="Luminosity"></p-column>
-    <p-column field="Air_Humidity" header="Air_Humidity"></p-column>
-    <p-column field="Soil_Humidity" header="Soil_Humidity"></p-column>
-    <p-column field="pH" header="pH"></p-column>
-    <p-column field="Wind" header="Wind"></p-column>
+    <p-column field="Temperature" header="Nhiệt độ"></p-column>
+    <p-column field="Luminosity" header="Ánh sáng"></p-column>
+    <p-column field="Air_Humidity" header="Độ ẩm không khí"></p-column>
+    <p-column field="Soil_Humidity" header="Độ ẩm đất"></p-column>
+    <p-column field="pH" header="Độ pH"></p-column>
+    <p-column field="Wind" header="Độ gió"></p-column>
 </p-dataTable>

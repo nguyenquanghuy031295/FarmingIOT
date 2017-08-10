@@ -1,10 +1,10 @@
 ﻿<div class="login-page">
     <div class="form">
         <form [formGroup]="loginForm" class="login-form" (ngSubmit)="OnLogin()">
-            <input formControlName="Email" [(ngModel)]="user.Email" type="text" placeholder="email" />
-            <input formControlName="Password" [(ngModel)]="user.Password" type="password" placeholder="password" />
-            <button>login</button>
-            <p class="message">Not registered? <a (click)="ChangeToSignUp()">Create an account</a></p>
+            <input formControlName="Email" [(ngModel)]="user.Email" type="text" placeholder="Email" />
+            <input formControlName="Password" [(ngModel)]="user.Password" type="password" placeholder="Mật khẩu" />
+            <button>Đăng nhập</button>
+            <p class="message">Bạn vẫn chưa có tài khoản? <a (click)="ChangeToSignUp()">Tạo tài khoản</a></p>
         </form>
     </div>
 </div>

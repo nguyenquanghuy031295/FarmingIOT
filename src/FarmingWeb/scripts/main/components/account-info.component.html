@@ -1,7 +1,7 @@
 ﻿<div class="container">
     <section class="row">
         <div class="page-header">
-            <h2 class="heading-1">Account Info</h2>
+            <h2 class="heading-1">Thông tin người dùng</h2>
         </div>
     </section>
     <div class="panel panel-default">
@@ -12,43 +12,43 @@
                     <input formControlName="Email" [ngModel]="userInfo.Email" type="email" class="form-control" id="email" name="email">
                 </div>
                 <div class="form-group">
-                    <label for="pwd">Name:</label>
-                    <input formControlName="Name" [(ngModel)]="userInfo.Name" type="text" class="form-control" id="name" placeholder="Enter Name" name="pwd">
+                    <label>Tên:</label>
+                    <input formControlName="Name" [(ngModel)]="userInfo.Name" type="text" class="form-control" id="name" placeholder="Nhập tên của bạn">
                 </div>
                 <div class="form-group">
-                    <label for="pwd">Date Of Birth:</label>
-                    <input formControlName="DOB" [ngModel]="locateDOB" (ngModelChange)="onChangeDOB($event)" type="date" class="form-control" id="dob" name="pwd">
+                    <label>Ngày sinh:</label>
+                    <input formControlName="DOB" [ngModel]="locateDOB" (ngModelChange)="onChangeDOB($event)" type="date" class="form-control" id="dob">
                 </div>
                 <div class="form-group">
-                    <label for="pwd">Address:</label>
-                    <input formControlName="Address" [(ngModel)]="userInfo.Address" type="text" class="form-control" id="address" placeholder="Enter Address" name="pwd">
+                    <label for="pwd">Địa chỉ:</label>
+                    <input formControlName="Address" [(ngModel)]="userInfo.Address" type="text" class="form-control" id="address" placeholder="Nhập địa chỉ">
                 </div>
                 <button type="submit"
                         class="btn btn-default"
                         (click)="onChangeInfo()"
                         style="float:right"
                         [disabled]="isDisableSubmit || accountForm.pristine">
-                    Change
+                    Thay đổi
                 </button>
             </form>
         </div>
     </div>
     <section class="row">
         <div class="page-header">
-            <h2 class="heading-1">Password</h2>
+            <h2 class="heading-1">Thay mật khẩu</h2>
         </div>
     </section>
     <div class="panel panel-default">
         <div class="panel-body">
             <form [formGroup]="resetPasswordForm" class="form-horizontal" (ngSubmit)="OnChangePassword()">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">Current Password</label>
+                    <label class="col-sm-4 control-label">Mật khẩu hiện tại</label>
                     <div class="col-sm-8" style="width:34%">
                         <input type="password" formControlName="CurrentPassword" [(ngModel)]="currentPassword" class="form-control" style="display: inline-block;" />
                     </div>
                 </div>
                 <div class="form-group" [ngClass]="{ 'form-group': true, 'has-error': resetPasswordForm.controls['NewPassword'].hasError('minlength') && !resetPasswordForm.controls['NewPassword'].pristine }">
-                    <label class="col-sm-4 control-label">New Password</label>
+                    <label class="col-sm-4 control-label">Mật khẩu mới</label>
                     <div class="col-sm-8" style="width:34%">
                         <input 
                                type="password" 
@@ -58,12 +58,12 @@
                                (ngModelChange)="checkMatched()"
                                style="display: inline-block;" />
                         <div *ngIf="resetPasswordForm.controls['NewPassword'].hasError('minlength') && !resetPasswordForm.controls['NewPassword'].pristine">
-                            <label class="error">Password must have at least 6 charater!!</label>
+                            <label class="error">Mật khẩu phải có ít nhất 6 ký tự</label>
                         </div>
                     </div>
                 </div>
                 <div class="form-group" id="confirmPass">
-                    <label class="col-sm-4 control-label">Confirm Password</label>
+                    <label class="col-sm-4 control-label">Xác nhận mật khẩu</label>
                     <div class="col-sm-8" style="width:34%">
                         <input 
                                type="password" 
@@ -84,7 +84,7 @@
                                 class="btn btn-success"
                                 style="float:right"
                                 [disabled]="!_matched || resetPasswordForm.invalid">
-                            Change Password
+                            Đổi mật khẩu
                         </button>
                     </div>
                 </div>

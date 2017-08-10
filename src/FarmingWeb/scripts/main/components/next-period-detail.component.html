@@ -1,27 +1,28 @@
 ﻿<div *ngIf="periodDetail">
-    <h3>Next Period: {{periodDetail.Name}}</h3>
-    <p-fieldset legend="Description" [toggleable]="true">
+    <h2 style="text-align:center;color:blue">Thông tin chu kỳ kế tiếp</h2>
+    <h3 style="text-align:center">Chu kỳ kế tiếp: {{periodDetail.Name}}</h3>
+    <p-fieldset legend="Mô tả chu kỳ" [toggleable]="true">
         {{periodDetail.Description}}
     </p-fieldset>
     <hr />
-    <h3>Appropriate Environmental Indicators</h3>
+    <h3>Thông số môi trường phù hợp</h3>
     <div class="row" style="margin-left:70px">
         <div class="col-sm-4">
-            <env-card [title]="'Temperature'"
+            <env-card [title]="'Nhiệt độ'"
                       [data]="dataTemp"
                       [symbol]="'&#8451;'"
                       [srcImg]="imgTemp">
             </env-card>
         </div>
         <div class="col-sm-4">
-            <env-card [title]="'Luminosity'"
+            <env-card [title]="'Ánh sáng'"
                       [data]="dataLum"
                       [symbol]="'lx'"
                       [srcImg]="imgLum">
             </env-card>
         </div>
         <div class="col-sm-4">
-            <env-card [title]="'Soil Humidity'"
+            <env-card [title]="'Độ ẩm đất'"
                       [data]="dataSoilHum"
                       [symbol]="'%'"
                       [srcImg]="imgSoil">
@@ -32,10 +33,10 @@
         <div class="col-sm-4 col-sm-offset-5 w3-card-4 w3-blue" style="width:15%">
 
             <div class="w3-container w3-center">
-                <h3>You can change Period</h3>
+                <h3>Bạn đã có thể đổi chu kỳ cho cây</h3>
 
                 <div class="w3-section">
-                    <button class="w3-button w3-green" (click)="onConfirm()">Change Period</button>
+                    <button class="w3-button w3-green" (click)="onConfirm()">Đổi chu kỳ</button>
                 </div>
             </div>
         </div>

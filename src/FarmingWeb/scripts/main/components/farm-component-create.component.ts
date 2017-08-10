@@ -24,7 +24,7 @@ export class CreateFarmCmpComponent implements OnDestroy, OnInit {
         private farmService: IFarmService,
         private plantService: IPlantService
     ) {
-        this.plants.push({ label: 'Select Plant', value: null });
+        this.plants.push({ label: 'Chọn cây trồng', value: null });
 
         this.sub = this.activatedRoute.params.subscribe(params => {
             this.farmId = +params['id'];
