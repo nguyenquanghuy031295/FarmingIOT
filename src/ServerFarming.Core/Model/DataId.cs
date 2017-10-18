@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace ServerFarming.Core.Model
 {
+    //Not use
     public class DataId
     {
         public long ID { get; set; }

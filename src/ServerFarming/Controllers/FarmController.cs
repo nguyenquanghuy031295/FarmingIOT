@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using FarmingDatabase.Model;
 using ServerFarming.Core.Services;
 using ServerFarming.Core.Model;
+using ServerFarming.Core.Command;
 using Microsoft.AspNetCore.Authorization;
 using ServerFarming.Core.Exceptions;
 
@@ -62,18 +63,18 @@ namespace ServerFarming.Controllers
             return Ok(listFarmComponents);
         }
 
-        [HttpGet("report/overallmonth/{farmComponentId}")]
-        public IActionResult GetOverallEnvironmentMonth(long farmComponentId)
-        {
-            var overallEnvInfo = farmService.GetOverallEnvironmentInfo(farmComponentId);
-            return Ok(overallEnvInfo);
-        }
-
         [HttpGet("report/today/{farmComponentId}")]
         public async Task<IActionResult> GetEnvInfoToday(long farmComponentId)
         {
-            var listEnvInfoToday = await farmService.GetEnvInfoToday(farmComponentId);
-            return Ok(listEnvInfoToday);
+            try
+            {
+                var listEnvInfoToday = await farmService.GetEnvInfoToday(farmComponentId);
+                return Ok(listEnvInfoToday);
+            }
+            catch(DataAccessException ex)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("report/latest/{farmComponentId}")]
@@ -104,8 +105,15 @@ namespace ServerFarming.Controllers
             {
                 return BadRequest();
             }
-            var listEnvInfo = await farmService.GetEnvInfoWithDate(farmComponentId, day, month, year);
-            return Ok(listEnvInfo);
+            try
+            {
+                var listEnvInfo = await farmService.GetEnvInfoWithDate(farmComponentId, day, month, year);
+                return Ok(listEnvInfo);
+            }
+            catch(DataAccessException ex)
+            {
+                return BadRequest();
+            }
         }
     }
 }

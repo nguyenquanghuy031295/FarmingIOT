@@ -13,22 +13,41 @@ namespace ServerFarming.Core.Repositories.Implement
     public class PlantRepository : IPlantRepository
     {
         private readonly FarmingDbContext _farmingContext;
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="farmingContext">used by DI</param>
         public PlantRepository(FarmingDbContext farmingContext)
         {
             this._farmingContext = farmingContext;
         }
-        async Task IPlantRepository.AddNewPlant(PlantType plant)
+        
+        /// <summary>
+        /// Add new Plant into Database
+        /// </summary>
+        /// <param name="plant"></param>
+        /// <returns></returns>
+        public async Task AddNewPlant(PlantType plant)
         {
             _farmingContext.Plants.Add(plant);
             await _farmingContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Get All Plant in Database (NOT USE)
+        /// </summary>
+        /// <returns></returns>
         public List<PlantKB> GetAllPlant()
         {
             var result = _farmingContext.PlantsKB.ToList();
             return result;
         }
 
+        /// <summary>
+        /// Get a detailed information of Plant in current Farm Component
+        /// </summary>
+        /// <param name="farmComponentId"></param>
+        /// <returns></returns>
         public List<PlantDetail> GetPlantDetail(long farmComponentId)
         {
             List<PlantDetail> result = new List<PlantDetail>();
@@ -52,6 +71,11 @@ namespace ServerFarming.Core.Repositories.Implement
             return result;
         }
 
+        /// <summary>
+        /// Check Plant in current Farm Component is in the last Period of KnowledgeBase?
+        /// </summary>
+        /// <param name="farmComponentId"></param>
+        /// <returns></returns>
         public Boolean IsLastPeriod(long farmComponentId)
         {
             var plant = _farmingContext.Plants.Where(x => x.Farm_ComponentId == farmComponentId).FirstOrDefault();
@@ -73,6 +97,11 @@ namespace ServerFarming.Core.Repositories.Implement
             }
         }
 
+        /// <summary>
+        /// Get detailed information next Period of current Farm Component
+        /// </summary>
+        /// <param name="farmComponentId"></param>
+        /// <returns></returns>
         public PeriodDetail GetNextPeriod(long farmComponentId)
         {
             var plant = _farmingContext.Plants.Where(x => x.Farm_ComponentId == farmComponentId).FirstOrDefault();
@@ -87,6 +116,12 @@ namespace ServerFarming.Core.Repositories.Implement
             return periodDetail;
         }
 
+        /// <summary>
+        /// Check Plant in current Farm Component is enough day to change current Period
+        /// (Base on KnowledgeBase)
+        /// </summary>
+        /// <param name="farmComponentId"></param>
+        /// <returns></returns>
         public bool IsEnoughDayToChangePeriod(long farmComponentId)
         {
             var plant = _farmingContext.Plants.Where(x => x.Farm_ComponentId == farmComponentId).FirstOrDefault();
@@ -102,7 +137,12 @@ namespace ServerFarming.Core.Repositories.Implement
             return true;
         }
 
-        async Task IPlantRepository.ChangeNextPeriod(long farmComponentId)
+        /// <summary>
+        /// Change current Period of current FarmComponent to next Period
+        /// </summary>
+        /// <param name="farmComponentId"></param>
+        /// <returns></returns>
+        public async Task ChangeNextPeriod(long farmComponentId)
         {
             var today = DateTime.Now;
             var plant = _farmingContext.Plants
@@ -116,6 +156,12 @@ namespace ServerFarming.Core.Repositories.Implement
             await _farmingContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Check User is owning current Farm Component or not?
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="farmComponentId"></param>
+        /// <returns></returns>
         public bool CheckFarmComponentWithUserId(long userId, long farmComponentId)
         {
             var farms = _farmingContext.Farms.Where(x => x.UserId == userId);

@@ -11,7 +11,6 @@ namespace ServerFarming.Core.Repositories
     public interface IUserRepository
     {
         Task<User> AddNewUser(long userId, RegisterCommand regCommand);
-        Boolean CheckSignin(LoginData loginData);
         long GetUserID(LoginData loginData);
         Task<UserInfo> UpdateUserInfo(long userId, UserUpdateInfo userInfo);
         UserInfo GetUserInfo(long userId);

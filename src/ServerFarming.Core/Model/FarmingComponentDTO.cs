@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ServerFarming.Core.Model
 {
+    /// <summary>
+    /// Farming Component Data To Object
+    /// </summary>
     public class FarmingComponentDTO
     {
         public string Name { get; set; }

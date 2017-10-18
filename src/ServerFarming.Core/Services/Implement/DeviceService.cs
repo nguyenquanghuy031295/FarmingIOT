@@ -8,6 +8,9 @@ using ServerFarming.Core.Model;
 
 namespace ServerFarming.Core.Services.Implement
 {
+    /// <summary>
+    /// DeviceService used for handling data related to a Sensor before saving into Database
+    /// </summary>
     public class DeviceService : IDeviceService
     {
         private readonly ISensorRepository sensorRepository;
@@ -15,6 +18,11 @@ namespace ServerFarming.Core.Services.Implement
         {
             this.sensorRepository = sensorRepository;
         }
+        /// <summary>
+        /// User send environment data and get list action of actuators
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public List<Actuator_Action> SendSensorData(Sensor_Record data)
         {
             var sensorData = CopyFromSensorData(data);
@@ -22,11 +30,22 @@ namespace ServerFarming.Core.Services.Implement
             return listAction;
         }
 
+        /// <summary>
+        /// Get Environment Data of current Farm Component
+        /// </summary>
+        /// <param name="farmComponentID"></param>
+        /// <returns></returns>
         public List<Sensor_Record> GetSensorData(long farmComponentID)
         {
             var listSensorData = sensorRepository.GetSensorData(farmComponentID);
             return listSensorData;
         }
+
+        /// <summary>
+        /// Copy data need from command
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         private Sensor_Record CopyFromSensorData(Sensor_Record data)
         {
             return new Sensor_Record()

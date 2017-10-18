@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ServerFarming.Core.Exceptions
 {
+    /// <summary>
+    /// Exception when request is unauthorized
+    /// </summary>
     public class UnAuthorizedException: Exception
     {
         public IEnumerable<string> ErrorMessages { get; set; }

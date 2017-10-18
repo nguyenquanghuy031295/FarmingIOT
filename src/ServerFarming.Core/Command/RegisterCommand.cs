@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ServerFarming.Core.Command
 {
+    /// <summary>
+    /// Command for registering an account
+    /// </summary>
     public class RegisterCommand
     {
         [Required]

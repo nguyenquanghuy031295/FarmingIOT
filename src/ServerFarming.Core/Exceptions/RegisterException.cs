@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ServerFarming.Core.Exceptions
 {
+    /// <summary>
+    /// Exception when user register an account FAIL by some errors
+    /// </summary>
     public class RegisterException : Exception
     {
         private IEnumerable<string> messages;

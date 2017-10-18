@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ServerFarming.Core.Model
 {
+    /// <summary>
+    /// Model User Information
+    /// </summary>
     public class UserInfo
     {
         public string Name { get; set; }

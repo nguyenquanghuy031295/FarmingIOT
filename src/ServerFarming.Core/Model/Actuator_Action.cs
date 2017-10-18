@@ -11,6 +11,9 @@ namespace ServerFarming.Core.Model
         Close = 0,
         Open = 1
     }
+    /// <summary>
+    /// Actuator Action
+    /// </summary>
     public class Actuator_Action
     {
         public ActuatorType ActuatorType { get; set; }

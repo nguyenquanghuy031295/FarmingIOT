@@ -10,28 +10,37 @@ using ServerFarming.Core.Command;
 
 namespace ServerFarming.Core.Repositories.Implement
 {
+    /// <summary>
+    /// UserRepository used for authenticating a user...
+    /// </summary>
     public class UserRepository : IUserRepository
     {
         private readonly FarmingDbContext _context;
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="context">used by DI</param>
         public UserRepository(FarmingDbContext context)
         {
             this._context = context;
         }
 
-        public bool CheckSignin(LoginData loginData)
-        {
-            //var flag = _context.Users.SingleOrDefault(userDB => (userDB.Email == loginData.Email) && (userDB.Password == loginData.Password));
-            //if (flag != null)
-            //    return true;
-            return false;
-        }
-
+        /// <summary>
+        /// Get ID of current User
+        /// </summary>
+        /// <param name="loginData"></param>
+        /// <returns></returns>
         public long GetUserID(LoginData loginData)
         {
             var user = _context.Users.SingleOrDefault(userDB => (userDB.Email == loginData.Email));
             return user.UserId;
         }
 
+        /// <summary>
+        /// Get information of current Users from database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public UserInfo GetUserInfo(long userId)
         {
             var user = _context.Users.Where(data => data.UserId == userId).SingleOrDefault();
@@ -48,6 +57,12 @@ namespace ServerFarming.Core.Repositories.Implement
             throw new Exception();
         }
 
+        /// <summary>
+        /// Update information of user in database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
         public async Task<UserInfo> UpdateUserInfo(long userId, UserUpdateInfo userInfo)
         {
             var user = this._context.Users.Where(data => data.UserId == userId).SingleOrDefault();
@@ -70,6 +85,12 @@ namespace ServerFarming.Core.Repositories.Implement
             throw new Exception();
         }
 
+        /// <summary>
+        /// Add a new user into database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="regCommand"></param>
+        /// <returns></returns>
         async Task<User> IUserRepository.AddNewUser(long userId, RegisterCommand regCommand)
         {
             var newUser = new User

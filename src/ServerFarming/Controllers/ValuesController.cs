@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ServerFarming.Controllers
 {
+    /// <summary>
+    /// This Controller just use for testing when deploy to IIS
+    /// </summary>
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {

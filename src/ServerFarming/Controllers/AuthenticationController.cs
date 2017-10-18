@@ -14,15 +14,28 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ServerFarming.Controllers
 {
+    /// <summary>
+    /// AuthenticationController use for authenticating user log in
+    /// </summary>
     [Route("api/authentication")]
     [Authorize]
     public class AuthenticationController : Controller
     {
         private readonly IAuthenticationService authenticationService;
+        /// <summary>
+        /// Constructor 
+        /// </summary>
+        /// <param name="authenticationService">used by DI</param>
         public AuthenticationController(IAuthenticationService authenticationService)
         {
             this.authenticationService = authenticationService;
         }
+
+        /// <summary>
+        /// API for registering new account
+        /// </summary>
+        /// <param name="regCommand"></param>
+        /// <returns>Status Code : 200 / 401</returns>
         [HttpPost("signup")]
         [AllowAnonymous]
         public async Task<IActionResult> SignUp([FromBody]RegisterCommand regCommand)
@@ -40,6 +53,11 @@ namespace ServerFarming.Controllers
             }
         }
 
+        /// <summary>
+        /// API for user log in
+        /// </summary>
+        /// <param name="loginData"></param>
+        /// <returns>Status Code: 200 / 401</returns>
         [HttpPost("signin")]
         [AllowAnonymous]
         public async Task<IActionResult> Signin([FromBody]LoginData loginData)
@@ -56,6 +74,11 @@ namespace ServerFarming.Controllers
             }
         }
 
+        /// <summary>
+        /// API for updating information of user
+        /// </summary>
+        /// <param name="userInfo"></param>
+        /// <returns>Information of User</returns>
         [HttpPost("accountInfo")]
         public async Task<IActionResult> UpdateAccountInfo([FromBody]UserUpdateInfo userInfo)
         {
@@ -69,6 +92,11 @@ namespace ServerFarming.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        /// <summary>
+        /// API for getting information of user
+        /// </summary>
+        /// <returns>Information of User</returns>
         [HttpGet("accountInfo")]
         public IActionResult GetAccountInfo()
         {
@@ -83,6 +111,10 @@ namespace ServerFarming.Controllers
             }
         }
 
+        /// <summary>
+        /// API for logging out
+        /// </summary>
+        /// <returns>Status Code: 200</returns>
         [HttpPost("signout")]
         public async Task<IActionResult> SignOut()
         {
@@ -90,6 +122,11 @@ namespace ServerFarming.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// API for user change the password of his/her account
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns>Status Code: 200 / 401</returns>
         [HttpPost("changePassword")]
         public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordCommand command)
         {

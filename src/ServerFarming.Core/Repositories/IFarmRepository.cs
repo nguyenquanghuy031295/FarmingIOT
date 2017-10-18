@@ -13,7 +13,6 @@ namespace ServerFarming.Core.Repositories
         Task AddNewFarmComponent(Farm_Component farmComponent);
         Task<List<Farm>> GetFarmByUserID(long userID);
         Task<List<Farm_Component>> GetFarmComponents(long farmID);
-        OverallMonthEnvironment GetOverallEnvironmentInfo(long farmComponentId);
         Task<List<Sensor_Record>> GetEnvInfoToday(long farmComponentId);
         Task<Sensor_Record> GetEnvInfoLatest(long farmComponentId);
         Task<List<Sensor_Record>> GetEnvInfoWithDate(long farmComponentId, int day, int month, int year);

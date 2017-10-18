@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ServerFarming.Core.Model
 {
+    /// <summary>
+    /// Model for Period Detail
+    /// </summary>
     public class PeriodDetail
     {
         public string Name { get; set; }

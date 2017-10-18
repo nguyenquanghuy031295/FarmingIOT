@@ -8,13 +8,26 @@ using ServerFarming.Core.Model;
 
 namespace ServerFarming.Core.Repositories.Implement
 {
+    /// <summary>
+    /// SensorRepository used for saving data of sensors into database
+    /// </summary>
     public class SensorRepository : ISensorRepository
     {
         private readonly FarmingDbContext farmingContext;
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="farmingContext">used by DI</param>
         public SensorRepository(FarmingDbContext farmingContext)
         {
             this.farmingContext = farmingContext;
         }
+
+        /// <summary>
+        /// Add new environment data into database
+        /// </summary>
+        /// <param name="sensorData"></param>
+        /// <returns>List action of actuators</returns>
         public List<Actuator_Action> AddNewSensorData(Sensor_Record sensorData)
         {
             List<Actuator_Action> listAction = new List<Actuator_Action>();
@@ -38,10 +51,22 @@ namespace ServerFarming.Core.Repositories.Implement
                 return listAction;
             }
         }
+
+        /// <summary>
+        /// Get Environment Data of current Farm Component
+        /// </summary>
+        /// <param name="farmComponentID"></param>
+        /// <returns></returns>
         public List<Sensor_Record> GetSensorData(long farmComponentID)
         {
             return farmingContext.SensorRecords.Where(s => s.Farm_ComponentId == farmComponentID).ToList();
         }
+
+        /// <summary>
+        /// Get detailed information of a Period
+        /// </summary>
+        /// <param name="farmComponentId"></param>
+        /// <returns></returns>
         private PeriodKB PeriodDetail(long farmComponentId)
         {
             var listPlant = farmingContext.Plants
@@ -53,6 +78,13 @@ namespace ServerFarming.Core.Repositories.Implement
                 .Where(data => data.PlantKBId == plant.PlantKBId && data.Period == plant.CurPeriod)
                 .SingleOrDefault();
         }
+
+        /// <summary>
+        /// Handle Action of Fan with Temperature Property
+        /// </summary>
+        /// <param name="period"></param>
+        /// <param name="temp"></param>
+        /// <returns></returns>
         private Actuator_Action ActionForTemp(PeriodKB period, double temp)
         {
             if(temp > period.Temp_Max)
@@ -69,6 +101,13 @@ namespace ServerFarming.Core.Repositories.Implement
                 ActuatorStatus = Acutator_Status.Close
             };
         }
+
+        /// <summary>
+        /// Handle Action of Lamp with Light property
+        /// </summary>
+        /// <param name="period"></param>
+        /// <param name="luminosity"></param>
+        /// <returns></returns>
         private Actuator_Action ActionForLight(PeriodKB period, double luminosity)
         {
             if(luminosity < period.Luminosity_Min)
@@ -85,6 +124,13 @@ namespace ServerFarming.Core.Repositories.Implement
                 ActuatorStatus = Acutator_Status.Close
             };
         }
+
+        /// <summary>
+        /// Hand Action of Pump with Soil_Humidity Property
+        /// </summary>
+        /// <param name="period"></param>
+        /// <param name="soil_hum"></param>
+        /// <returns></returns>
         private Actuator_Action ActionForSoilHum(PeriodKB period, double soil_hum)
         {
             if(soil_hum < period.Soil_Hum_Min)

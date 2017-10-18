@@ -4,8 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ServerFarming.Core.Model
+namespace ServerFarming.Core.Command
 {
+    /// <summary>
+    /// Command for changing password
+    /// </summary>
     public class ChangePasswordCommand
     {
         [Required]

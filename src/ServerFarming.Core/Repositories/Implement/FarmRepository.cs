@@ -11,26 +11,52 @@ using ServerFarming.Core.Exceptions;
 
 namespace ServerFarming.Core.Repositories.Implement
 {
+    /// <summary>
+    /// Farm Repository use for savin data related to a farm into database
+    /// </summary>
     public class FarmRepository : IFarmRepository
     {
+        /// <summary>
+        /// FarmingDbContext hold all tables we need to get data from it
+        /// </summary>
         private readonly FarmingDbContext _farmingContext;
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="farmingContext">used by DI</param>
         public FarmRepository(FarmingDbContext farmingContext)
         {
             this._farmingContext = farmingContext;
         }
-        async Task IFarmRepository.AddNewFarm(Farm farm)
+
+        /// <summary>
+        /// Add new Farm into Database
+        /// </summary>
+        /// <param name="farm"></param>
+        /// <returns></returns>
+        public async Task AddNewFarm(Farm farm)
         {
             _farmingContext.Farms.Add(farm);
             await _farmingContext.SaveChangesAsync();
         }
 
-        async Task IFarmRepository.AddNewFarmComponent(Farm_Component farmComponent)
+        /// <summary>
+        /// Add New Farm Component into Database
+        /// </summary>
+        /// <param name="farmComponent"></param>
+        /// <returns></returns>
+        public async Task AddNewFarmComponent(Farm_Component farmComponent)
         {
             _farmingContext.FarmComponents.Add(farmComponent);
             await _farmingContext.SaveChangesAsync();
         }
 
-        async Task<List<Sensor_Record>> IFarmRepository.GetEnvInfoToday(long farmComponentId)
+        /// <summary>
+        /// Get environment data TODAY of system
+        /// </summary>
+        /// <param name="farmComponentId"></param>
+        /// <returns></returns>
+        public async Task<List<Sensor_Record>> GetEnvInfoToday(long farmComponentId)
         {
             string dateFormat = "yyyy-MM-dd";
             var result = await _farmingContext.SensorRecords
@@ -44,61 +70,31 @@ namespace ServerFarming.Core.Repositories.Implement
             return result;
         }
 
+        /// <summary>
+        /// Get list farms owned of current users
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         public Task<List<Farm>> GetFarmByUserID(long userID)
         {
             return _farmingContext.Farms.Where(farm => farm.UserId == userID).ToListAsync();
         }
 
+        /// <summary>
+        /// Get list Farm Component in current Farm
+        /// </summary>
+        /// <param name="farmID"></param>
+        /// <returns></returns>
         public Task<List<Farm_Component>> GetFarmComponents(long farmID)
         {
             return _farmingContext.FarmComponents.Where(farmComponent => farmComponent.FarmId == farmID).ToListAsync();
         }
 
-        public OverallMonthEnvironment GetOverallEnvironmentInfo(long farmComponentId)
-        {
-            OverallMonthEnvironment result = new OverallMonthEnvironment
-            {
-                Temperature = 0,
-                Luminosity = 0,
-                Soil_Humidity = 0,
-            };
-            using (var connection = _farmingContext.Database.GetDbConnection())
-            {
-                connection.Open();
-                using (var command = connection.CreateCommand())
-                {
-                    string query = @"
-declare @CurDate datetime2(7)
-Select @CurDate = GETDATE()
-SELECT 
-	AVG(Temperature) as Temperature,
-	AVG(Luminosity) as Luminosity, 
-	AVG(Soil_Humidity) as Soil_Humidity
-FROM [FarmingDatabase].[dbo].[SensorRecords]
-where 
-	month(cast(Timestamp as date)) = month(cast(@CurDate as date))
-	and year(cast(Timestamp as date)) = year(cast(@CurDate as date))
-	and Farm_ComponentId=4
-";
-                    command.CommandText = query;
-                    DbDataReader reader = command.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            result = new OverallMonthEnvironment
-                            {
-                                Temperature = reader.GetDouble(0),
-                                Luminosity = reader.GetDouble(1),
-                                Soil_Humidity = reader.GetDouble(2),
-                            };
-                        }
-                    }
-                }
-            }
-            return result;
-        }
-
+        /// <summary>
+        /// Get Environment Data Latest
+        /// </summary>
+        /// <param name="farmComponentId"></param>
+        /// <returns></returns>
         public Task<Sensor_Record> GetEnvInfoLatest(long farmComponentId)
         {
             var sensorDatas = _farmingContext.SensorRecords.OrderByDescending(x => x.Timestamp);
@@ -108,7 +104,15 @@ where
                 return sensorDatas.FirstAsync();
         }
 
-        async Task<List<Sensor_Record>> IFarmRepository.GetEnvInfoWithDate(long farmComponentId, int day, int month, int year)
+        /// <summary>
+        /// Get Environment Data with the Date user choose
+        /// </summary>
+        /// <param name="farmComponentId"></param>
+        /// <param name="day"></param>
+        /// <param name="month"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        public async Task<List<Sensor_Record>> GetEnvInfoWithDate(long farmComponentId, int day, int month, int year)
         {
             var listEnvInfo =
                  _farmingContext

@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ServerFarming.Core.Model
 {
+    /// <summary>
+    /// Model when user update his/her information
+    /// </summary>
     public class UserUpdateInfo
     {
         public string Name { get; set; }

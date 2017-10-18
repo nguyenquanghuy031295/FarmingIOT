@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 namespace ServerFarming.Core.Exceptions
 {
     /// <summary>
-    /// Exception when user want to change Period FAIL by some errors
+    /// Exception when current user access data of another user
     /// </summary>
-    public class ChangePeriodException : Exception
+    public class DataAccessException : Exception
     {
         public IEnumerable<string> ErrorMessages { get; set; }
 
-        public ChangePeriodException(string message, Exception innerException = null)
+        public DataAccessException(string message, Exception innerException = null)
             : base(message, innerException)
         {
             this.ErrorMessages = new[] { message };
         }
 
-        public ChangePeriodException(IEnumerable<string> messages, Exception innerException = null)
+        public DataAccessException(IEnumerable<string> messages, Exception innerException = null)
             : base(string.Join("\r\n", messages), innerException)
         {
             ErrorMessages = messages;

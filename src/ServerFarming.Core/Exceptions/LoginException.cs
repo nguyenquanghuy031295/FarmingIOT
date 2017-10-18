@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ServerFarming.Core.Exceptions
 {
+    /// <summary>
+    /// Exception when user log in FAIL by some errors
+    /// </summary>
     public class LoginException : Exception
     {
         public LoginException()

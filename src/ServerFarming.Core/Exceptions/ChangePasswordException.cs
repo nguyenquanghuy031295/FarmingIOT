@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ServerFarming.Core.Exceptions
 {
+    /// <summary>
+    /// Exception when user change password FAIL by some errors
+    /// </summary>
     public class ChangePasswordException : Exception
     {
         public IEnumerable<string> ErrorMessages { get; set; }

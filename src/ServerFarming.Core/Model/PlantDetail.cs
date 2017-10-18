@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ServerFarming.Core.Model
 {
+    /// <summary>
+    /// Model for Plant Detail
+    /// </summary>
     public class PlantDetail
     {
         public DateTime StartPlantDate { get; set; }
