@@ -54,6 +54,9 @@ import { IDeviceService } from './../services/interface/device-service.interface
 import { DeviceService } from './../services/impl/device.service';
 
 import { GoogleMapService } from './../services/impl/google-map.service';
+
+// Main Module is used for controlling all components for web
+// This is a child module and it will be added to App Module
 @NgModule({
     imports: [
         MainRoutesModule,

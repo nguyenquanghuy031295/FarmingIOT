@@ -14,6 +14,7 @@ import { IPlantService } from './../services/interface/plant-service.interface';
 import { IDeviceService } from './../services/interface/device-service.interface';
 import { GoogleMapService } from './../services/impl/google-map.service';
 
+//This Component is stand for Main Page of web
 @Component({
     selector: 'main-page',
     templateUrl: './templates/main/components/main-page.component.html'
@@ -33,6 +34,7 @@ export class MainPageComponent implements OnInit {
     public signalPeriod: SignalPeriod;
     public showDialogNextPeriod: boolean = false;
 
+    //constructor
     constructor(
         private router: Router,
         private farmService: IFarmService,
@@ -47,6 +49,7 @@ export class MainPageComponent implements OnInit {
         });
     }
 
+    //Event when user click change farm in dropdown Farm
     onChangeFarm(event: any) {
         this.plantDetails = [];
         this.watchPlantDetail = false;
@@ -67,6 +70,8 @@ export class MainPageComponent implements OnInit {
             }
         );
     }
+
+    //Event when user click change FarmComponent in dropdown farmComponent
     onChangeFarmComponent(event: any) {
         this.plantService.getPlantDetail(this.selectedFarmComponent).then(
             (data: PlantDetailModel[]) => {
@@ -92,15 +97,19 @@ export class MainPageComponent implements OnInit {
         );
     }
 
+    //Navigate to Page for watching report of farm component
     onWatchReport() {
         this.router.navigate(['farmiot/farm/component', this.selectedFarmComponent]);
     }
 
+    //Event when user want to watch plant detail
     onWatchPlantDetail() {
         this.watchPlantDetail = !this.watchPlantDetail;
     }
 
+    //Function will be called after constructor
     ngOnInit() {
+        //Get All Farms of user in database
         this.farmService.getFarms().then(
             (data: FarmModel[]) => {
                 data.forEach(farm => {
@@ -116,6 +125,7 @@ export class MainPageComponent implements OnInit {
         );
     }
 
+    //Create Text to show detail of a farm
     createFarmDetail(farm: FarmModel): string {
         let farmDetail: string = `
             Địa chỉ: ${farm.Address};
@@ -125,6 +135,7 @@ export class MainPageComponent implements OnInit {
         return farmDetail;
     }
 
+    //Initialize farm component dropdown
     initialFarmComponentDropdown(farmComponents: FarmComponentModel[]) {
         this.farmComponents = [];
         this.farmComponents.push({ label: 'Chọn vườn', value: 0 });
@@ -133,10 +144,12 @@ export class MainPageComponent implements OnInit {
         });
     }
 
+    //Event when user click create a new farm component
     onCreateNewFarmCmp() {
         this.router.navigate(['farmiot/farm/', this.selectedFarm.FarmId, 'newfarmcmp']);
     }
 
+    //Event when user click to watch next period detail of FarmComponent
     onWatchNextPeriod() {
         this.router.navigate(['farmiot/farm/component/nextperiod', this.selectedFarmComponent]);
     }

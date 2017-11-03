@@ -8,6 +8,8 @@ import { RegisterModel } from './../models/register.model';
 
 import { IAuthenticateService } from './../services/interface/authenticate.-service.interface';
 import { NotificationService } from './../services/impl/notification.service';
+
+//This Component is stand for SignUp Page
 @Component({
     selector: 'signup',
     templateUrl: './templates/main/components/signup.component.html',
@@ -16,6 +18,8 @@ import { NotificationService } from './../services/impl/notification.service';
 export class SignupComponent {
     public registerForm: FormGroup;
     public registerData: RegisterModel = new RegisterModel();
+
+    //constructor
     constructor(
         private fb: FormBuilder,
         private router: Router,
@@ -30,6 +34,7 @@ export class SignupComponent {
         });
     }
 
+    //Event when user click sign up a new account
     OnSignup() {
         this.authenticareService.register(this.registerData).then(
             (data: any) => {
@@ -42,6 +47,8 @@ export class SignupComponent {
         );
     }
 
+
+    //Event when user click change to login page
     ChangeToSignIn() {
         this.router.navigate(["/signin"]);
     }

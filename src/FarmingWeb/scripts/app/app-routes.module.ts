@@ -1,6 +1,6 @@
 ﻿import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
+//Register Root route
 const appRoutes: Routes = [
     { path: '', redirectTo: '/signin', pathMatch: 'full' }
 ];

@@ -8,6 +8,8 @@ import { ChangePeriodSignal, SignalPeriod } from './../models/change-period-sign
 import { IPlantService } from './../services/interface/plant-service.interface';
 import { NotificationService } from './../services/impl/notification.service';
 import { ConfirmationService } from 'primeng/primeng';
+
+//This component is stand for Next Period Page
 @Component({
     selector: 'next-period-detail',
     templateUrl: './templates/main/components/next-period-detail.component.html',
@@ -29,6 +31,7 @@ export class NextPeriodDetailComponent implements OnInit {
     private dataLum: string = "";
     private dataSoilHum: string = "";
 
+    //constructor
     constructor(private http: Http,
         private activatedRoute: ActivatedRoute,
         private router: Router,
@@ -36,12 +39,15 @@ export class NextPeriodDetailComponent implements OnInit {
         private notificationService: NotificationService,
         private confirmService: ConfirmationService
     ) {
+        //get Farm Component Id
         this.sub = this.activatedRoute.params.subscribe(params => {
             this.farmComponentId = +params['id'];
         });
     }
 
+    //Function will be called after constructor
     ngOnInit() {
+        //Ask Server plant of farmComponent can changeperiod now
         this.plantService.askChangePeriod(this.farmComponentId).then(
             (data: ChangePeriodSignal) => {
                 this.signalPeriod = data.Signal;
@@ -55,6 +61,8 @@ export class NextPeriodDetailComponent implements OnInit {
                 this.canChangePeriod = false;
             }
         );
+
+        //Get next Period Detail
         this.plantService.getNextPeriod(this.farmComponentId).then(
             (data: PeriodDetail) => {
                 this.periodDetail = data;
@@ -68,6 +76,7 @@ export class NextPeriodDetailComponent implements OnInit {
         );
     }
 
+    //Event when user click change period
     onChangePeriod() {
         this.plantService.changePeriod(this.farmComponentId).then(
             (data: any) => {
@@ -80,6 +89,7 @@ export class NextPeriodDetailComponent implements OnInit {
         );
     }
 
+    //Confirm for sure if user want to change period
     onConfirm() {
         this.confirmService.confirm({
             message: 'Bạn có chắc là muốn đổi chu kỳ cho cây?',

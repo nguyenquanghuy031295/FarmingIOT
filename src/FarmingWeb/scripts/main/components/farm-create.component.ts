@@ -9,6 +9,7 @@ import { FarmModel } from './../models/farm.model';
 import { IAuthenticateService } from './../services/interface/authenticate.-service.interface';
 import { IFarmService } from './../services/interface/farm-service.interface';
 declare var google: any;
+//This component is stand for page create a new Farm
 @Component({
     selector: 'farm-create',
     templateUrl: './templates/main/components/farm-create.component.html'
@@ -28,6 +29,8 @@ export class CreateFarmComponent implements OnInit, AfterViewInit{
     private pointArr: any = [];
     private markerArr: any = [];
     private polygon: any = null;
+
+    //constructor
     constructor(
         private fb: FormBuilder,
         private router: Router,
@@ -45,10 +48,13 @@ export class CreateFarmComponent implements OnInit, AfterViewInit{
 
     }
 
+    //Function will be called after view of component rendered
+    //In this case is for getting Google Map
     ngAfterViewInit() {
         this.map = this.gmap.getMap();
     }
 
+    //Event Click on Google Map
     onMapClick(event: any) {
         let lat: number = event.latLng.lat();
         let lng: number = event.latLng.lng();
@@ -62,6 +68,7 @@ export class CreateFarmComponent implements OnInit, AfterViewInit{
         }
     }
 
+    //Event when user draw shape of farm
     drawMarkers(lat: number, lng: number) {
         let marker: any = new google.maps.Marker({
             position: {
@@ -78,6 +85,7 @@ export class CreateFarmComponent implements OnInit, AfterViewInit{
         this.numPoints++;
     }
 
+    //Draw a Polygon on Google Map
     drawPolygon(lat: number, lng: number) {
         if (this.markerArr.length > 0) {
             this.markerArr.forEach(marker => marker.setMap(null));
@@ -102,6 +110,7 @@ export class CreateFarmComponent implements OnInit, AfterViewInit{
         this.numPoints++;
     }
 
+    //assign boundary points to farm
     bindingBoundary() {
         let boundaryStr: string = '';
         this.pointArr.forEach(point => {
@@ -111,6 +120,7 @@ export class CreateFarmComponent implements OnInit, AfterViewInit{
         this.farm.Boundary = boundaryStr;
     }
 
+    //Event when user click create a new Farm
     onCreatFarm() {
         this.farmService.createFarm(this.farm).then(
             (data: any) => {

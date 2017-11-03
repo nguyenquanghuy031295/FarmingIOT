@@ -7,6 +7,7 @@ import { AccountInfoModel } from './../models/account-info.model';
 
 import { IAuthenticateService } from './../services/interface/authenticate.-service.interface';
 import { NotificationService } from './../services/impl/notification.service';
+//This component is stand for Account Info Page include templates
 @Component({
     selector: 'account-info',
     templateUrl: './templates/main/components/account-info.component.html'
@@ -24,6 +25,7 @@ export class AccountInfoComponent implements OnInit {
 
     public isShowMatched: boolean = null;
     public _matched: boolean = true;
+    //constructor
     constructor(
         private router: Router,
         private fb: FormBuilder,
@@ -38,6 +40,7 @@ export class AccountInfoComponent implements OnInit {
         });
     }
 
+    //function will be called after constructor
     ngOnInit() {
         this.accountForm = this.fb.group({
             Email: [{ value: '', disabled: true }],
@@ -57,6 +60,7 @@ export class AccountInfoComponent implements OnInit {
         );
     }
 
+    //Function after user click change info
     onChangeInfo() {
         this.isDisableSubmit = true;
         this.authenticateService.editAccountInfo(this.userInfo).then(
@@ -70,10 +74,12 @@ export class AccountInfoComponent implements OnInit {
         );
     }
 
+    //Change date of birth of users
     onChangeDOB(event: any) {
         this.userInfo.DOB = new Date(event);
     }
 
+    //check password and confirmPassword is matched
     checkMatched() {
         let confimElement: Element = document.getElementById("confirmPass");
         this._matched = (this.newPassword === this.confirmPassword) && (this.newPassword.length != 0);
@@ -91,6 +97,7 @@ export class AccountInfoComponent implements OnInit {
         }
     }
 
+    //Function will be called after user click change his/her password
     OnChangePassword() {
         this.authenticateService.changePassword(this.currentPassword, this.newPassword).then(
             (data: any) => {

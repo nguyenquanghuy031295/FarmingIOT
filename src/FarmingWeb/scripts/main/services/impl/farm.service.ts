@@ -13,6 +13,7 @@ import { AppSetting } from './../../../app/app.setting';
 const headers: Headers = new Headers({ "Content-Type": "application/json" });
 const options: RequestOptions = new RequestOptions({ headers: headers });
 
+//this service is used for some logic related for a Farm
 @Injectable()
 export class FarmService implements IFarmService {
 
@@ -20,6 +21,7 @@ export class FarmService implements IFarmService {
         protected http: Http
     ) { }
 
+    //Get All Farms of user
     getFarms(): Promise<FarmModel[]> {
         return new Promise<any>((resolve: any, reject: any) => {
             this.http.get(AppSetting.API_ENDPOINT + '/farms/getUserFarms').subscribe(
@@ -34,6 +36,7 @@ export class FarmService implements IFarmService {
         });
     }
 
+    //get All Farm Componets of a Farm
     getFarmComponent(farmId: number): Promise<FarmComponentModel[]> {
         return new Promise<any>((resolve: any, reject: any) => {
 
@@ -49,6 +52,7 @@ export class FarmService implements IFarmService {
         });
     }
 
+    //create a new Farm
     createFarm(farm: FarmModel): Promise<any> {
         return new Promise<any>((resolve: any, reject: any) => {
             return this.http.post(AppSetting.API_ENDPOINT + '/farms/newFarm/', farm, options).subscribe(
@@ -62,6 +66,7 @@ export class FarmService implements IFarmService {
         });
     }
 
+    //create a new FarmComponent
     createFarmComponent(farmComponent: FarmComponentWithPlantModel): Promise<any> {
         return new Promise<any>((resolve: any, reject: any) => {
             return this.http.post(AppSetting.API_ENDPOINT + '/farms/newFarmComponent/', farmComponent, options).subscribe(
@@ -90,6 +95,7 @@ export class FarmService implements IFarmService {
         });
     }
 
+    //Get Environment Data of today
     getEnvInfoToday(farmComponentId: number): Promise<EnvironmentInfoModel[]> {
         return new Promise<any>((resolve: any, reject: any) => {
             return this.http.get(AppSetting.API_ENDPOINT + '/farms/report/today/' + farmComponentId).subscribe(
@@ -104,6 +110,7 @@ export class FarmService implements IFarmService {
         });
     }
 
+    //get the Latest Environemnt Data
     getEnvLatest(farmComponentId: number): Promise<EnvironmentInfoModel> {
         return new Promise<any>((resolve: any, reject: any) => {
             return this.http.get(AppSetting.API_ENDPOINT + '/farms/report/latest/' + farmComponentId).subscribe(
@@ -118,6 +125,7 @@ export class FarmService implements IFarmService {
         });
     }
 
+    //Get Environemnt Data of the date user choosed
     getEnvInfoWithDate(farmComponentId: number, day: number, month: number, year: number): Promise<EnvironmentInfoModel[]> {
         return new Promise<EnvironmentInfoModel[]>((resolve: any, reject: any) => {
             let filter = "?day=" + day + "&month=" + month + "&year=" + year;

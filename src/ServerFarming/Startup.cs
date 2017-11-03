@@ -49,6 +49,7 @@ namespace ServerFarming
             // Add Cross-Origin Requests
             //services.AddCors();
 
+            // Add DbContext with SQL Server
             services.AddDbContext<FarmingDbContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("ServerFarming")));
 
             // Add HangFire
@@ -117,16 +118,9 @@ namespace ServerFarming
             // User ASP Identity
             app.UseIdentity();
 
-            //app.UseCors(builder =>
-            //{
-            //    builder.WithOrigins("http://localhost:36539", "http://localhost:5050")
-            //    .AllowAnyMethod()
-            //    .AllowAnyHeader()
-            //    .AllowCredentials();
-            //});
             app.UseMvc();
 
-            //RecurringJob.......
+            //RecurringJob....... Add Scheduled Job When Using HangFire
         }
     }
 }

@@ -7,6 +7,7 @@ import { FarmModel } from './../models/farm.model';
 import { GoogleMapService } from './../services/impl/google-map.service';
 
 declare var google: any;
+//This component is stand for component map of Main Page
 @Component({
     selector: 'gmap',
     templateUrl: './templates/main/components/google-map.component.html'
@@ -20,20 +21,25 @@ export class GoogleMapComponent implements OnInit, AfterViewInit{
     };
     @ViewChild('gmap') gmap: GMap;
     public map: any;
+    //constructor
     constructor(
         private router: Router,
         private googleMapService: GoogleMapService
     ) {
     }
 
+    //Function will be called after constructor
     ngOnInit() {
         let that = this;
+
+        //get Farm Location to show on google map
         this.googleMapService.farmLocationEmitter.subscribe((farmLocation: FarmModel) => {
             that.map.setCenter({ lat: farmLocation.Position_Lat, lng: farmLocation.Position_Lng });
             that.drawFarmShape(farmLocation);
         });
     }
 
+    //draw farm shape on google map
     drawFarmShape(farm: FarmModel) {
         if (farm.FarmId != 0) {
             //convert string to polygon points
@@ -58,6 +64,7 @@ export class GoogleMapComponent implements OnInit, AfterViewInit{
         }
     }
 
+    //Get Google Map
     ngAfterViewInit() {
         this.map = this.gmap.getMap();
     }

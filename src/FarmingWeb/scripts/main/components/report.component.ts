@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { EnvironmentInfoModel } from './../models/environment-information.model';
 
 import { IDeviceService } from './../services/interface/device-service.interface';
+
+//This component is stand for Report Page
 @Component({
     selector: 'report',
     templateUrl: './templates/main/components/report.component.html'
@@ -14,6 +16,8 @@ export class ReportComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public sensorData: EnvironmentInfoModel[] = [];
 
+
+    //constructor
     constructor(
         private activatedRoute: ActivatedRoute,
         private router: Router,
@@ -24,7 +28,9 @@ export class ReportComponent implements OnInit, OnDestroy, AfterViewInit {
         });
     }
 
+    //Function will be called after constructor
     ngOnInit() {
+        //Get all environemnt data
         this.deviceService.GetSensorData(this.farmComponentId).then(
             (data: EnvironmentInfoModel[]) => {
                 this.sensorData = data;
@@ -35,6 +41,7 @@ export class ReportComponent implements OnInit, OnDestroy, AfterViewInit {
         );
     }
 
+    //Function will be called when user change to another page
     ngOnDestroy() {
         if (this.sub)
             this.sub.unsubscribe();

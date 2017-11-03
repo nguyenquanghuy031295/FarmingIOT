@@ -10,7 +10,9 @@ import { AppComponent } from './app.component';
 import { NullComponent } from './null.component';
 
 import { NotificationService } from './../main/services/impl/notification.service';
+//Root Module is App Module. This module is used for boostrap to browser
 @NgModule({
+    //imports some modules related
     imports: [
         BrowserModule,
         AppRoutesModule,
@@ -23,6 +25,7 @@ import { NotificationService } from './../main/services/impl/notification.servic
         NullComponent,
     ],
     bootstrap: [AppComponent],
+    // providers is Dependency Injection for registering services
     providers: [
         NotificationService,
         { provide: LocationStrategy, useClass: HashLocationStrategy },

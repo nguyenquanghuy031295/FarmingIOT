@@ -13,6 +13,7 @@ import { AppSetting } from './../../../app/app.setting';
 const headers: Headers = new Headers({ "Content-Type": "application/json" });
 const options: RequestOptions = new RequestOptions({ headers: headers });
 
+//Service for authenticating an user
 @Injectable()
 export class AuthenticateService implements IAuthenticateService {
     public user: UserModel = null;
@@ -21,6 +22,7 @@ export class AuthenticateService implements IAuthenticateService {
         private router: Router
     ) { }
 
+    //Login
     login(user: LoginData): Promise<any> {
         return new Promise<any>((resolve: any, reject: any) => {
             this.http.post(AppSetting.API_ENDPOINT + '/authentication/signin', user, options).subscribe(
@@ -33,6 +35,7 @@ export class AuthenticateService implements IAuthenticateService {
         });
     }
 
+    //Regiter new account
     register(user: RegisterModel): Promise<void> {
         return new Promise<void>((resolve: any, reject: any) => {
             this.http.post(AppSetting.API_ENDPOINT + '/authentication/signup', user, options).subscribe(
@@ -45,6 +48,7 @@ export class AuthenticateService implements IAuthenticateService {
         });
     }
 
+    //Get account info of user
     getAccontInfo(): Promise<AccountInfoModel> {
         return new Promise<AccountInfoModel>((resolve: any, reject: any) => {
             this.http.get(AppSetting.API_ENDPOINT + '/authentication/accountInfo').subscribe(
@@ -59,6 +63,7 @@ export class AuthenticateService implements IAuthenticateService {
         });
     }
 
+    //Edit account of user
     editAccountInfo(userInfo: AccountInfoModel): Promise<any> {
         return new Promise<void>((resolve: any, reject: any) => {
             let userInfoCommand = {
@@ -76,6 +81,7 @@ export class AuthenticateService implements IAuthenticateService {
         });
     }
 
+    //User can access to inner link when not logged in
     canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
         let url: string = route.url.join('/');
         if (url.startsWith("signin")) {
@@ -104,6 +110,7 @@ export class AuthenticateService implements IAuthenticateService {
         }
     }
 
+    //Log out
     logout(): Promise<void> {
         return new Promise<void>((resolve: any, reject: any) => {
             this.http.post(AppSetting.API_ENDPOINT + '/authentication/signout', null , options).subscribe(
@@ -116,6 +123,7 @@ export class AuthenticateService implements IAuthenticateService {
         });
     }
 
+    //Change passowrd of user
     changePassword(currentPassword: string, newPassword: string): Promise<void> {
         let changePasswordCommand: any = {
             OldPassword: currentPassword,

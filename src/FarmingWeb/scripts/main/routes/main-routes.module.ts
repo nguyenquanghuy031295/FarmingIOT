@@ -15,6 +15,7 @@ import { NextPeriodDetailComponent } from './../components/next-period-detail.co
 
 import { IAuthenticateService } from './../services/interface/authenticate.-service.interface';
 
+//Register child routes
 const routes: Routes = [
     { path: '', component: NullComponent },
     { path: 'signin', canActivate: [IAuthenticateService], component: SignInComponent },

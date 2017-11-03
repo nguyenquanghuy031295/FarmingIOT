@@ -6,12 +6,15 @@ import { EnvironmentInfoModel } from './../../models/environment-information.mod
 import { AppSetting } from './../../../app/app.setting';
 
 import { IDeviceService } from './../interface/device-service.interface';
+
+//this service is used for some logic relate to Sensor
 @Injectable()
 export class DeviceService implements IDeviceService {
     constructor(
         protected http: Http
     ) { }
 
+    //get Environemnt Data of Farm Component
     GetSensorData(farmComponentId: number): Promise<EnvironmentInfoModel[]> {
         return new Promise<any>((resolve: any, reject: any) => {
             this.http.get(AppSetting.API_ENDPOINT + '/devices/getDataSensor/' + farmComponentId).subscribe(

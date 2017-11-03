@@ -11,6 +11,8 @@ import { NotificationService } from './../services/impl/notification.service';
 const headers: Headers = new Headers({ "Content-Type": "application/json" });
 const options: RequestOptions = new RequestOptions({ headers: headers });
 declare var jQuery: any;
+
+//This component is stand for Login Page
 @Component({
     selector: 'login',
     templateUrl: './templates/main/components/signin.component.html',
@@ -19,6 +21,8 @@ declare var jQuery: any;
 export class SignInComponent implements AfterViewInit{
     public loginForm: FormGroup;
     public user: LoginData = new LoginData();
+
+    //constructor
     constructor(
         private fb: FormBuilder,
         private router: Router,
@@ -37,6 +41,7 @@ export class SignInComponent implements AfterViewInit{
         //jQuery('#body').removeClass('body-colour');
     }
 
+    //Event when user click Login
     OnLogin() {
         this.authenticateService.login(this.user).then(
             (data: any) => {
@@ -49,6 +54,7 @@ export class SignInComponent implements AfterViewInit{
         );
     }
 
+    //Event when user change to SignUp Page
     ChangeToSignUp() {
         this.router.navigate(["/signup"]);
     }
