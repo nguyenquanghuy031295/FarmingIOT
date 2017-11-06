@@ -73,7 +73,7 @@ namespace ServerFarming.Controllers
             }
             catch(DataAccessException ex)
             {
-                return BadRequest();
+                return Unauthorized();
             }
         }
 
@@ -87,6 +87,10 @@ namespace ServerFarming.Controllers
             }
             catch(NoDataException ex) {
                 return BadRequest();
+            }
+            catch (DataAccessException ex)
+            {
+                return Unauthorized();
             }
         }
 
@@ -112,7 +116,7 @@ namespace ServerFarming.Controllers
             }
             catch(DataAccessException ex)
             {
-                return BadRequest();
+                return Unauthorized();
             }
         }
     }

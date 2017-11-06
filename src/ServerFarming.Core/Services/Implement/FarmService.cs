@@ -142,7 +142,16 @@ namespace ServerFarming.Core.Services.Implement
         /// <returns></returns>
         public Task<Sensor_Record> GetEnvInfoLatest(long farmComponentId)
         {
-            return farmRepository.GetEnvInfoLatest(farmComponentId);
+            var userId = authenticationService.GetUserId();
+            var isOwned = plantRepository.CheckFarmComponentWithUserId(userId, farmComponentId);
+            if (isOwned)
+            {
+                return farmRepository.GetEnvInfoLatest(farmComponentId);
+            }
+            else
+            {
+                throw new DataAccessException("Cannot Access Data This Farm Component!");
+            }
         }
 
         /// <summary>

@@ -53,7 +53,8 @@ export class EnvChartComponent implements OnInit, OnDestroy, AfterViewInit {
                             this.charts.forEach(chart => setTimeout(() => chart.reinit(), 100));
                         },
                         (error: any) => {
-
+                            if (this.intervalDataTodaySub)
+                                this.intervalDataTodaySub.unsubscribe();
                         }
                     );
                 });

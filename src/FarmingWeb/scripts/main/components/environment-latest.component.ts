@@ -42,7 +42,8 @@ export class EnvironmentLatestComponent implements OnInit, OnDestroy, AfterViewI
                         this.envLatestInfo = data;
                     },
                     (error: any) => {
-
+                        if (this.intervalGetSensorDataSub)
+                            this.intervalGetSensorDataSub.unsubscribe();
                     }
                 );
             }
